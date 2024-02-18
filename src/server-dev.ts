@@ -42,7 +42,6 @@ process.nextTick(async () => {
                         responseTimeWithAppNameKillSwitch: false,
                         stripClientHeadersOn304: true,
                         newStrategyConfiguration: true,
-                        stripHeadersOnAPI: true,
                         celebrateUnleash: true,
                         increaseUnleashWidth: true,
                         newStrategyConfigurationFeedback: true,

@@ -29,7 +29,6 @@ export type IFlagKey =
     | 'scheduledConfigurationChanges'
     | 'stripClientHeadersOn304'
     | 'newStrategyConfiguration'
-    | 'stripHeadersOnAPI'
     | 'incomingWebhooks'
     | 'automatedActions'
     | 'celebrateUnleash'
