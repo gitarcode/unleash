@@ -173,10 +173,6 @@ const flags: IFlags = {
         process.env.UNLEASH_EXPERIMENTAL_FEATURE_SEARCH_FEEDBACK_POSTING,
         false,
     ),
-    newStrategyConfigurationFeedback: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_NEW_STRATEGY_CONFIGURATION_FEEDBACK,
-        false,
-    ),
     encryptEmails: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_ENCRYPT_EMAILS,
         false,
