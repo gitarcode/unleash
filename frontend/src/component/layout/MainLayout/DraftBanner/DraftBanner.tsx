@@ -81,15 +81,9 @@ const DraftBannerContent: FC<{
           }[changeRequests[0].state as 'Draft' | 'In review' | 'Approved']
         : '';
 
-    const increaseUnleashWidth = useUiFlag('increaseUnleashWidth');
+    const StyledDraftBanner = StyledSpaciousDraftBanner;
 
-    const StyledDraftBanner = increaseUnleashWidth
-        ? StyledSpaciousDraftBanner
-        : StyledNormalDraftBanner;
-
-    const StyledDraftBannerContentWrapper = increaseUnleashWidth
-        ? StyledSpaciousDraftBannerContentWrapper
-        : StyledNormalDraftBannerContentWrapper;
+    const StyledDraftBannerContentWrapper = StyledSpaciousDraftBannerContentWrapper;
 
     return (
         <StyledDraftBanner>
