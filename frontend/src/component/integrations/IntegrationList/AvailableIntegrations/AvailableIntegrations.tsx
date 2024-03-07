@@ -55,7 +55,6 @@ export const AvailableIntegrations: VFC<IAvailableIntegrationsProps> = ({
     providers,
 }) => {
     const { isEnterprise } = useUiConfig();
-    const signalsEnabled = useUiFlag('signals');
 
     const customProviders = [JIRA_INFO];
     const serverSdks = OFFICIAL_SDKS.filter((sdk) => sdk.type === 'server');
@@ -98,7 +97,7 @@ export const AvailableIntegrations: VFC<IAvailableIntegrationsProps> = ({
                             ),
                         )}
                     <ConditionallyRender
-                        condition={isEnterprise() && signalsEnabled}
+                        condition={false}
                         show={
                             <IntegrationCard
                                 icon='signals'

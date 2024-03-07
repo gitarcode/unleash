@@ -88,10 +88,6 @@ const integrations: Record<
     react: { title: 'React', icon: react },
     ruby: { title: 'Ruby', icon: ruby },
     rust: { title: 'Rust', icon: rust },
-    signals: {
-        title: 'Signals',
-        icon: signalsIcon,
-    },
     svelte: { title: 'Svelte', icon: svelte },
     vue: { title: 'Vue', icon: vue },
 };

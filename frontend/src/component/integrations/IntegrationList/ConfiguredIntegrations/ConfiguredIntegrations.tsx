@@ -28,7 +28,6 @@ export const ConfiguredIntegrations: VFC<ConfiguredIntegrationsProps> = ({
     providers,
 }) => {
     const { signalEndpoints } = useSignalEndpoints();
-    const signalsEnabled = useUiFlag('signals');
     const { isEnterprise } = useUiConfig();
 
     const ref = useLoading(loading || false);
@@ -75,9 +74,7 @@ export const ConfiguredIntegrations: VFC<ConfiguredIntegrationsProps> = ({
                     })}
                 <ConditionallyRender
                     condition={
-                        isEnterprise() &&
-                        signalsEnabled &&
-                        signalEndpoints.length > 0
+                        false
                     }
                     show={
                         <IntegrationCard
