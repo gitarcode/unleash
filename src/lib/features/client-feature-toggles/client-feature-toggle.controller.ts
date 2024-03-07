@@ -9,7 +9,6 @@ import {
     IUnleashConfig,
     IUnleashServices,
 } from '../../types';
-import FeatureToggleService from '../feature-toggle/feature-toggle-service';
 import { Logger } from '../../logger';
 import { querySchema } from '../../schema/feature-schema';
 import { IFeatureToggleQuery } from '../../types/model';
@@ -31,7 +30,6 @@ import {
     clientFeaturesSchema,
     ClientFeaturesSchema,
 } from '../../openapi/spec/client-features-schema';
-import ConfigurationRevisionService from '../feature-toggle/configuration-revision-service';
 import { ClientFeatureToggleService } from './client-feature-toggle-service';
 
 const version = 2;
@@ -241,11 +239,9 @@ export default class FeatureController extends Controller {
 
         if (etag === userVersion) {
             res.status(304);
-            if (this.flagResolver.isEnabled('stripClientHeadersOn304')) {
-                res.getHeaderNames().forEach((header) =>
-                    res.removeHeader(header),
-                );
-            }
+            res.getHeaderNames().forEach((header) =>
+                  res.removeHeader(header),
+              );
             res.end();
             return;
         } else {
