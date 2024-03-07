@@ -68,7 +68,6 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 }));
 
 export const Application = () => {
-    const useOldApplicationScreen = !useUiFlag('sdkReporting');
     const navigate = useNavigate();
     const name = useRequiredPathParam('name');
     const { application, loading } = useApplication(name);
@@ -86,10 +85,6 @@ export const Application = () => {
     const toggleModal = () => {
         setShowDialog(!showDialog);
     };
-
-    if (useOldApplicationScreen) {
-        return <ApplicationEdit />;
-    }
 
     const formatDate = (v: string) => formatDateYMD(v, locationSettings.locale);
 
