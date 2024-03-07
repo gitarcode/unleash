@@ -1,6 +1,4 @@
 import { FromSchema } from 'json-schema-to-ts';
-import { versionSchema } from './version-schema';
-import { variantFlagSchema } from './variant-flag-schema';
 
 export const uiConfigSchema = {
     $id: '#/components/schemas/uiConfigSchema',
@@ -100,7 +98,6 @@ export const uiConfigSchema = {
                     name: 'disabled',
                     enabled: false,
                 },
-                featuresExportImport: true,
             },
             additionalProperties: {
                 anyOf: [
