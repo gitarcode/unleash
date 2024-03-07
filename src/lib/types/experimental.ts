@@ -23,7 +23,6 @@ export type IFlagKey =
     | 'googleAuthEnabled'
     | 'disableBulkToggle'
     | 'disableNotifications'
-    | 'advancedPlayground'
     | 'filterInvalidClientMetrics'
     | 'disableMetrics'
     | 'stripClientHeadersOn304'
