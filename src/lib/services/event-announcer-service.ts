@@ -24,10 +24,6 @@ export default class EventAnnouncer {
     }
 
     async publishUnannouncedEvents(): Promise<void> {
-        if (this.flagResolver.isEnabled('disablePublishUnannouncedEvents')) {
-            return Promise.resolve();
-        } else {
-            return this.eventStore.publishUnannouncedEvents();
-        }
+        return this.eventStore.publishUnannouncedEvents();
     }
 }
