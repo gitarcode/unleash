@@ -52,7 +52,6 @@ const UsersList = () => {
     }>({
         open: false,
     });
-    const userAccessUIEnabled = useUiFlag('userAccessUIEnabled');
     const [delDialog, setDelDialog] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [emailSent, setEmailSent] = useState(false);
@@ -196,20 +195,18 @@ const UsersList = () => {
                             navigate(`/admin/users/${user.id}/edit`);
                         }}
                         onViewAccess={
-                            userAccessUIEnabled
-                                ? () => {
-                                      navigate(
-                                          `/admin/users/${user.id}/access`,
-                                      );
-                                  }
-                                : undefined
+                            () => {
+                                    navigate(
+                                        `/admin/users/${user.id}/access`,
+                                    );
+                                }
                         }
                         onChangePassword={openPwDialog(user)}
                         onResetPassword={openResetPwDialog(user)}
                         onDelete={openDelDialog(user)}
                     />
                 ),
-                width: userAccessUIEnabled ? 240 : 200,
+                width: 240,
                 disableSortBy: true,
             },
             // Always hidden -- for search
@@ -225,7 +222,7 @@ const UsersList = () => {
                 searchable: true,
             },
         ],
-        [roles, navigate, isBillingUsers, userAccessUIEnabled],
+        [roles, navigate, isBillingUsers, true],
     );
 
     const initialState = useMemo(() => {
