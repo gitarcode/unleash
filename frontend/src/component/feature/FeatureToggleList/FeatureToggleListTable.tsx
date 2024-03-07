@@ -70,7 +70,6 @@ const feedbackCategory = 'search';
 
 export const FeatureToggleListTable: VFC = () => {
     const theme = useTheme();
-    const featureSearchFeedback = useUiFlag('featureSearchFeedback');
     const { trackEvent } = usePlausibleTracker();
     const { environments } = useEnvironments();
     const enabledEnvironments = environments
@@ -84,8 +83,8 @@ export const FeatureToggleListTable: VFC = () => {
     const { uiConfig } = useUiConfig();
 
     const variant =
-        featureSearchFeedback !== false
-            ? featureSearchFeedback?.name ?? ''
+        false !== false
+            ? false?.name ?? ''
             : '';
 
     const { openFeedback } = useFeedback(
@@ -363,8 +362,8 @@ export const FeatureToggleListTable: VFC = () => {
                             <FeatureToggleListActions
                                 onExportClick={() => setShowExportDialog(true)}
                             />
-                            {featureSearchFeedback !== false &&
-                                featureSearchFeedback?.enabled && (
+                            {false !== false &&
+                                false?.enabled && (
                                     <>
                                         <ConditionallyRender
                                             condition={
