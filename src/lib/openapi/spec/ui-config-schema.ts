@@ -1,6 +1,4 @@
 import { FromSchema } from 'json-schema-to-ts';
-import { versionSchema } from './version-schema';
-import { variantFlagSchema } from './variant-flag-schema';
 
 export const uiConfigSchema = {
     $id: '#/components/schemas/uiConfigSchema',
@@ -59,11 +57,6 @@ export const uiConfigSchema = {
             type: 'boolean',
             description: 'Whether this instance can send out emails or not.',
             example: true,
-        },
-        maintenanceMode: {
-            type: 'boolean',
-            description: 'Whether maintenance mode is currently active or not.',
-            example: false,
         },
         segmentValuesLimit: {
             type: 'number',
