@@ -19,7 +19,6 @@ import { Button, IconButton, Tooltip, useMediaQuery } from '@mui/material';
 import { SearchHighlightProvider } from 'component/common/Table/SearchHighlightContext/SearchHighlightContext';
 import { UserTypeCell } from './UserTypeCell/UserTypeCell';
 import { useFlexLayout, useSortBy, useTable } from 'react-table';
-import { sortTypes } from 'utils/sortTypes';
 import { HighlightCell } from 'component/common/Table/cells/HighlightCell/HighlightCell';
 import { TextCell } from 'component/common/Table/cells/TextCell/TextCell';
 import { Link, useNavigate } from 'react-router-dom';
@@ -35,7 +34,6 @@ import { RoleCell } from 'component/common/Table/cells/RoleCell/RoleCell';
 import { useSearch } from 'hooks/useSearch';
 import { Download } from '@mui/icons-material';
 import { StyledUsersLinkDiv } from '../Users.styles';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 const UsersList = () => {
     const navigate = useNavigate();
@@ -52,7 +50,6 @@ const UsersList = () => {
     }>({
         open: false,
     });
-    const userAccessUIEnabled = useUiFlag('userAccessUIEnabled');
     const [delDialog, setDelDialog] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [emailSent, setEmailSent] = useState(false);
@@ -196,20 +193,18 @@ const UsersList = () => {
                             navigate(`/admin/users/${user.id}/edit`);
                         }}
                         onViewAccess={
-                            userAccessUIEnabled
-                                ? () => {
-                                      navigate(
-                                          `/admin/users/${user.id}/access`,
-                                      );
-                                  }
-                                : undefined
+                            () => {
+                                    navigate(
+                                        `/admin/users/${user.id}/access`,
+                                    );
+                                }
                         }
                         onChangePassword={openPwDialog(user)}
                         onResetPassword={openResetPwDialog(user)}
                         onDelete={openDelDialog(user)}
                     />
                 ),
-                width: userAccessUIEnabled ? 240 : 200,
+                width: 240,
                 disableSortBy: true,
             },
             // Always hidden -- for search
@@ -225,7 +220,7 @@ const UsersList = () => {
                 searchable: true,
             },
         ],
-        [roles, navigate, isBillingUsers, userAccessUIEnabled],
+        [roles, navigate, isBillingUsers, true],
     );
 
     const initialState = useMemo(() => {
