@@ -34,7 +34,6 @@ export type IFlagKey =
     | 'increaseUnleashWidth'
     | 'featureSearchFeedback'
     | 'featureSearchFeedbackPosting'
-    | 'newStrategyConfigurationFeedback'
     | 'edgeBulkMetrics'
     | 'extendedUsageMetrics'
     | 'extendedUsageMetricsUI'
@@ -167,10 +166,6 @@ const flags: IFlags = {
     },
     featureSearchFeedbackPosting: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_FEATURE_SEARCH_FEEDBACK_POSTING,
-        false,
-    ),
-    newStrategyConfigurationFeedback: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_NEW_STRATEGY_CONFIGURATION_FEEDBACK,
         false,
     ),
     encryptEmails: parseEnvVarBoolean(
