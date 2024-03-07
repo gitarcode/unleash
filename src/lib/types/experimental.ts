@@ -17,7 +17,6 @@ export type IFlagKey =
     | 'caseInsensitiveInOperators'
     | 'strictSchemaValidation'
     | 'proPlanAutoCharge'
-    | 'personalAccessTokensKillSwitch'
     | 'migrationLock'
     | 'demo'
     | 'googleAuthEnabled'
@@ -103,10 +102,6 @@ const flags: IFlags = {
     ),
     proPlanAutoCharge: parseEnvVarBoolean(
         process.env.UNLEASH_PRO_PLAN_AUTO_CHARGE,
-        false,
-    ),
-    personalAccessTokensKillSwitch: parseEnvVarBoolean(
-        process.env.UNLEASH_PAT_KILL_SWITCH,
         false,
     ),
     migrationLock: parseEnvVarBoolean(process.env.MIGRATION_LOCK, true),
