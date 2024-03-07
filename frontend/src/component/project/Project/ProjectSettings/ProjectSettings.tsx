@@ -30,8 +30,6 @@ export const ProjectSettings = () => {
     const { isPro, isEnterprise } = useUiConfig();
     const navigate = useNavigate();
 
-    const actionsEnabled = useUiFlag('automatedActions');
-
     const tabs: ITab[] = [
         ...(isPro() || isEnterprise()
             ? [
@@ -71,18 +69,6 @@ export const ProjectSettings = () => {
             label: 'Default strategy',
         },
     ];
-
-    if (actionsEnabled) {
-        tabs.push({
-            id: 'actions',
-            label: 'Actions',
-            icon: isPro() ? (
-                <StyledBadgeContainer>
-                    <EnterpriseBadge />
-                </StyledBadgeContainer>
-            ) : undefined,
-        });
-    }
 
     const onChange = (tab: ITab) => {
         navigate(tab.id);
