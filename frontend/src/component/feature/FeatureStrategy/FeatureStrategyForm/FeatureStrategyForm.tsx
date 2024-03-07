@@ -220,9 +220,6 @@ export const FeatureStrategyForm = ({
         environmentId,
     );
     const { strategyDefinition } = useStrategy(strategy?.name);
-    const newStrategyConfigurationFeedback = useUiFlag(
-        'newStrategyConfigurationFeedback',
-    );
 
     useEffect(() => {
         trackEvent('new-strategy-form', {
@@ -349,10 +346,6 @@ export const FeatureStrategyForm = ({
     const onSubmitWithFeedback = async () => {
         try {
             await onSubmit();
-
-            if (newStrategyConfigurationFeedback && !hasSubmittedFeedback) {
-                createFeedbackContext();
-            }
         } catch (e) {
             console.error(e);
         }
