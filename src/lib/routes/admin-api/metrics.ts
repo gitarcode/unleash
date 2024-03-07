@@ -4,7 +4,6 @@ import { NONE, UPDATE_APPLICATION } from '../../types/permissions';
 import { IUnleashConfig } from '../../types/option';
 import { IUnleashServices } from '../../types/services';
 import { Logger } from '../../logger';
-import ClientInstanceService from '../../features/metrics/instance/instance-service';
 import { createRequestSchema } from '../../openapi/util/create-request-schema';
 import { createResponseSchema } from '../../openapi/util/create-response-schema';
 import { ApplicationSchema } from '../../openapi/spec/application-schema';
@@ -17,7 +16,6 @@ import { CreateApplicationSchema } from '../../openapi/spec/create-application-s
 import { IAuthRequest } from '../unleash-types';
 import { extractUserIdFromUser } from '../../util';
 import { IFlagResolver, serializeDates } from '../../types';
-import { NotFoundError } from '../../error';
 import {
     ApplicationOverviewSchema,
     applicationOverviewSchema,
@@ -262,9 +260,6 @@ class MetricsController extends Controller {
         req: Request<{ appName: string }>,
         res: Response<ApplicationOverviewSchema>,
     ): Promise<void> {
-        if (!this.flagResolver.isEnabled('sdkReporting')) {
-            throw new NotFoundError();
-        }
         const { appName } = req.params;
         const overview =
             await this.clientInstanceService.getApplicationOverview(appName);
@@ -281,9 +276,6 @@ class MetricsController extends Controller {
         req: Request<{ appName: string; environment: string }>,
         res: Response<ApplicationEnvironmentInstancesSchema>,
     ): Promise<void> {
-        if (!this.flagResolver.isEnabled('sdkReporting')) {
-            throw new NotFoundError();
-        }
         const { appName, environment } = req.params;
         const instances =
             await this.clientInstanceService.getApplicationEnvironmentInstances(
