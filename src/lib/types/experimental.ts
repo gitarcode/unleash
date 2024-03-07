@@ -19,7 +19,6 @@ export type IFlagKey =
     | 'proPlanAutoCharge'
     | 'personalAccessTokensKillSwitch'
     | 'migrationLock'
-    | 'demo'
     | 'googleAuthEnabled'
     | 'disableBulkToggle'
     | 'disableNotifications'
@@ -110,7 +109,6 @@ const flags: IFlags = {
         false,
     ),
     migrationLock: parseEnvVarBoolean(process.env.MIGRATION_LOCK, true),
-    demo: parseEnvVarBoolean(process.env.UNLEASH_DEMO, false),
     googleAuthEnabled: parseEnvVarBoolean(
         process.env.GOOGLE_AUTH_ENABLED,
         false,
