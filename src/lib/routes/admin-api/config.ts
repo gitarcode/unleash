@@ -2,10 +2,7 @@ import { Response } from 'express';
 import { AuthedRequest } from '../../types/core';
 import { IUnleashServices } from '../../types/services';
 import { IAuthType, IUnleashConfig } from '../../types/option';
-import version from '../../util/version';
 import Controller from '../controller';
-import VersionService from '../../services/version-service';
-import SettingService from '../../services/setting-service';
 import {
     SimpleAuthSettings,
     simpleAuthSettingsKey,
@@ -25,10 +22,8 @@ import NotFoundError from '../../error/notfound-error';
 import { SetUiConfigSchema } from '../../openapi/spec/set-ui-config-schema';
 import { createRequestSchema } from '../../openapi/util/create-request-schema';
 import { ProxyService } from '../../services';
-import MaintenanceService from '../../features/maintenance/maintenance-service';
 import memoizee from 'memoizee';
 import { minutesToMilliseconds } from 'date-fns';
-import ClientInstanceService from '../../features/metrics/instance/instance-service';
 
 class ConfigController extends Controller {
     private versionService: VersionService;
