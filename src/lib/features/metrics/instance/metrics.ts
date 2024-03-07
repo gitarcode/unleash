@@ -5,10 +5,8 @@ import {
     IUnleashConfig,
     IUnleashServices,
 } from '../../../types';
-import ClientInstanceService from './instance-service';
 import { Logger } from '../../../logger';
 import { IAuthRequest } from '../../../routes/unleash-types';
-import ClientMetricsServiceV2 from '../client-metrics/metrics-service-v2';
 import { NONE } from '../../../types/permissions';
 import { OpenApiService } from '../../../services/openapi-service';
 import { createRequestSchema } from '../../../openapi/util/create-request-schema';
@@ -120,11 +118,6 @@ export default class ClientMetricsController extends Controller {
                 );
 
                 await this.metricsV2.registerClientMetrics(data, clientIp);
-                if (this.flagResolver.isEnabled('stripClientHeadersOn304')) {
-                    res.getHeaderNames().forEach((header) =>
-                        res.removeHeader(header),
-                    );
-                }
                 res.status(202).end();
             } catch (e) {
                 res.status(400).end();
