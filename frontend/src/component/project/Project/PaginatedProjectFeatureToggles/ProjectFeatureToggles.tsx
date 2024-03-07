@@ -71,8 +71,6 @@ export const ProjectFeatureToggles = ({
 }: IPaginatedProjectFeatureTogglesProps) => {
     const projectId = useRequiredPathParam('projectId');
 
-    const featuresExportImport = useUiFlag('featuresExportImport');
-
     const stateConfig = {
         offset: withDefault(NumberParam, 0),
         limit: withDefault(NumberParam, DEFAULT_PAGE_LIMIT),
@@ -471,7 +469,7 @@ export const ProjectFeatureToggles = ({
                     {rowActionsDialogs}
 
                     <ConditionallyRender
-                        condition={featuresExportImport && !loading}
+                        condition={!loading}
                         show={
                             // TODO: `export all` backend
                             <ExportDialog

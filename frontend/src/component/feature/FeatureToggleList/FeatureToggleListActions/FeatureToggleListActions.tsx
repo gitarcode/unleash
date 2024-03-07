@@ -38,7 +38,6 @@ export const FeatureToggleListActions: FC<IFeatureToggleListActions> = ({
 }: IFeatureToggleListActions) => {
     const { trackEvent } = usePlausibleTracker();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const featuresExportImport = useUiFlag('featuresExportImport');
     const createFeature = useCreateFeaturePath({
         query: '',
         project: 'default',
@@ -122,7 +121,7 @@ export const FeatureToggleListActions: FC<IFeatureToggleListActions> = ({
                         )}
                     </PermissionHOC>
                     <ConditionallyRender
-                        condition={featuresExportImport}
+                        condition={true}
                         show={
                             <MenuItem
                                 onClick={() => {

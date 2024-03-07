@@ -51,7 +51,6 @@ export const ProjectFeatureTogglesHeader: VFC<
     const [showTitle, setShowTitle] = useState(true);
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const featuresExportImportFlag = useUiFlag('featuresExportImport');
     const [showExportDialog, setShowExportDialog] = useState(false);
     const navigate = useNavigate();
     const { trackEvent } = usePlausibleTracker();
@@ -103,7 +102,7 @@ export const ProjectFeatureTogglesHeader: VFC<
                         {actions}
                         <PageHeader.Divider sx={{ marginLeft: 0 }} />
                         <ConditionallyRender
-                            condition={featuresExportImportFlag}
+                            condition={true}
                             show={
                                 <>
                                     <Tooltip
