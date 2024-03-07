@@ -166,7 +166,6 @@ const Header: VFC = () => {
 
     const increaseUnleashWidth = useUiFlag('increaseUnleashWidth');
     const celebatoryUnleash = useUiFlag('celebrateUnleash');
-    const insightsDashboard = useUiFlag('executiveDashboard');
 
     const routes = getRoutes();
     const adminRoutes = useAdminRoutes();
@@ -249,7 +248,7 @@ const Header: VFC = () => {
                 <StyledNav>
                     <StyledLinks>
                         <ConditionallyRender
-                            condition={insightsDashboard}
+                            condition={true}
                             show={
                                 <StyledLink to='/insights'>Insights</StyledLink>
                             }
