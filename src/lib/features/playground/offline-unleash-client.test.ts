@@ -20,7 +20,6 @@ export const offlineUnleashClientNode = async ({
     const client = new UnleashClientNode({
         ...context,
         appName: context.appName,
-        disableMetrics: true,
         refreshInterval: 0,
         skipInstanceCountWarning: true,
         url: 'not-needed',
