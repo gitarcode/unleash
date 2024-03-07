@@ -4,7 +4,6 @@ import handleErrorResponses from '../httpErrorResponseHandler';
 import { useConditionalSWR } from '../useConditionalSWR/useConditionalSWR';
 import useUiConfig from '../useUiConfig/useUiConfig';
 import { ISignalEndpointToken } from 'interfaces/signal';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 const ENDPOINT = 'api/admin/signal-endpoints';
 
@@ -14,12 +13,11 @@ const DEFAULT_DATA = {
 
 export const useSignalEndpointTokens = (signalEndpointId: number) => {
     const { isEnterprise } = useUiConfig();
-    const signalsEnabled = useUiFlag('signals');
 
     const { data, error, mutate } = useConditionalSWR<{
         signalEndpointTokens: ISignalEndpointToken[];
     }>(
-        isEnterprise() && signalsEnabled,
+        isEnterprise(),
         DEFAULT_DATA,
         formatApiPath(`${ENDPOINT}/${signalEndpointId}/tokens`),
         fetcher,
