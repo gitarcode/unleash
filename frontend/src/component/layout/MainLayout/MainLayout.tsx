@@ -101,11 +101,8 @@ export const MainLayout = forwardRef<HTMLDivElement, IMainLayoutProps>(
         const { isChangeRequestConfiguredInAnyEnv } = useChangeRequestsEnabled(
             projectId || '',
         );
-        const increaseUnleashWidth = useUiFlag('increaseUnleashWidth');
 
-        const StyledMainLayoutContent = increaseUnleashWidth
-            ? SpaciousMainLayoutContent
-            : MainLayoutContent;
+        const StyledMainLayoutContent = MainLayoutContent;
 
         return (
             <>
