@@ -35,7 +35,6 @@ import {
     extractUsernameFromUser,
     omitKeys,
 } from '../util';
-import EventService from '../features/events/event-service';
 
 const resolveTokenPermissions = (tokenType: string) => {
     if (tokenType === ApiTokenType.ADMIN) {
@@ -183,16 +182,6 @@ export class ApiTokenService {
                     Boolean(activeToken.alias) &&
                     constantTimeCompare(activeToken.alias!, secret),
             );
-        }
-
-        if (
-            !token &&
-            this.flagResolver.isEnabled('queryMissingTokens', flagContext)
-        ) {
-            token = await this.store.get(secret);
-            if (token) {
-                this.activeTokens.push(token);
-            }
         }
 
         if (token) {
