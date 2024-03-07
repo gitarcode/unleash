@@ -4,7 +4,6 @@ import { getDefaultVariant } from 'unleash-client/lib/variant';
 
 export type IFlagKey =
     | 'accessLogs'
-    | 'anonymiseEventLog'
     | 'encryptEmails'
     | 'enableLicense'
     | 'enableLicenseChecker'
@@ -58,7 +57,6 @@ export type IFlagKey =
 export type IFlags = Partial<{ [key in IFlagKey]: boolean | Variant }>;
 
 const flags: IFlags = {
-    anonymiseEventLog: false,
     enableLicense: false,
     enableLicenseChecker: false,
     embedProxy: parseEnvVarBoolean(
