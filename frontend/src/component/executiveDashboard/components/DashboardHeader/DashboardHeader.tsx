@@ -50,14 +50,13 @@ const StyledActionsSmallScreen = styled('div')(({ theme }) => ({
 }));
 
 export const DashboardHeader: VFC<DashboardHeaderProps> = ({ actions }) => {
-    const showInactiveUsers = useUiFlag('showInactiveUsers');
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
     const { openFeedback } = useFeedback(
         'insights',
         'automatic',
-        showInactiveUsers ? 'withInactiveUsers' : 'withoutInactiveUsers',
+        'withoutInactiveUsers',
     );
 
     const createFeedbackContext = () => {

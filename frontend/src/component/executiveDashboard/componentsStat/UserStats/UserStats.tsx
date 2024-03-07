@@ -73,9 +73,6 @@ interface IUserStatsProps {
 }
 
 export const UserStats: FC<IUserStatsProps> = ({ count, active, inactive }) => {
-    const showInactiveUsers = useUiFlag('showInactiveUsers');
-    const showDistribution =
-        showInactiveUsers && active !== undefined && inactive !== undefined;
     const activeUsersPercentage = ((active || 0) / count) * 100;
 
     return (
@@ -92,7 +89,7 @@ export const UserStats: FC<IUserStatsProps> = ({ count, active, inactive }) => {
             </StyledUserContainer>
 
             <ConditionallyRender
-                condition={showDistribution}
+                condition={false}
                 show={
                     <>
                         <StyledUserDistributionContainer>

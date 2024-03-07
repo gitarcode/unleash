@@ -19,7 +19,6 @@ export const UsersChart: VFC<IUsersChartProps> = ({
     userTrends,
     isLoading,
 }) => {
-    const showInactiveUsers = useUiFlag('showInactiveUsers');
     const theme = useTheme();
     const notEnoughData = userTrends.length < 2;
     const placeholderData = usePlaceholderData({ fill: true, type: 'rising' });
@@ -36,24 +35,7 @@ export const UsersChart: VFC<IUsersChartProps> = ({
                     fill: true,
                     order: 3,
                 },
-                ...(showInactiveUsers
-                    ? [
-                          {
-                              label: 'Active users',
-                              data: userTrends.map((item) => item.active),
-                              borderColor: theme.palette.success.border,
-                              backgroundColor: theme.palette.success.border,
-                              order: 2,
-                          },
-                          {
-                              label: 'Inactive users',
-                              data: userTrends.map((item) => item.inactive),
-                              borderColor: theme.palette.warning.border,
-                              backgroundColor: theme.palette.warning.border,
-                              order: 1,
-                          },
-                      ]
-                    : []),
+                ...([]),
             ],
         }),
         [theme, userTrends],
