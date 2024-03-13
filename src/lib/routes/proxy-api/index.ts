@@ -10,7 +10,6 @@ import {
     emptyResponse,
     getStandardResponses,
     ProxyClientSchema,
-    proxyFeaturesSchema,
     ProxyFeaturesSchema,
 } from '../../openapi';
 import { Context } from 'unleash-client';
@@ -170,55 +169,21 @@ export default class FrontendAPIController extends Controller {
         req: ApiUserRequest,
         res: Response<ProxyFeaturesSchema>,
     ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
-        const toggles = await this.services.proxyService.getProxyFeatures(
-            req.user,
-            FrontendAPIController.createContext(req),
-        );
-
-        res.set('Cache-control', 'no-cache');
-
-        this.services.openApiService.respondWithValidation(
-            200,
-            res,
-            proxyFeaturesSchema.$id,
-            { toggles },
-        );
+        throw new NotFoundError();
     }
 
     private async registerProxyMetrics(
         req: ApiUserRequest<unknown, unknown, ClientMetricsSchema>,
         res: Response,
     ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
-
-        if (this.config.flagResolver.isEnabled('disableMetrics')) {
-            res.sendStatus(204);
-            return;
-        }
-
-        await this.services.proxyService.registerProxyMetrics(
-            req.user,
-            req.body,
-            req.ip,
-        );
-        res.sendStatus(200);
+        throw new NotFoundError();
     }
 
     private async registerProxyClient(
         req: ApiUserRequest<unknown, unknown, ProxyClientSchema>,
         res: Response<string>,
     ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
-        // Client registration is not yet supported by @unleash/proxy,
-        // but proxy clients may still expect a 200 from this endpoint.
-        res.sendStatus(200);
+        throw new NotFoundError();
     }
 
     private static createContext(req: ApiUserRequest): Context {
