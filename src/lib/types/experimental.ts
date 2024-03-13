@@ -44,7 +44,6 @@ export type IFlagKey =
     | 'createdByUserIdDataMigration'
     | 'showInactiveUsers'
     | 'inMemoryScheduledChangeRequests'
-    | 'collectTrafficDataUsage'
     | 'useMemoizedActiveTokens'
     | 'queryMissingTokens'
     | 'userAccessUIEnabled'
@@ -228,10 +227,6 @@ const flags: IFlags = {
     ),
     inMemoryScheduledChangeRequests: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_IN_MEMORY_SCHEDULED_CHANGE_REQUESTS,
-        false,
-    ),
-    collectTrafficDataUsage: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_COLLECT_TRAFFIC_DATA_USAGE,
         false,
     ),
     userAccessUIEnabled: parseEnvVarBoolean(
