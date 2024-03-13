@@ -14,7 +14,6 @@ export type IFlagKey =
     | 'maintenanceMode'
     | 'messageBanner'
     | 'featuresExportImport'
-    | 'caseInsensitiveInOperators'
     | 'strictSchemaValidation'
     | 'proPlanAutoCharge'
     | 'personalAccessTokensKillSwitch'
@@ -92,10 +91,6 @@ const flags: IFlags = {
     featuresExportImport: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_FEATURES_EXPORT_IMPORT,
         true,
-    ),
-    caseInsensitiveInOperators: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_CASE_INSENSITIVE_IN_OPERATORS,
-        false,
     ),
     strictSchemaValidation: parseEnvVarBoolean(
         process.env.UNLEASH_STRICT_SCHEMA_VALIDTION,
