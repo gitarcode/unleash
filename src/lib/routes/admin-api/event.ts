@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { IUnleashConfig } from '../../types/option';
 import { IUnleashServices } from '../../types/services';
-import EventService from '../../features/events/event-service';
 import { ADMIN, NONE } from '../../types/permissions';
 import { IEvent, IEventList } from '../../types/events';
 import Controller from '../controller';
@@ -115,10 +114,7 @@ export default class EventController extends Controller {
     }
 
     maybeAnonymiseEvents(events: IEvent[]): IEvent[] {
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            return anonymiseKeys(events, ANON_KEYS);
-        }
-        return events;
+        return anonymiseKeys(events, ANON_KEYS);
     }
 
     async getEvents(
