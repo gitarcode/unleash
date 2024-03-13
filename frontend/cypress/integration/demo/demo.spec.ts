@@ -39,7 +39,6 @@ describe('demo', () => {
                 if (res.body) {
                     res.body.flags = {
                         ...res.body.flags,
-                        demo: true,
                     };
                 }
             });
