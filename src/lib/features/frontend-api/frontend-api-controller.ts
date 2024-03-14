@@ -18,7 +18,6 @@ import { Context } from 'unleash-client';
 import { enrichContextWithIp } from './index';
 import { corsOriginMiddleware } from '../../middleware';
 import NotImplementedError from '../../error/not-implemented-error';
-import NotFoundError from '../../error/notfound-error';
 import rateLimit from 'express-rate-limit';
 import { minutesToMilliseconds } from 'date-fns';
 import isEqual from 'lodash.isequal';
@@ -183,9 +182,6 @@ export default class FrontendAPIController extends Controller {
         req: ApiUserRequest,
         res: Response<FrontendApiFeaturesSchema>,
     ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
         let toggles: FrontendApiFeatureSchema[];
         let newToggles: FrontendApiFeatureSchema[] = [];
         if (this.config.flagResolver.isEnabled('globalFrontendApiCache')) {
@@ -263,9 +259,6 @@ export default class FrontendAPIController extends Controller {
         req: ApiUserRequest<unknown, unknown, ClientMetricsSchema>,
         res: Response,
     ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
 
         if (this.config.flagResolver.isEnabled('disableMetrics')) {
             res.sendStatus(204);
@@ -284,9 +277,6 @@ export default class FrontendAPIController extends Controller {
         req: ApiUserRequest<unknown, unknown, FrontendApiClientSchema>,
         res: Response<string>,
     ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
         // Client registration is not yet supported by @unleash/proxy,
         // but proxy clients may still expect a 200 from this endpoint.
         res.sendStatus(200);
