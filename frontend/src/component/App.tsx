@@ -59,9 +59,7 @@ export const App = () => {
                         <Demo>
                             <>
                                 <ConditionallyRender
-                                    condition={Boolean(
-                                        uiConfig?.maintenanceMode,
-                                    )}
+                                    condition={false}
                                     show={<MaintenanceBanner />}
                                 />
                                 <LicenseBanner />
