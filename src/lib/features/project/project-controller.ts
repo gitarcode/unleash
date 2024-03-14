@@ -12,7 +12,6 @@ import {
 import ProjectFeaturesController from '../feature-toggle/feature-toggle-controller';
 import EnvironmentsController from '../project-environments/environments';
 import ProjectHealthReport from '../../routes/admin-api/project/health-report';
-import ProjectService from './project-service';
 import VariantsController from '../../routes/admin-api/project/variants';
 import {
     createResponseSchema,
@@ -34,12 +33,10 @@ import { Db } from '../../db/db';
 import DependentFeaturesController from '../dependent-features/dependent-features-controller';
 import { ProjectOverviewSchema } from '../../openapi/spec/project-overview-schema';
 import {
-    projectApplicationsSchema,
     ProjectApplicationsSchema,
 } from '../../openapi/spec/project-applications-schema';
 import { NotFoundError } from '../../error';
 import { projectApplicationsQueryParameters } from '../../openapi/spec/project-applications-query-parameters';
-import { normalizeQueryParams } from '../feature-search/search-utils';
 
 export default class ProjectController extends Controller {
     private projectService: ProjectService;
@@ -269,38 +266,6 @@ export default class ProjectController extends Controller {
         req: IAuthRequest,
         res: Response<ProjectApplicationsSchema>,
     ): Promise<void> {
-        if (!this.flagResolver.isEnabled('sdkReporting')) {
-            throw new NotFoundError();
-        }
-
-        const { projectId } = req.params;
-
-        const {
-            normalizedQuery,
-            normalizedSortBy,
-            normalizedSortOrder,
-            normalizedOffset,
-            normalizedLimit,
-        } = normalizeQueryParams(req.query, {
-            limitDefault: 50,
-            maxLimit: 100,
-            sortByDefault: 'appName',
-        });
-
-        const applications = await this.projectService.getApplications({
-            searchParams: normalizedQuery,
-            project: projectId,
-            offset: normalizedOffset,
-            limit: normalizedLimit,
-            sortBy: normalizedSortBy,
-            sortOrder: normalizedSortOrder,
-        });
-
-        this.openApiService.respondWithValidation(
-            200,
-            res,
-            projectApplicationsSchema.$id,
-            serializeDates(applications),
-        );
+        throw new NotFoundError();
     }
 }
