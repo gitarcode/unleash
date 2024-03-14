@@ -9,7 +9,6 @@ export type IFlagKey =
     | 'enableLicense'
     | 'enableLicenseChecker'
     | 'embedProxy'
-    | 'embedProxyFrontend'
     | 'responseTimeWithAppNameKillSwitch'
     | 'maintenanceMode'
     | 'messageBanner'
@@ -66,10 +65,6 @@ const flags: IFlags = {
     enableLicenseChecker: false,
     embedProxy: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_EMBED_PROXY,
-        true,
-    ),
-    embedProxyFrontend: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_EMBED_PROXY_FRONTEND,
         true,
     ),
     responseTimeWithAppNameKillSwitch: parseEnvVarBoolean(
