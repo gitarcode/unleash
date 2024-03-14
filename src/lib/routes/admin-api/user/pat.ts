@@ -14,18 +14,15 @@ import {
 import { getStandardResponses } from '../../../openapi/util/standard-responses';
 import { OpenApiService } from '../../../services/openapi-service';
 import { emptyResponse } from '../../../openapi/util/standard-responses';
-
-import PatService from '../../../services/pat-service';
 import { NONE } from '../../../types/permissions';
 import { IAuthRequest } from '../../unleash-types';
-import { serializeDates } from '../../../types/serialize-dates';
 import { PatSchema, patSchema } from '../../../openapi/spec/pat-schema';
 import { PatsSchema, patsSchema } from '../../../openapi/spec/pats-schema';
 import {
     CreatePatSchema,
     createPatSchema,
 } from '../../../openapi/spec/create-pat-schema';
-import { ForbiddenError, NotFoundError } from '../../../error';
+import { NotFoundError } from '../../../error';
 
 export default class PatController extends Controller {
     private patService: PatService;
@@ -117,41 +114,11 @@ export default class PatController extends Controller {
         req: IAuthRequest<unknown, unknown, CreatePatSchema>,
         res: Response<PatSchema>,
     ): Promise<void> {
-        if (this.flagResolver.isEnabled('personalAccessTokensKillSwitch')) {
-            throw new NotFoundError('PATs are disabled.');
-        }
-
-        if (!req.user.id) {
-            throw new ForbiddenError('PATs require an authenticated user.');
-        }
-
-        const pat = req.body;
-        const createdPat = await this.patService.createPat(
-            pat,
-            req.user.id,
-            req.user,
-        );
-        this.openApiService.respondWithValidation(
-            201,
-            res,
-            patSchema.$id,
-            serializeDates(createdPat),
-        );
+        throw new NotFoundError('PATs are disabled.');
     }
 
     async getPats(req: IAuthRequest, res: Response<PatsSchema>): Promise<void> {
-        if (this.flagResolver.isEnabled('personalAccessTokensKillSwitch')) {
-            throw new NotFoundError('PATs are disabled.');
-        }
-
-        if (!req.user.id) {
-            throw new ForbiddenError('PATs require an authenticated user.');
-        }
-
-        const pats = await this.patService.getAll(req.user.id);
-        this.openApiService.respondWithValidation(200, res, patsSchema.$id, {
-            pats: serializeDates(pats),
-        });
+        throw new NotFoundError('PATs are disabled.');
     }
 
     async deletePat(
