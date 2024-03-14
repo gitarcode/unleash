@@ -78,7 +78,6 @@ export type UiFlags = {
     showInactiveUsers?: boolean;
     featureSearchFeedbackPosting?: boolean;
     userAccessUIEnabled?: boolean;
-    sdkReporting?: boolean;
 };
 
 export interface IVersionInfo {
