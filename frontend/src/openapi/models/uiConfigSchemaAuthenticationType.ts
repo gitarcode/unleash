@@ -13,7 +13,6 @@ export type UiConfigSchemaAuthenticationType =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UiConfigSchemaAuthenticationType = {
     'open-source': 'open-source',
-    demo: 'demo',
     enterprise: 'enterprise',
     hosted: 'hosted',
     custom: 'custom',
