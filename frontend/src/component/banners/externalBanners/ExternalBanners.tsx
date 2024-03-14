@@ -7,7 +7,7 @@ export const ExternalBanners = () => {
     const { uiConfig } = useUiConfig();
 
     const bannerVariantFromMessageBannerFlag = useVariant<IBanner | IBanner[]>(
-        uiConfig.flags.messageBanner,
+        true,
     );
     const bannerVariantFromBannerFlag = useVariant<IBanner | IBanner[]>(
         uiConfig.flags.banner,
