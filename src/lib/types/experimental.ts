@@ -25,7 +25,6 @@ export type IFlagKey =
     | 'disableNotifications'
     | 'advancedPlayground'
     | 'filterInvalidClientMetrics'
-    | 'disableMetrics'
     | 'stripClientHeadersOn304'
     | 'stripHeadersOnAPI'
     | 'signals'
@@ -128,10 +127,6 @@ const flags: IFlags = {
     ),
     filterInvalidClientMetrics: parseEnvVarBoolean(
         process.env.FILTER_INVALID_CLIENT_METRICS,
-        false,
-    ),
-    disableMetrics: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_DISABLE_METRICS,
         false,
     ),
     stripClientHeadersOn304: parseEnvVarBoolean(

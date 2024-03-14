@@ -1,7 +1,6 @@
 import { IUnleashConfig, IUnleashServices, IUnleashStores } from '../../types';
 import { Logger } from '../../logger';
 import { ClientMetricsSchema, FrontendApiFeatureSchema } from '../../openapi';
-import ApiUser, { IApiUser } from '../../types/api-user';
 import {
     Context,
     InMemStorageProvider,
@@ -192,7 +191,6 @@ export class FrontendApiService {
             appName: 'proxy',
             url: 'unused',
             storageProvider: new InMemStorageProvider(),
-            disableMetrics: true,
             repository,
             disableAutoStart: true,
             skipInstanceCountWarning: true,
@@ -219,7 +217,6 @@ export class FrontendApiService {
             appName: 'frontend-api',
             url: 'unused',
             storageProvider: new InMemStorageProvider(),
-            disableMetrics: true,
             repository,
             disableAutoStart: true,
             skipInstanceCountWarning: true,
