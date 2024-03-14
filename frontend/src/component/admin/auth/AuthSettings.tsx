@@ -34,7 +34,7 @@ export const AuthSettings = () => {
             component: <GoogleAuth />,
         },
     ].filter(
-        (item) => uiConfig.flags?.googleAuthEnabled || item.label !== 'Google',
+        (item) => item.label !== 'Google',
     );
     const [activeTab, setActiveTab] = useState(0);
 
