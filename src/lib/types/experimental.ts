@@ -47,7 +47,6 @@ export type IFlagKey =
     | 'collectTrafficDataUsage'
     | 'useMemoizedActiveTokens'
     | 'queryMissingTokens'
-    | 'userAccessUIEnabled'
     | 'disableUpdateMaxRevisionId'
     | 'disablePublishUnannouncedEvents'
     | 'sdkReporting'
@@ -239,10 +238,6 @@ const flags: IFlags = {
     ),
     collectTrafficDataUsage: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_COLLECT_TRAFFIC_DATA_USAGE,
-        false,
-    ),
-    userAccessUIEnabled: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_USER_ACCESS_UI_ENABLED,
         false,
     ),
     disableUpdateMaxRevisionId: parseEnvVarBoolean(

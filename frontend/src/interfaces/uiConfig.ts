@@ -77,7 +77,6 @@ export type UiFlags = {
     displayUpgradeEdgeBanner?: boolean;
     showInactiveUsers?: boolean;
     featureSearchFeedbackPosting?: boolean;
-    userAccessUIEnabled?: boolean;
     sdkReporting?: boolean;
     outdatedSdksBanner?: boolean;
 };
