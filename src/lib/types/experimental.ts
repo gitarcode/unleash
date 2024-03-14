@@ -52,7 +52,6 @@ export type IFlagKey =
     | 'disablePublishUnannouncedEvents'
     | 'sdkReporting'
     | 'responseTimeMetricsFix'
-    | 'scimApi'
     | 'displayEdgeBanner';
 
 export type IFlags = Partial<{ [key in IFlagKey]: boolean | Variant }>;
@@ -248,10 +247,6 @@ const flags: IFlags = {
     ),
     queryMissingTokens: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_QUERY_MISSING_TOKENS,
-        false,
-    ),
-    scimApi: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_SCIM_API,
         false,
     ),
     displayEdgeBanner: parseEnvVarBoolean(
