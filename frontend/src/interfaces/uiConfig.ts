@@ -55,7 +55,6 @@ export type UiFlags = {
     notifications?: boolean;
     personalAccessTokensKillSwitch?: boolean;
     demo?: boolean;
-    googleAuthEnabled?: boolean;
     disableBulkToggle?: boolean;
     disableNotifications?: boolean;
     advancedPlayground?: boolean;
