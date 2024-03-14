@@ -26,7 +26,6 @@ export type IFlagKey =
     | 'advancedPlayground'
     | 'filterInvalidClientMetrics'
     | 'disableMetrics'
-    | 'stripClientHeadersOn304'
     | 'stripHeadersOnAPI'
     | 'signals'
     | 'automatedActions'
@@ -132,11 +131,6 @@ const flags: IFlags = {
     ),
     disableMetrics: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_DISABLE_METRICS,
-        false,
-    ),
-    stripClientHeadersOn304: parseEnvVarBoolean(
-        process.env
-            .UNLEASH_EXPERIMENTAL_DETECT_SEGMENT_USAGE_IN_CHANGE_REQUESTS,
         false,
     ),
     signals: parseEnvVarBoolean(
