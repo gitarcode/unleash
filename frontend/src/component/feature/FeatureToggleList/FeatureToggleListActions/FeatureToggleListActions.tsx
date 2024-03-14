@@ -15,7 +15,6 @@ import FileDownload from '@mui/icons-material/FileDownload';
 import MoreVert from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { CREATE_FEATURE } from 'component/providers/AccessProvider/permissions';
 import { PermissionHOC } from 'component/common/PermissionHOC/PermissionHOC';
 import { useCreateFeaturePath } from 'component/feature/CreateFeatureButton/useCreateFeaturePath';
@@ -40,7 +39,6 @@ export const FeatureToggleListActions: FC<IFeatureToggleListActions> = ({
 }: IFeatureToggleListActions) => {
     const { trackEvent } = usePlausibleTracker();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const featuresExportImport = useUiFlag('featuresExportImport');
     const createFeature = useCreateFeaturePath({
         query: '',
         project: 'default',
@@ -124,7 +122,7 @@ export const FeatureToggleListActions: FC<IFeatureToggleListActions> = ({
                         )}
                     </PermissionHOC>
                     <ConditionallyRender
-                        condition={featuresExportImport}
+                        condition={false}
                         show={
                             <MenuItem
                                 onClick={() => {

@@ -48,7 +48,6 @@ import { ProjectOverviewFilters } from './ProjectOverviewFilters';
 import { useDefaultColumnVisibility } from './hooks/useDefaultColumnVisibility';
 import { TableEmptyState } from './TableEmptyState/TableEmptyState';
 import { useRowActions } from './hooks/useRowActions';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { FeatureTagCell } from 'component/common/Table/cells/FeatureTagCell/FeatureTagCell';
 import { useSelectedData } from './hooks/useSelectedData';
 
@@ -70,8 +69,6 @@ export const ProjectFeatureToggles = ({
     storageKey = 'project-feature-toggles-v2',
 }: IPaginatedProjectFeatureTogglesProps) => {
     const projectId = useRequiredPathParam('projectId');
-
-    const featuresExportImport = useUiFlag('featuresExportImport');
 
     const stateConfig = {
         offset: withDefault(NumberParam, 0),
@@ -471,7 +468,7 @@ export const ProjectFeatureToggles = ({
                     {rowActionsDialogs}
 
                     <ConditionallyRender
-                        condition={featuresExportImport && !loading}
+                        condition={false}
                         show={
                             // TODO: `export all` backend
                             <ExportDialog

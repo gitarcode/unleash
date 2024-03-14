@@ -471,7 +471,7 @@ export const FeatureToggleListTable: VFC = () => {
                 }
             />
             <ConditionallyRender
-                condition={Boolean(uiConfig?.flags?.featuresExportImport)}
+                condition={false}
                 show={
                     <ExportDialog
                         showExportDialog={showExportDialog}
