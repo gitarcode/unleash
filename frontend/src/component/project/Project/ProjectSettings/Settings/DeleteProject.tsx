@@ -4,7 +4,6 @@ import PermissionButton from 'component/common/PermissionButton/PermissionButton
 import { DeleteProjectDialogue } from '../../DeleteProject/DeleteProjectDialogue';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { useActions } from 'hooks/api/getters/useActions/useActions';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
@@ -33,7 +32,6 @@ export const DeleteProject = ({
     featureCount,
 }: IDeleteProjectProps) => {
     const { isEnterprise } = useUiConfig();
-    const automatedActionsEnabled = useUiFlag('automatedActions');
     const { actions } = useActions(projectId);
     const [showDelDialog, setShowDelDialog] = useState(false);
     const navigate = useNavigate();
@@ -46,7 +44,7 @@ export const DeleteProject = ({
                 toggles, and they cannot be recovered once deleted.
             </p>
             <ConditionallyRender
-                condition={isEnterprise() && automatedActionsEnabled}
+                condition={isEnterprise()}
                 show={
                     <p>
                         Additionally, all configured actions for this project
@@ -60,7 +58,7 @@ export const DeleteProject = ({
                 <strong>{featureCount} feature toggles active</strong>
             </p>
             <ConditionallyRender
-                condition={isEnterprise() && automatedActionsEnabled}
+                condition={isEnterprise()}
                 show={
                     <p>
                         Currently there are{' '}

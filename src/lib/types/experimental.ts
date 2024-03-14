@@ -29,7 +29,6 @@ export type IFlagKey =
     | 'stripClientHeadersOn304'
     | 'stripHeadersOnAPI'
     | 'signals'
-    | 'automatedActions'
     | 'celebrateUnleash'
     | 'increaseUnleashWidth'
     | 'featureSearchFeedback'
@@ -141,10 +140,6 @@ const flags: IFlags = {
     ),
     signals: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_SIGNALS,
-        false,
-    ),
-    automatedActions: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_AUTOMATED_ACTIONS,
         false,
     ),
     celebrateUnleash: parseEnvVarBoolean(
