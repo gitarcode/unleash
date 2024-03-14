@@ -188,8 +188,6 @@ const Header: VFC = () => {
     const toggleDrawer = () => setOpenDrawer((prev) => !prev);
     const onAdminClose = () => setAdminRef(null);
     const onConfigureClose = () => setConfigRef(null);
-
-    const increaseUnleashWidth = useUiFlag('increaseUnleashWidth');
     const celebatoryUnleash = useUiFlag('celebrateUnleash');
     const insightsDashboard = useUiFlag('executiveDashboard');
 
@@ -206,13 +204,9 @@ const Header: VFC = () => {
         adminRoutes,
     };
 
-    const HeaderComponent = increaseUnleashWidth
-        ? StyledSpaciousHeader
-        : StyledHeader;
+    const HeaderComponent = StyledHeader;
 
-    const ContainerComponent = increaseUnleashWidth
-        ? SpaciousStyledContainer
-        : StyledContainer;
+    const ContainerComponent = StyledContainer;
 
     if (smallScreen) {
         return (
