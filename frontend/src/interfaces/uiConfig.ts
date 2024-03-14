@@ -50,7 +50,6 @@ export type UiFlags = {
     messageBanner?: Variant;
     banner?: Variant;
     featuresExportImport?: boolean;
-    caseInsensitiveInOperators?: boolean;
     proPlanAutoCharge?: boolean;
     notifications?: boolean;
     personalAccessTokensKillSwitch?: boolean;
