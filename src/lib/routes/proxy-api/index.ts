@@ -196,11 +196,6 @@ export default class FrontendAPIController extends Controller {
             throw new NotFoundError();
         }
 
-        if (this.config.flagResolver.isEnabled('disableMetrics')) {
-            res.sendStatus(204);
-            return;
-        }
-
         await this.services.proxyService.registerProxyMetrics(
             req.user,
             req.body,
