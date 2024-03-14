@@ -8,7 +8,6 @@ const server = testServerSetup();
 test('all options are drawn', async () => {
     testServerRoute(server, '/api/admin/ui-config', {
         flags: {
-            featuresExportImport: true,
         },
     });
 
