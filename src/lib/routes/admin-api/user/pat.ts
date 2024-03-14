@@ -14,8 +14,6 @@ import {
 import { getStandardResponses } from '../../../openapi/util/standard-responses';
 import { OpenApiService } from '../../../services/openapi-service';
 import { emptyResponse } from '../../../openapi/util/standard-responses';
-
-import PatService from '../../../services/pat-service';
 import { NONE } from '../../../types/permissions';
 import { IAuthRequest } from '../../unleash-types';
 import { serializeDates } from '../../../types/serialize-dates';
@@ -25,7 +23,7 @@ import {
     CreatePatSchema,
     createPatSchema,
 } from '../../../openapi/spec/create-pat-schema';
-import { ForbiddenError, NotFoundError } from '../../../error';
+import { ForbiddenError } from '../../../error';
 
 export default class PatController extends Controller {
     private patService: PatService;
@@ -117,9 +115,6 @@ export default class PatController extends Controller {
         req: IAuthRequest<unknown, unknown, CreatePatSchema>,
         res: Response<PatSchema>,
     ): Promise<void> {
-        if (this.flagResolver.isEnabled('personalAccessTokensKillSwitch')) {
-            throw new NotFoundError('PATs are disabled.');
-        }
 
         if (!req.user.id) {
             throw new ForbiddenError('PATs require an authenticated user.');
@@ -140,9 +135,6 @@ export default class PatController extends Controller {
     }
 
     async getPats(req: IAuthRequest, res: Response<PatsSchema>): Promise<void> {
-        if (this.flagResolver.isEnabled('personalAccessTokensKillSwitch')) {
-            throw new NotFoundError('PATs are disabled.');
-        }
 
         if (!req.user.id) {
             throw new ForbiddenError('PATs require an authenticated user.');
