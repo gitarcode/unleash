@@ -9,7 +9,6 @@ import {
     DATE_AFTER,
     IN,
     stringOperators,
-    inOperators,
 } from 'constants/operators';
 import { resolveText } from './helpers';
 import { oneOf } from 'utils/oneOf';
@@ -108,10 +107,6 @@ export const ConstraintAccordionEditHeader = ({
         useState(false);
     const { uiConfig } = useUiConfig();
 
-    const caseInsensitiveInOperators = Boolean(
-        uiConfig.flags.caseInsensitiveInOperators,
-    );
-
     /* We need a special case to handle the currenTime context field. Since
     this field will be the only one to allow DATE_BEFORE and DATE_AFTER operators
     this will check if the context field is the current time context field AND check
@@ -136,7 +131,7 @@ export const ConstraintAccordionEditHeader = ({
 
         if (
             oneOf(stringOperators, operator) ||
-            (oneOf(inOperators, operator) && caseInsensitiveInOperators)
+            (false)
         ) {
             setShowCaseSensitiveButton(true);
         } else {
@@ -147,7 +142,7 @@ export const ConstraintAccordionEditHeader = ({
         setOperator,
         operator,
         setLocalConstraint,
-        caseInsensitiveInOperators,
+        false,
     ]);
 
     if (!context) {
@@ -161,7 +156,7 @@ export const ConstraintAccordionEditHeader = ({
     const onOperatorChange = (operator: Operator) => {
         if (
             oneOf(stringOperators, operator) ||
-            (oneOf(inOperators, operator) && caseInsensitiveInOperators)
+            (false)
         ) {
             setShowCaseSensitiveButton(true);
         } else {
