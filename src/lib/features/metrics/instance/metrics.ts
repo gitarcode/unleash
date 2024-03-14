@@ -5,10 +5,8 @@ import {
     IUnleashConfig,
     IUnleashServices,
 } from '../../../types';
-import ClientInstanceService from './instance-service';
 import { Logger } from '../../../logger';
 import { IAuthRequest } from '../../../routes/unleash-types';
-import ClientMetricsServiceV2 from '../client-metrics/metrics-service-v2';
 import { NONE } from '../../../types/permissions';
 import { OpenApiService } from '../../../services/openapi-service';
 import { createRequestSchema } from '../../../openapi/util/create-request-schema';
@@ -105,70 +103,62 @@ export default class ClientMetricsController extends Controller {
     }
 
     async registerMetrics(req: IAuthRequest, res: Response): Promise<void> {
-        if (this.config.flagResolver.isEnabled('disableMetrics')) {
-            res.status(204).end();
-        } else {
-            try {
-                const { body: data, ip: clientIp, user } = req;
-                data.environment = this.metricsV2.resolveMetricsEnvironment(
-                    user,
-                    data,
-                );
-                await this.clientInstanceService.registerInstance(
-                    data,
-                    clientIp,
-                );
+        try {
+              const { body: data, ip: clientIp, user } = req;
+              data.environment = this.metricsV2.resolveMetricsEnvironment(
+                  user,
+                  data,
+              );
+              await this.clientInstanceService.registerInstance(
+                  data,
+                  clientIp,
+              );
 
-                await this.metricsV2.registerClientMetrics(data, clientIp);
-                if (this.flagResolver.isEnabled('stripClientHeadersOn304')) {
-                    res.getHeaderNames().forEach((header) =>
-                        res.removeHeader(header),
-                    );
-                }
-                res.status(202).end();
-            } catch (e) {
-                res.status(400).end();
-            }
-        }
+              await this.metricsV2.registerClientMetrics(data, clientIp);
+              if (this.flagResolver.isEnabled('stripClientHeadersOn304')) {
+                  res.getHeaderNames().forEach((header) =>
+                      res.removeHeader(header),
+                  );
+              }
+              res.status(202).end();
+          } catch (e) {
+              res.status(400).end();
+          }
     }
 
     async bulkMetrics(
         req: IAuthRequest<void, void, BulkMetricsSchema>,
         res: Response<void>,
     ): Promise<void> {
-        if (this.config.flagResolver.isEnabled('disableMetrics')) {
-            res.status(204).end();
-        } else {
-            const { body, ip: clientIp } = req;
-            const { metrics, applications } = body;
-            try {
-                const promises: Promise<void>[] = [];
-                for (const app of applications) {
-                    promises.push(
-                        this.clientInstanceService.registerClient(
-                            app,
-                            clientIp,
-                        ),
-                    );
-                }
-                if (metrics && metrics.length > 0) {
-                    const data: IClientMetricsEnv[] =
-                        await clientMetricsEnvBulkSchema.validateAsync(metrics);
-                    const { user } = req;
-                    const acceptedEnvironment =
-                        this.metricsV2.resolveUserEnvironment(user);
-                    const filteredData = data.filter(
-                        (metric) => metric.environment === acceptedEnvironment,
-                    );
-                    promises.push(
-                        this.metricsV2.registerBulkMetrics(filteredData),
-                    );
-                }
-                await Promise.all(promises);
-                res.status(202).end();
-            } catch (e) {
-                res.status(400).end();
-            }
-        }
+        const { body, ip: clientIp } = req;
+          const { metrics, applications } = body;
+          try {
+              const promises: Promise<void>[] = [];
+              for (const app of applications) {
+                  promises.push(
+                      this.clientInstanceService.registerClient(
+                          app,
+                          clientIp,
+                      ),
+                  );
+              }
+              if (metrics && metrics.length > 0) {
+                  const data: IClientMetricsEnv[] =
+                      await clientMetricsEnvBulkSchema.validateAsync(metrics);
+                  const { user } = req;
+                  const acceptedEnvironment =
+                      this.metricsV2.resolveUserEnvironment(user);
+                  const filteredData = data.filter(
+                      (metric) => metric.environment === acceptedEnvironment,
+                  );
+                  promises.push(
+                      this.metricsV2.registerBulkMetrics(filteredData),
+                  );
+              }
+              await Promise.all(promises);
+              res.status(202).end();
+          } catch (e) {
+              res.status(400).end();
+          }
     }
 }

@@ -1,7 +1,6 @@
 import { IUnleashConfig, IUnleashServices, IUnleashStores } from '../types';
 import { Logger } from '../logger';
 import { ClientMetricsSchema, ProxyFeatureSchema } from '../openapi';
-import ApiUser, { IApiUser } from '../types/api-user';
 import {
     Context,
     InMemStorageProvider,
@@ -128,7 +127,6 @@ export class ProxyService {
             appName: 'proxy',
             url: 'unused',
             storageProvider: new InMemStorageProvider(),
-            disableMetrics: true,
             repository,
             disableAutoStart: true,
             skipInstanceCountWarning: true,
