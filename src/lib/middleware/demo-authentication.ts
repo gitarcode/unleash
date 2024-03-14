@@ -19,9 +19,7 @@ function demoAuthentication(
 ): void {
     app.post(`${basePath}/auth/demo/login`, async (req: IAuthRequest, res) => {
         let { email } = req.body;
-        email = flagResolver.isEnabled('encryptEmails', { email })
-            ? encrypt(email)
-            : email;
+        email = encrypt(email);
         try {
             const user = await userService.loginUserWithoutPassword(
                 email,
