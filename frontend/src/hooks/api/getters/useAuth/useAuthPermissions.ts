@@ -18,11 +18,6 @@ const getPermissions = (
         auth.data && 'permissions' in auth.data
             ? auth.data.permissions
             : undefined;
-    if (permissions && uiConfig?.maintenanceMode) {
-        permissions = permissions.filter(
-            (permission) => permission.permission === 'ADMIN',
-        );
-    }
     return permissions;
 };
 
