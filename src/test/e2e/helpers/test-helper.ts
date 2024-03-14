@@ -20,8 +20,6 @@ import {
     ImportTogglesSchema,
 } from '../../../lib/openapi';
 import { Knex } from 'knex';
-import TestAgent from 'supertest/lib/agent';
-import Test from 'supertest/lib/test';
 
 process.env.NODE_ENV = 'test';
 
@@ -312,7 +310,6 @@ async function createApp(
             experimental: {
                 ...(customOptions?.experimental ?? {}),
                 flags: {
-                    strictSchemaValidation: true,
                     ...(customOptions?.experimental?.flags ?? {}),
                 },
             },
