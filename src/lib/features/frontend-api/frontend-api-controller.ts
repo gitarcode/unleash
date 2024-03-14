@@ -10,8 +10,6 @@ import {
     emptyResponse,
     getStandardResponses,
     FrontendApiClientSchema,
-    FrontendApiFeatureSchema,
-    frontendApiFeaturesSchema,
     FrontendApiFeaturesSchema,
 } from '../../openapi';
 import { Context } from 'unleash-client';
@@ -21,8 +19,6 @@ import NotImplementedError from '../../error/not-implemented-error';
 import NotFoundError from '../../error/notfound-error';
 import rateLimit from 'express-rate-limit';
 import { minutesToMilliseconds } from 'date-fns';
-import isEqual from 'lodash.isequal';
-import { diff } from 'json-diff';
 import metricsHelper from '../../util/metrics-helper';
 import { FUNCTION_TIME } from '../../metric-events';
 
@@ -183,58 +179,7 @@ export default class FrontendAPIController extends Controller {
         req: ApiUserRequest,
         res: Response<FrontendApiFeaturesSchema>,
     ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
-        let toggles: FrontendApiFeatureSchema[];
-        let newToggles: FrontendApiFeatureSchema[] = [];
-        if (this.config.flagResolver.isEnabled('globalFrontendApiCache')) {
-            const context = FrontendAPIController.createContext(req);
-            [toggles, newToggles] = await Promise.all([
-                this.getTimedFrontendApiFeatures(req, context),
-                this.getTimedNewFrontendApiFeatures(req, context),
-            ]);
-            const sortedToggles = toggles.sort((a, b) =>
-                a.name.localeCompare(b.name),
-            );
-            const sortedNewToggles = newToggles.sort((a, b) =>
-                a.name.localeCompare(b.name),
-            );
-            if (!isEqual(sortedToggles, sortedNewToggles)) {
-                this.logger.warn(
-                    `old features and new features are different. Old count ${
-                        toggles.length
-                    }, new count ${newToggles.length}, projects ${
-                        req.user.projects
-                    }, environment ${
-                        req.user.environment
-                    }, diff ${JSON.stringify(
-                        diff(sortedToggles, sortedNewToggles),
-                    )}`,
-                );
-            }
-        } else {
-            toggles =
-                await this.services.frontendApiService.getFrontendApiFeatures(
-                    req.user,
-                    FrontendAPIController.createContext(req),
-                );
-        }
-
-        const returnedToggles = this.config.flagResolver.isEnabled(
-            'returnGlobalFrontendApiCache',
-        )
-            ? newToggles
-            : toggles;
-
-        res.set('Cache-control', 'no-cache');
-
-        this.services.openApiService.respondWithValidation(
-            200,
-            res,
-            frontendApiFeaturesSchema.$id,
-            { toggles: returnedToggles },
-        );
+        throw new NotFoundError();
     }
 
     private async getTimedFrontendApiFeatures(req, context) {
@@ -263,33 +208,14 @@ export default class FrontendAPIController extends Controller {
         req: ApiUserRequest<unknown, unknown, ClientMetricsSchema>,
         res: Response,
     ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
-
-        if (this.config.flagResolver.isEnabled('disableMetrics')) {
-            res.sendStatus(204);
-            return;
-        }
-
-        await this.services.frontendApiService.registerFrontendApiMetrics(
-            req.user,
-            req.body,
-            req.ip,
-        );
-        res.sendStatus(200);
+        throw new NotFoundError();
     }
 
     private async registerFrontendApiClient(
         req: ApiUserRequest<unknown, unknown, FrontendApiClientSchema>,
         res: Response<string>,
     ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
-        // Client registration is not yet supported by @unleash/proxy,
-        // but proxy clients may still expect a 200 from this endpoint.
-        res.sendStatus(200);
+        throw new NotFoundError();
     }
 
     private static createContext(req: ApiUserRequest): Context {
