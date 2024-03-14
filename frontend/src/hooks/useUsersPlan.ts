@@ -1,7 +1,6 @@
 import { IUser } from 'interfaces/user';
 import { useMemo } from 'react';
 import { useInstanceStatus } from './api/getters/useInstanceStatus/useInstanceStatus';
-import { InstancePlan } from 'interfaces/instance';
 import useUiConfig from './api/getters/useUiConfig/useUiConfig';
 
 export interface IUsersPlanOutput {
@@ -14,16 +13,11 @@ export interface IUsersPlanOutput {
 export const useUsersPlan = (users: IUser[]): IUsersPlanOutput => {
     const { instanceStatus } = useInstanceStatus();
     const { uiConfig } = useUiConfig();
-
-    const isBillingUsers = Boolean(
-        uiConfig?.flags?.proPlanAutoCharge &&
-            instanceStatus?.plan === InstancePlan.PRO,
-    );
     const seats = instanceStatus?.seats ?? 5;
 
     const planUsers = useMemo(
-        () => calculatePaidUsers(users, isBillingUsers, seats),
-        [users, isBillingUsers, seats],
+        () => calculatePaidUsers(users, false, seats),
+        [users, false, seats],
     );
 
     const extraSeats = planUsers.filter((user) => user.paid).length;
