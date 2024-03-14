@@ -191,7 +191,6 @@ const Header: VFC = () => {
 
     const increaseUnleashWidth = useUiFlag('increaseUnleashWidth');
     const celebatoryUnleash = useUiFlag('celebrateUnleash');
-    const insightsDashboard = useUiFlag('executiveDashboard');
 
     const routes = getRoutes();
     const adminRoutes = useAdminRoutes();
@@ -277,7 +276,7 @@ const Header: VFC = () => {
                         <StyledLink to={'/search'}>Search</StyledLink>
                         <StyledLink to='/playground'>Playground</StyledLink>
                         <ConditionallyRender
-                            condition={insightsDashboard}
+                            condition={false}
                             show={
                                 <StyledLinkWithBetaBagde
                                     to={'/insights'}
