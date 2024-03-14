@@ -73,7 +73,7 @@ export const ProjectFeaturesBatchActions: FC<
     return (
         <>
             <ConditionallyRender
-                condition={Boolean(uiConfig?.flags?.disableBulkToggle)}
+                condition={true}
                 show={null}
                 elseShow={
                     <Button
@@ -86,7 +86,7 @@ export const ProjectFeaturesBatchActions: FC<
                 }
             />
             <ConditionallyRender
-                condition={Boolean(uiConfig?.flags?.disableBulkToggle)}
+                condition={true}
                 show={null}
                 elseShow={
                     <Button
