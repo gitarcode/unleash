@@ -10,7 +10,6 @@ import useLoading from 'hooks/useLoading';
 import { PageHeader } from 'component/common/PageHeader/PageHeader';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
 import { Search } from 'component/common/Search/Search';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { Add, FileDownload } from '@mui/icons-material';
 import { styled } from '@mui/material';
 import ResponsiveButton from 'component/common/ResponsiveButton/ResponsiveButton';
@@ -51,7 +50,6 @@ export const ProjectFeatureTogglesHeader: VFC<
     const [showTitle, setShowTitle] = useState(true);
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const featuresExportImportFlag = useUiFlag('featuresExportImport');
     const [showExportDialog, setShowExportDialog] = useState(false);
     const navigate = useNavigate();
     const { trackEvent } = usePlausibleTracker();
@@ -103,7 +101,7 @@ export const ProjectFeatureTogglesHeader: VFC<
                         {actions}
                         <PageHeader.Divider sx={{ marginLeft: 0 }} />
                         <ConditionallyRender
-                            condition={featuresExportImportFlag}
+                            condition={false}
                             show={
                                 <>
                                     <Tooltip
