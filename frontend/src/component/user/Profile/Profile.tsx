@@ -29,7 +29,7 @@ export const Profile = () => {
             id: 'pat',
             label: 'Personal API tokens',
             path: 'personal-api-tokens',
-            hidden: uiConfig.flags.personalAccessTokensKillSwitch,
+            hidden: false,
         },
     ];
 
