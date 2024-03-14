@@ -37,7 +37,6 @@ export type IFlagKey =
     | 'newStrategyConfigurationFeedback'
     | 'edgeBulkMetrics'
     | 'extendedUsageMetrics'
-    | 'extendedUsageMetricsUI'
     | 'adminTokenKillSwitch'
     | 'executiveDashboard'
     | 'feedbackComments'
@@ -186,10 +185,6 @@ const flags: IFlags = {
     ),
     extendedUsageMetrics: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_EXTENDED_USAGE_METRICS,
-        false,
-    ),
-    extendedUsageMetricsUI: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_EXTENDED_USAGE_METRICS_UI,
         false,
     ),
     adminTokenKillSwitch: parseEnvVarBoolean(
