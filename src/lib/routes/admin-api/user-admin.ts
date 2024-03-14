@@ -1,15 +1,12 @@
 import { Request, Response } from 'express';
 import Controller from '../controller';
 import { ADMIN, NONE } from '../../types/permissions';
-import UserService from '../../services/user-service';
 import { AccountService } from '../../services/account-service';
 import { AccessService } from '../../services/access-service';
 import { Logger } from '../../logger';
 import { IUnleashConfig, IUnleashServices, RoleName } from '../../types';
 import { EmailService } from '../../services/email-service';
-import ResetTokenService from '../../services/reset-token-service';
 import { IAuthRequest } from '../unleash-types';
-import SettingService from '../../services/setting-service';
 import { IUser, SimpleAuthSettings } from '../../server-impl';
 import { simpleAuthSettingsKey } from '../../types/settings/simple-auth-settings';
 import { anonymise } from '../../util/anonymise';
@@ -449,9 +446,6 @@ export default class UserAdminController extends Controller {
             typeof q === 'string' && q.length > 1
                 ? await this.userService.search(q)
                 : [];
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            users = this.anonymiseUsers(users);
-        }
         this.openApiService.respondWithValidation(
             200,
             res,
@@ -474,9 +468,6 @@ export default class UserAdminController extends Controller {
                 accountType: u.accountType,
             } as IUser;
         });
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            users = this.anonymiseUsers(users);
-        }
 
         const allGroups = await this.groupService.getAll();
         const groups = allGroups.map((g) => {

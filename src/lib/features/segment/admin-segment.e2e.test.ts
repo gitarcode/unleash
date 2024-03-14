@@ -105,7 +105,6 @@ beforeAll(async () => {
     const customOptions = {
         experimental: {
             flags: {
-                anonymiseEventLog: true,
             },
         },
     };
