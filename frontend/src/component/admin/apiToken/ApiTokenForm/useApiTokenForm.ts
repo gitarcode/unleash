@@ -51,14 +51,12 @@ export const useApiTokenForm = (project?: string) => {
         });
     }
 
-    if (uiConfig.flags.embedProxyFrontend) {
-        apiTokenTypes.splice(1, 0, {
-            key: TokenType.FRONTEND,
-            label: `Client-side SDK (${TokenType.FRONTEND})`,
-            title: 'Connect web and mobile SDK directly to Unleash',
-            enabled: hasCreateFrontendAccess || hasCreateFrontendTokenAccess,
-        });
-    }
+    apiTokenTypes.splice(1, 0, {
+          key: TokenType.FRONTEND,
+          label: `Client-side SDK (${TokenType.FRONTEND})`,
+          title: 'Connect web and mobile SDK directly to Unleash',
+          enabled: hasCreateFrontendAccess || hasCreateFrontendTokenAccess,
+      });
 
     const firstAccessibleType = apiTokenTypes.find((t) => t.enabled)?.key;
 
