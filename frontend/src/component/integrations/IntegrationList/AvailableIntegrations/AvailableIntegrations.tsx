@@ -7,7 +7,6 @@ import { StyledCardsGrid } from '../IntegrationList.styles';
 import { RequestIntegrationCard } from '../RequestIntegrationCard/RequestIntegrationCard';
 import { OFFICIAL_SDKS } from './SDKs';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
-import { useUiFlag } from 'hooks/useUiFlag';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 
 interface IAvailableIntegrationsProps {
@@ -55,7 +54,6 @@ export const AvailableIntegrations: VFC<IAvailableIntegrationsProps> = ({
     providers,
 }) => {
     const { isEnterprise } = useUiConfig();
-    const signalsEnabled = useUiFlag('signals');
 
     const customProviders = [JIRA_INFO];
     const serverSdks = OFFICIAL_SDKS.filter((sdk) => sdk.type === 'server');
@@ -98,7 +96,7 @@ export const AvailableIntegrations: VFC<IAvailableIntegrationsProps> = ({
                             ),
                         )}
                     <ConditionallyRender
-                        condition={isEnterprise() && signalsEnabled}
+                        condition={isEnterprise()}
                         show={
                             <IntegrationCard
                                 icon='signals'
