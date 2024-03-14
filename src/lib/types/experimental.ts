@@ -54,7 +54,6 @@ export type IFlagKey =
     | 'outdatedSdksBanner'
     | 'responseTimeMetricsFix'
     | 'scimApi'
-    | 'displayEdgeBanner'
     | 'globalFrontendApiCache'
     | 'returnGlobalFrontendApiCache';
 
@@ -259,10 +258,6 @@ const flags: IFlags = {
     ),
     scimApi: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_SCIM_API,
-        false,
-    ),
-    displayEdgeBanner: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_DISPLAY_EDGE_BANNER,
         false,
     ),
     responseTimeMetricsFix: parseEnvVarBoolean(
