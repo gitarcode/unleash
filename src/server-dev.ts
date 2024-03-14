@@ -49,7 +49,6 @@ process.nextTick(async () => {
                         extendedUsageMetricsUI: true,
                         executiveDashboard: true,
                         userAccessUIEnabled: true,
-                        sdkReporting: true,
                         outdatedSdksBanner: true,
                         globalFrontendApiCache: true,
                         returnGlobalFrontendApiCache: true,
