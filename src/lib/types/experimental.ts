@@ -52,7 +52,6 @@ export type IFlagKey =
     | 'disablePublishUnannouncedEvents'
     | 'sdkReporting'
     | 'outdatedSdksBanner'
-    | 'responseTimeMetricsFix'
     | 'scimApi'
     | 'displayEdgeBanner'
     | 'globalFrontendApiCache'
@@ -263,10 +262,6 @@ const flags: IFlags = {
     ),
     displayEdgeBanner: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_DISPLAY_EDGE_BANNER,
-        false,
-    ),
-    responseTimeMetricsFix: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_RESPONSE_TIME_METRICS_FIX,
         false,
     ),
     globalFrontendApiCache: parseEnvVarBoolean(
