@@ -9,10 +9,11 @@ import { ProjectActionsFilterItem } from './ProjectActionsFilterItem';
 import { ActionsFilterState } from '../../useProjectActionsForm';
 import { ProjectActionsFormStep } from '../ProjectActionsFormStep';
 import GeneralSelect from 'component/common/GeneralSelect/GeneralSelect';
-import { Add } from '@mui/icons-material';
+import Add from '@mui/icons-material/Add';
 import { ProjectActionsPreviewPayload } from './ProjectActionsPreviewPayload';
 import { useSignalEndpointSignals } from 'hooks/api/getters/useSignalEndpointSignals/useSignalEndpointSignals';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
+import { flattenPayload } from '@server/util/flattenPayload';
 
 const StyledDivider = styled(Divider)(({ theme }) => ({
     margin: theme.spacing(2, 0),
@@ -37,6 +38,7 @@ interface IProjectActionsFormStepSourceProps {
     setSourceId: React.Dispatch<React.SetStateAction<number>>;
     filters: ActionsFilterState[];
     setFilters: React.Dispatch<React.SetStateAction<ActionsFilterState[]>>;
+    validateSourceId: (sourceId: number) => boolean;
 }
 
 export const ProjectActionsFormStepSource = ({
@@ -44,6 +46,7 @@ export const ProjectActionsFormStepSource = ({
     setSourceId,
     filters,
     setFilters,
+    validateSourceId,
 }: IProjectActionsFormStepSourceProps) => {
     const { signalEndpoints, loading: signalEndpointsLoading } =
         useSignalEndpoints();
@@ -84,7 +87,9 @@ export const ProjectActionsFormStepSource = ({
         const lastSourcePayload = signalEndpointSignals[0]?.payload;
         return {
             lastSourcePayload,
-            filterSuggestions: Object.keys(lastSourcePayload || {}),
+            filterSuggestions: Object.keys(
+                flattenPayload(lastSourcePayload) || {},
+            ).sort(),
         };
     }, [signalEndpointSignals]);
 
@@ -102,6 +107,7 @@ export const ProjectActionsFormStepSource = ({
                 options={signalEndpointOptions}
                 value={`${sourceId}`}
                 onChange={(v) => {
+                    validateSourceId(Number(v));
                     setSourceId(parseInt(v));
                 }}
             />

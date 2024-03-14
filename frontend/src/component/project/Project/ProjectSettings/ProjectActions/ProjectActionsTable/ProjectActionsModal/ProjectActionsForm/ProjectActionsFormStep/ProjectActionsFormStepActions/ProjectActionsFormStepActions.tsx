@@ -6,9 +6,10 @@ import { ProjectActionsActionItem } from './ProjectActionsActionItem';
 import { ActionsActionState } from '../../useProjectActionsForm';
 import { ProjectActionsFormStep } from '../ProjectActionsFormStep';
 import GeneralSelect from 'component/common/GeneralSelect/GeneralSelect';
-import { Add } from '@mui/icons-material';
+import Add from '@mui/icons-material/Add';
 import { IServiceAccount } from 'interfaces/service-account';
 import { useRequiredPathParam } from 'hooks/useRequiredPathParam';
+import { useActionDefinitions } from './useActionDefinitions';
 
 const StyledDivider = styled(Divider)(({ theme }) => ({
     margin: theme.spacing(2, 0),
@@ -29,6 +30,8 @@ interface IProjectActionsFormStepActionsProps {
     setActions: React.Dispatch<React.SetStateAction<ActionsActionState[]>>;
     actorId: number;
     setActorId: React.Dispatch<React.SetStateAction<number>>;
+    validateActorId: (actorId: number) => boolean;
+    validated: boolean;
 }
 
 export const ProjectActionsFormStepActions = ({
@@ -38,8 +41,11 @@ export const ProjectActionsFormStepActions = ({
     setActions,
     actorId,
     setActorId,
+    validateActorId,
+    validated,
 }: IProjectActionsFormStepActionsProps) => {
     const projectId = useRequiredPathParam('projectId');
+    const actionDefinitions = useActionDefinitions(projectId);
 
     const addAction = (projectId: string) => {
         const id = uuidv4();
@@ -91,6 +97,7 @@ export const ProjectActionsFormStepActions = ({
                 options={serviceAccountOptions}
                 value={`${actorId}`}
                 onChange={(v) => {
+                    validateActorId(Number(v));
                     setActorId(parseInt(v));
                 }}
             />
@@ -107,6 +114,8 @@ export const ProjectActionsFormStepActions = ({
                             actions.filter((a) => a.id !== action.id),
                         )
                     }
+                    actionDefinitions={actionDefinitions}
+                    validated={validated}
                 />
             ))}
             <StyledButtonContainer>

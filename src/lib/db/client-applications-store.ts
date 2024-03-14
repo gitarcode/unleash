@@ -292,6 +292,13 @@ export default class ClientApplicationsStore
         appName: string,
     ): Promise<IApplicationOverview> {
         const query = this.db
+            .with('metrics', (qb) => {
+                qb.distinct(
+                    'cme.app_name',
+                    'cme.environment',
+                    'cme.feature_name',
+                ).from('client_metrics_env as cme');
+            })
             .select([
                 'f.project',
                 'cme.environment',
@@ -302,7 +309,7 @@ export default class ClientApplicationsStore
                 'a.strategies',
             ])
             .from({ a: 'client_applications' })
-            .leftJoin('client_metrics_env as cme', 'cme.app_name', 'a.app_name')
+            .leftJoin('metrics as cme', 'cme.app_name', 'a.app_name')
             .leftJoin('features as f', 'cme.feature_name', 'f.name')
             .leftJoin('client_instances as ci', function () {
                 this.on('ci.app_name', '=', 'cme.app_name').andOn(
@@ -317,7 +324,6 @@ export default class ClientApplicationsStore
         if (!rows.length) {
             throw new NotFoundError(`Could not find appName=${appName}`);
         }
-
         const existingStrategies: string[] = await this.db
             .select('name')
             .from('strategies')

@@ -283,10 +283,11 @@ export const theme = {
                 title: colors.grey[50],
                 healthy: colors.purple[800],
                 stale: colors.red[800],
-                potentiallyStale: colors.orange[800],
+                potentiallyStale: colors.orange[900],
                 gradientStale: colors.red[300],
                 gradientPotentiallyStale: colors.orange[500],
             },
+            series: colors.chartSeries,
         },
     },
 };

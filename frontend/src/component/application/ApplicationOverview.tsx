@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { usePlausibleTracker } from 'hooks/usePlausibleTracker';
 import { useEffect } from 'react';
 import { useFeedback } from '../feedbackNew/useFeedback';
-import { ReviewsOutlined } from '@mui/icons-material';
+import ReviewsOutlined from '@mui/icons-material/ReviewsOutlined';
 
 const StyledDivider = styled(Divider)(({ theme }) => ({
     marginTop: theme.spacing(2),
@@ -79,7 +79,7 @@ const ApplicationOverview = () => {
                 <ApplicationContainer>
                     <ApplicationHeader>
                         <ProjectContainer>
-                            Projects using this application
+                            Application is connected to these projects:
                             {data.projects.map((project) => (
                                 <Badge
                                     sx={{ cursor: 'pointer' }}

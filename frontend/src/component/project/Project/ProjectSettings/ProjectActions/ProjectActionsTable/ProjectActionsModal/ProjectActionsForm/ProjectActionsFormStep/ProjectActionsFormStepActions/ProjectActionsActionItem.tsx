@@ -1,14 +1,14 @@
 import { Alert, IconButton, Tooltip, styled } from '@mui/material';
-import GeneralSelect from 'component/common/GeneralSelect/GeneralSelect';
-import { Delete } from '@mui/icons-material';
+import Delete from '@mui/icons-material/Delete';
 import { useRequiredPathParam } from 'hooks/useRequiredPathParam';
-import { useFeatureSearch } from 'hooks/api/getters/useFeatureSearch/useFeatureSearch';
 import { ActionsActionState } from '../../useProjectActionsForm';
 import { ProjectActionsFormItem } from '../ProjectActionsFormItem';
-import useProjectOverview from 'hooks/api/getters/useProjectOverview/useProjectOverview';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
 import { useServiceAccountAccessMatrix } from 'hooks/api/getters/useServiceAccountAccessMatrix/useServiceAccountAccessMatrix';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { ProjectActionsActionParameterAutocomplete } from './ProjectActionsActionParameter/ProjectActionsActionParameterAutocomplete';
+import { ActionDefinitions } from './useActionDefinitions';
+import { ProjectActionsActionSelect } from './ProjectActionsActionSelect';
 
 const StyledItemBody = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -22,24 +22,13 @@ const StyledItemRow = styled('div')(({ theme }) => ({
     alignItems: 'center',
     gap: theme.spacing(1),
     width: '100%',
+    flexWrap: 'wrap',
 }));
 
-const StyledFieldContainer = styled('div')({
+const StyledFieldContainer = styled('div')(({ theme }) => ({
     flex: 1,
-});
-
-const options = [
-    {
-        label: 'Enable flag',
-        key: 'TOGGLE_FEATURE_ON',
-        permissions: ['UPDATE_FEATURE_ENVIRONMENT'],
-    },
-    {
-        label: 'Disable flag',
-        key: 'TOGGLE_FEATURE_OFF',
-        permissions: ['UPDATE_FEATURE_ENVIRONMENT'],
-    },
-];
+    minWidth: theme.spacing(25),
+}));
 
 interface IProjectActionsItemProps {
     action: ActionsActionState;
@@ -47,6 +36,8 @@ interface IProjectActionsItemProps {
     stateChanged: (action: ActionsActionState) => void;
     actorId: number;
     onDelete: () => void;
+    actionDefinitions: ActionDefinitions;
+    validated: boolean;
 }
 
 export const ProjectActionsActionItem = ({
@@ -55,22 +46,23 @@ export const ProjectActionsActionItem = ({
     stateChanged,
     actorId,
     onDelete,
+    actionDefinitions,
+    validated,
 }: IProjectActionsItemProps) => {
-    const { action: actionName } = action;
+    const { action: actionName, executionParams, error } = action;
     const projectId = useRequiredPathParam('projectId');
-    const { project } = useProjectOverview(projectId);
     const { permissions } = useServiceAccountAccessMatrix(
         actorId,
         projectId,
-        action.executionParams.environment as string,
+        executionParams.environment as string,
     );
 
-    const hasPermission = useMemo(() => {
-        const requiredPermissions = options.find(
-            ({ key }) => key === actionName,
-        )?.permissions;
+    const actionDefinition = actionDefinitions.get(actionName);
 
-        const { environment: actionEnvironment } = action.executionParams;
+    const hasPermission = useMemo(() => {
+        const requiredPermissions = actionDefinition?.permissions;
+
+        const { environment: actionEnvironment } = executionParams;
 
         if (
             permissions.length === 0 ||
@@ -82,18 +74,32 @@ export const ProjectActionsActionItem = ({
 
         return requiredPermissions.some((requiredPermission) =>
             permissions.some(
-                ({ permission, environment }) =>
+                ({ permission, project, environment }) =>
                     permission === requiredPermission &&
+                    project === projectId &&
                     environment === actionEnvironment,
             ),
         );
-    }, [actionName, permissions]);
+    }, [actionDefinition, permissions]);
 
-    const environments = project.environments.map(
-        ({ environment }) => environment,
-    );
+    useEffect(() => {
+        stateChanged({
+            ...action,
+            error: undefined,
+        });
 
-    const { features } = useFeatureSearch({ project: `IS:${projectId}` });
+        const requiredParameters =
+            actionDefinition?.parameters
+                .filter(({ optional }) => !optional)
+                .map(({ name }) => name) || [];
+
+        if (requiredParameters.some((required) => !executionParams[required])) {
+            stateChanged({
+                ...action,
+                error: 'Please fill all required fields.',
+            });
+        }
+    }, [actionDefinition, executionParams]);
 
     const header = (
         <>
@@ -108,68 +114,55 @@ export const ProjectActionsActionItem = ({
         </>
     );
 
+    const parameters =
+        actionDefinition?.parameters.filter(({ hidden }) => !hidden) || [];
+
     return (
         <ProjectActionsFormItem index={index} header={header} separator='THEN'>
             <StyledItemBody>
                 <StyledItemRow>
                     <StyledFieldContainer>
-                        <GeneralSelect
-                            label='Action'
-                            name='action'
-                            options={options}
+                        <ProjectActionsActionSelect
                             value={actionName}
-                            onChange={(selected) =>
+                            onChange={(value) =>
                                 stateChanged({
                                     ...action,
-                                    action: selected,
+                                    action: value,
                                 })
                             }
-                            fullWidth
-                        />
-                    </StyledFieldContainer>
-                    <StyledFieldContainer>
-                        <GeneralSelect
-                            label='Environment'
-                            name='environment'
-                            options={environments.map((environment) => ({
-                                label: environment,
-                                key: environment,
-                            }))}
-                            value={action.executionParams.environment as string}
-                            onChange={(selected) =>
-                                stateChanged({
-                                    ...action,
-                                    executionParams: {
-                                        ...action.executionParams,
-                                        environment: selected,
-                                    },
-                                })
-                            }
-                            fullWidth
-                        />
-                    </StyledFieldContainer>
-                    <StyledFieldContainer>
-                        <GeneralSelect
-                            label='Flag name'
-                            name='flag'
-                            options={features.map((feature) => ({
-                                label: feature.name,
-                                key: feature.name,
-                            }))}
-                            value={action.executionParams.featureName as string}
-                            onChange={(selected) =>
-                                stateChanged({
-                                    ...action,
-                                    executionParams: {
-                                        ...action.executionParams,
-                                        featureName: selected,
-                                    },
-                                })
-                            }
-                            fullWidth
+                            actionDefinitions={actionDefinitions}
                         />
                     </StyledFieldContainer>
                 </StyledItemRow>
+                <ConditionallyRender
+                    condition={parameters.length > 0}
+                    show={
+                        <StyledItemRow>
+                            {parameters.map(({ name, label, options }) => (
+                                <StyledFieldContainer key={name}>
+                                    <ProjectActionsActionParameterAutocomplete
+                                        label={label}
+                                        value={executionParams[name] as string}
+                                        onChange={(value) =>
+                                            stateChanged({
+                                                ...action,
+                                                executionParams: {
+                                                    ...executionParams,
+                                                    [name]: value,
+                                                },
+                                            })
+                                        }
+                                        options={options}
+                                    />
+                                </StyledFieldContainer>
+                            ))}
+                        </StyledItemRow>
+                    }
+                />
+                <ConditionallyRender
+                    condition={validated && Boolean(error)}
+                    show={<Alert severity='error'>{error}</Alert>}
+                />
                 <ConditionallyRender
                     condition={!hasPermission}
                     show={
