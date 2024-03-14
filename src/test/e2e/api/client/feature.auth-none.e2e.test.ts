@@ -5,7 +5,6 @@ import {
 import dbInit, { ITestDb } from '../../helpers/database-init';
 import getLogger from '../../../fixtures/no-logger';
 import { DEFAULT_ENV } from '../../../../lib/util/constants';
-import User from '../../../../lib/types/user';
 import { ApiTokenType } from '../../../../lib/types/models/api-token';
 
 let app: IUnleashTest;
@@ -24,7 +23,6 @@ beforeAll(async () => {
             },
             experimental: {
                 flags: {
-                    strictSchemaValidation: true,
                 },
             },
         },
