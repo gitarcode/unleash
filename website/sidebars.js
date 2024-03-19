@@ -151,6 +151,11 @@ module.exports = {
                     label: 'Next.js',
                     id: 'feature-flag-tutorials/nextjs/implementing-feature-flags',
                 },
+                {
+                    type: 'doc',
+                    label: 'Sveltekit',
+                    id: 'feature-flag-tutorials/sveltekit/feature-flags-sveltekit',
+                },
             ],
         },
         {
@@ -181,6 +186,7 @@ module.exports = {
                     },
                     label: 'Unleash Concepts',
                     items: [
+                        'reference/applications',
                         'reference/activation-strategies',
                         'reference/api-tokens-and-client-keys',
                         'reference/archived-toggles',
