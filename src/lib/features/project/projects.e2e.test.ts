@@ -1,8 +1,8 @@
 import dbInit, { type ITestDb } from '../../../test/e2e/helpers/database-init';
 import {
-    type IUnleashTest,
     insertFeatureEnvironmentsLastSeen,
     insertLastSeenAt,
+    type IUnleashTest,
     setupAppWithCustomConfig,
 } from '../../../test/e2e/helpers/test-helper';
 import getLogger from '../../../test/fixtures/no-logger';

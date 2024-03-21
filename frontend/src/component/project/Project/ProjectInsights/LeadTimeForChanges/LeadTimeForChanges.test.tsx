@@ -1,18 +1,11 @@
 import { screen } from '@testing-library/react';
 import { render } from 'utils/testRenderer';
-import { testServerRoute, testServerSetup } from 'utils/testServer';
 import type { ProjectDoraMetricsSchema } from 'openapi';
 import { LeadTimeForChanges } from './LeadTimeForChanges';
 import { Route, Routes } from 'react-router-dom';
 
-const server = testServerSetup();
-
-const setupApi = (outdatedSdks: ProjectDoraMetricsSchema) => {
-    testServerRoute(server, '/api/admin/projects/default/dora', outdatedSdks);
-};
-
 test('Show outdated SDKs and apps using them', async () => {
-    setupApi({
+    const leadTime: ProjectDoraMetricsSchema = {
         features: [
             {
                 name: 'ABCD',
@@ -20,12 +13,12 @@ test('Show outdated SDKs and apps using them', async () => {
             },
         ],
         projectAverage: 67,
-    });
+    };
     render(
         <Routes>
             <Route
                 path={'/projects/:projectId'}
-                element={<LeadTimeForChanges />}
+                element={<LeadTimeForChanges leadTime={leadTime} />}
             />
         </Routes>,
         {
@@ -33,7 +26,7 @@ test('Show outdated SDKs and apps using them', async () => {
         },
     );
 
-    await screen.findByText('Lead time for changes (per release toggle)');
+    await screen.findByText('Lead time for changes (per release flag)');
     await screen.findByText('ABCD');
     await screen.findByText('57 days');
     await screen.findByText('Low');

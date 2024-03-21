@@ -25,11 +25,7 @@ import {
     projectsSchema,
 } from '../../openapi';
 import { getStandardResponses } from '../../openapi/util/standard-responses';
-import type {
-    AccessService,
-    OpenApiService,
-    SettingService,
-} from '../../services';
+import type { OpenApiService } from '../../services';
 import type { IAuthRequest } from '../../routes/unleash-types';
 import { ProjectApiTokenController } from '../../routes/admin-api/project/api-token';
 import ProjectArchiveController from '../../routes/admin-api/project/project-archive';
@@ -44,13 +40,10 @@ import {
 import { NotFoundError } from '../../error';
 import { projectApplicationsQueryParameters } from '../../openapi/spec/project-applications-query-parameters';
 import { normalizeQueryParams } from '../feature-search/search-utils';
+import ProjectInsightsController from '../project-insights/project-insights-controller';
 
 export default class ProjectController extends Controller {
     private projectService: ProjectService;
-
-    private settingService: SettingService;
-
-    private accessService: AccessService;
 
     private openApiService: OpenApiService;
 
@@ -60,8 +53,6 @@ export default class ProjectController extends Controller {
         super(config);
         this.projectService = services.projectService;
         this.openApiService = services.openApiService;
-        this.settingService = services.settingService;
-        this.accessService = services.accessService;
         this.flagResolver = config.flagResolver;
 
         this.route({
@@ -189,6 +180,7 @@ export default class ProjectController extends Controller {
                 createKnexTransactionStarter(db),
             ).router,
         );
+        this.use('/', new ProjectInsightsController(config, services).router);
     }
 
     async getProjects(
