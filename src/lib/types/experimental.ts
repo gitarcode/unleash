@@ -50,7 +50,6 @@ export type IFlagKey =
     | 'userAccessUIEnabled'
     | 'disableUpdateMaxRevisionId'
     | 'disablePublishUnannouncedEvents'
-    | 'sdkReporting'
     | 'outdatedSdksBanner'
     | 'responseTimeMetricsFix'
     | 'scimApi'
@@ -199,10 +198,6 @@ const flags: IFlags = {
     ),
     executiveDashboardUI: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_EXECUTIVE_DASHBOARD_UI,
-        false,
-    ),
-    sdkReporting: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_SDK_REPORTING,
         false,
     ),
     outdatedSdksBanner: parseEnvVarBoolean(
