@@ -40,7 +40,6 @@ export type IFlagKey =
     | 'adminTokenKillSwitch'
     | 'executiveDashboard'
     | 'executiveDashboardUI'
-    | 'feedbackComments'
     | 'createdByUserIdDataMigration'
     | 'showInactiveUsers'
     | 'inMemoryScheduledChangeRequests'
@@ -209,19 +208,6 @@ const flags: IFlags = {
         process.env.UNLEASH_EXPERIMENTAL_OUTDATED_SDKS_BANNER,
         false,
     ),
-    feedbackComments: {
-        name: 'feedbackComments',
-        enabled: parseEnvVarBoolean(
-            process.env.UNLEASH_EXPERIMENTAL_FEEDBACK_COMMENTS,
-            false,
-        ),
-        payload: {
-            type: PayloadType.JSON,
-            value:
-                process.env.UNLEASH_EXPERIMENTAL_FEEDBACK_COMMENTS_PAYLOAD ??
-                '',
-        },
-    },
     createdByUserIdDataMigration: parseEnvVarBoolean(
         process.env.CREATED_BY_USERID_DATA_MIGRATION,
         false,
