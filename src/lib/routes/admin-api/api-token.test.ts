@@ -13,8 +13,7 @@ async function getSetup(adminTokenKillSwitchEnabled: boolean) {
         preHook: perms.hook,
         server: { baseUriPath: base },
         experimental: {
-            flags: {
-            },
+            flags: {},
         },
         //@ts-ignore - Just testing, so only need the isEnabled call here
     });
