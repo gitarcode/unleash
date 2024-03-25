@@ -6,7 +6,6 @@ import ApiUser from '../types/api-user';
 import { ApiTokenType } from '../types/models/api-token';
 import type { IAuthRequest } from '../server-impl';
 import type { IApiRequest } from '../routes/unleash-types';
-import { encrypt } from '../util';
 
 function demoAuthentication(
     app: Application,
@@ -19,9 +18,7 @@ function demoAuthentication(
 ): void {
     app.post(`${basePath}/auth/demo/login`, async (req: IAuthRequest, res) => {
         let { email } = req.body;
-        email = flagResolver.isEnabled('encryptEmails', { email })
-            ? encrypt(email)
-            : email;
+        email = email;
         try {
             const user = await userService.loginUserWithoutPassword(
                 email,
