@@ -1285,8 +1285,7 @@ test('should return 204 if metrics are disabled', async () => {
     const localApp = await setupAppWithAuth(db.stores, {
         frontendApiOrigins: ['https://example.com'],
         experimental: {
-            flags: {
-            },
+            flags: {},
         },
     });
 
