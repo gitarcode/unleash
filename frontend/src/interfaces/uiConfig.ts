@@ -70,7 +70,6 @@ export type UiFlags = {
     enableLicense?: boolean;
     newStrategyConfigurationFeedback?: boolean;
     extendedUsageMetricsUI?: boolean;
-    adminTokenKillSwitch?: boolean;
     executiveDashboardUI?: boolean;
     feedbackComments?: Variant;
     displayUpgradeEdgeBanner?: boolean;

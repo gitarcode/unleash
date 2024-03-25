@@ -14,7 +14,6 @@ async function getSetup(adminTokenKillSwitchEnabled: boolean) {
         server: { baseUriPath: base },
         experimental: {
             flags: {
-                adminTokenKillSwitch: adminTokenKillSwitchEnabled,
             },
         },
         //@ts-ignore - Just testing, so only need the isEnabled call here
