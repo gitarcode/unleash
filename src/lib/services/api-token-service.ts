@@ -124,11 +124,11 @@ export class ApiTokenService {
 
     public async getAllActiveTokens(): Promise<IApiToken[]> {
         if (!this.initialized) {
-              // unlikely this will happen but nice to have a fail safe
-              this.logger.info('Fetching active tokens before initialized');
-              await this.fetchActiveTokens();
-          }
-          return this.activeTokens;
+            // unlikely this will happen but nice to have a fail safe
+            this.logger.info('Fetching active tokens before initialized');
+            await this.fetchActiveTokens();
+        }
+        return this.activeTokens;
     }
 
     private async initApiTokens(tokens: ILegacyApiTokenCreate[]) {
