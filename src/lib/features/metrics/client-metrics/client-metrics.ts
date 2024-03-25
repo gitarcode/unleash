@@ -3,7 +3,6 @@ import Controller from '../../../routes/controller';
 import type { IUnleashConfig } from '../../../types/option';
 import type { IFlagResolver, IUnleashServices } from '../../../types';
 import type { Logger } from '../../../logger';
-import type ClientMetricsServiceV2 from './metrics-service-v2';
 import { NONE } from '../../../types/permissions';
 import { createResponseSchema } from '../../../openapi/util/create-response-schema';
 import type { OpenApiService } from '../../../services/openapi-service';
@@ -135,9 +134,7 @@ class ClientMetricsController extends Controller {
         }
 
         const parsed = Number(param);
-        const max = this.flagResolver.isEnabled('extendedUsageMetrics')
-            ? ClientMetricsController.HOURS_BACK_MAX_V2
-            : ClientMetricsController.HOURS_BACK_MAX;
+        const max = ClientMetricsController.HOURS_BACK_MAX;
 
         if (parsed >= ClientMetricsController.HOURS_BACK_MIN && parsed <= max) {
             return parsed;
