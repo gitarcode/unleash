@@ -81,8 +81,7 @@ export const FeatureToggleListTable: VFC = () => {
     const { setToastApiError } = useToast();
     const { uiConfig } = useUiConfig();
 
-    const variant =
-        true?.name ?? '';
+    const variant = true?.name ?? '';
 
     const { openFeedback } = useFeedback(
         feedbackCategory,
@@ -360,62 +359,52 @@ export const FeatureToggleListTable: VFC = () => {
                                 onExportClick={() => setShowExportDialog(true)}
                             />
                             {true?.enabled && (
-                                    <>
-                                        <ConditionallyRender
-                                            condition={
-                                                variant === 'withoutText'
-                                            }
-                                            show={
-                                                <Tooltip
-                                                    title='Provide feedback'
-                                                    arrow
-                                                >
-                                                    <IconButton
-                                                        onClick={
-                                                            createFeedbackContext
-                                                        }
-                                                        size='large'
-                                                    >
-                                                        <ReviewsOutlined />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            }
-                                        />
-                                        <ConditionallyRender
-                                            condition={variant === 'withText'}
-                                            show={
-                                                <Button
-                                                    startIcon={
-                                                        <ReviewsOutlined />
-                                                    }
+                                <>
+                                    <ConditionallyRender
+                                        condition={variant === 'withoutText'}
+                                        show={
+                                            <Tooltip
+                                                title='Provide feedback'
+                                                arrow
+                                            >
+                                                <IconButton
                                                     onClick={
                                                         createFeedbackContext
                                                     }
+                                                    size='large'
                                                 >
-                                                    Provide feedback
-                                                </Button>
-                                            }
-                                        />{' '}
-                                        <ConditionallyRender
-                                            condition={
-                                                variant === 'withTextOutlined'
-                                            }
-                                            show={
-                                                <Button
-                                                    startIcon={
-                                                        <ReviewsOutlined />
-                                                    }
-                                                    onClick={
-                                                        createFeedbackContext
-                                                    }
-                                                    variant='outlined'
-                                                >
-                                                    Provide feedback
-                                                </Button>
-                                            }
-                                        />
-                                    </>
-                                )}
+                                                    <ReviewsOutlined />
+                                                </IconButton>
+                                            </Tooltip>
+                                        }
+                                    />
+                                    <ConditionallyRender
+                                        condition={variant === 'withText'}
+                                        show={
+                                            <Button
+                                                startIcon={<ReviewsOutlined />}
+                                                onClick={createFeedbackContext}
+                                            >
+                                                Provide feedback
+                                            </Button>
+                                        }
+                                    />{' '}
+                                    <ConditionallyRender
+                                        condition={
+                                            variant === 'withTextOutlined'
+                                        }
+                                        show={
+                                            <Button
+                                                startIcon={<ReviewsOutlined />}
+                                                onClick={createFeedbackContext}
+                                                variant='outlined'
+                                            >
+                                                Provide feedback
+                                            </Button>
+                                        }
+                                    />
+                                </>
+                            )}
                         </>
                     }
                 >
