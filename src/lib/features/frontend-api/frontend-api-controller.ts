@@ -213,9 +213,7 @@ export default class FrontendAPIController extends Controller {
                     )}`,
                 );
             }
-        } else
-
-        res.set('Cache-control', 'no-cache');
+        } else res.set('Cache-control', 'no-cache');
 
         this.services.openApiService.respondWithValidation(
             200,
