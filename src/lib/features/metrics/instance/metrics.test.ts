@@ -14,7 +14,6 @@ import dbInit, {
 } from '../../../../test/e2e/helpers/database-init';
 import { subMinutes } from 'date-fns';
 import { ApiTokenType } from '../../../types/models/api-token';
-import type TestAgent from 'supertest/lib/agent';
 
 let db: ITestDb;
 
@@ -246,7 +245,6 @@ test('should return 204 if metrics are disabled by feature flag', async () => {
     const { request: localRequest } = await getSetup({
         experimental: {
             flags: {
-                disableMetrics: true,
             },
         },
     });
@@ -336,7 +334,6 @@ describe('bulk metrics', () => {
         const { request: localRequest } = await getSetup({
             experimental: {
                 flags: {
-                    disableMetrics: true,
                 },
             },
         });
