@@ -7,8 +7,7 @@ import { testServerRoute, testServerSetup } from 'utils/testServer';
 const server = testServerSetup();
 test('all options are drawn', async () => {
     testServerRoute(server, '/api/admin/ui-config', {
-        flags: {
-        },
+        flags: {},
     });
 
     render(<FeatureToggleListActions onExportClick={() => {}} />);

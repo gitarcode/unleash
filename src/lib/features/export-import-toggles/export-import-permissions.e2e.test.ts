@@ -249,8 +249,7 @@ beforeAll(async () => {
         db.stores,
         {
             experimental: {
-                flags: {
-                },
+                flags: {},
             },
         },
         db.rawDatabase,

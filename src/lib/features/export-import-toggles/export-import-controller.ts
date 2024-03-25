@@ -176,7 +176,6 @@ class ExportImportController extends Controller {
         res.status(200).end();
     }
 
-    private verifyExportImportEnabled() {
-    }
+    private verifyExportImportEnabled() {}
 }
 export default ExportImportController;
