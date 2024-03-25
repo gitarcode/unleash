@@ -230,8 +230,7 @@ describe('When token is added by another instance', () => {
     test('should return the token when query db flag is enabled', async () => {
         const { apiTokenService, apiTokenStore, token } = setup({
             experimental: {
-                flags: {
-                },
+                flags: {},
             },
         });
 
