@@ -60,7 +60,6 @@ export default class ConfigurationRevisionService extends EventEmitter {
     }
 
     async updateMaxRevisionId(): Promise<number> {
-
         const revisionId = await this.eventStore.getMaxRevisionId(
             this.revisionId,
         );
