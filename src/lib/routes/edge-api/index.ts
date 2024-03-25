@@ -120,27 +120,24 @@ export default class EdgeController extends Controller {
         res: Response<void>,
     ): Promise<void> {
         const { body, ip: clientIp } = req;
-          const { metrics, applications } = body;
+        const { metrics, applications } = body;
 
-          try {
-              const promises: Promise<void>[] = [];
-              for (const app of applications) {
-                  promises.push(
-                      this.clientInstanceService.registerClient(
-                          app,
-                          clientIp,
-                      ),
-                  );
-              }
-              if (metrics && metrics.length > 0) {
-                  const data =
-                      await clientMetricsEnvBulkSchema.validateAsync(metrics);
-                  promises.push(this.metricsV2.registerBulkMetrics(data));
-              }
-              await Promise.all(promises);
-              res.status(202).end();
-          } catch (e) {
-              res.status(400).end();
-          }
+        try {
+            const promises: Promise<void>[] = [];
+            for (const app of applications) {
+                promises.push(
+                    this.clientInstanceService.registerClient(app, clientIp),
+                );
+            }
+            if (metrics && metrics.length > 0) {
+                const data =
+                    await clientMetricsEnvBulkSchema.validateAsync(metrics);
+                promises.push(this.metricsV2.registerBulkMetrics(data));
+            }
+            await Promise.all(promises);
+            res.status(202).end();
+        } catch (e) {
+            res.status(400).end();
+        }
     }
 }
