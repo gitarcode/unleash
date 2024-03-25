@@ -21,8 +21,7 @@ beforeAll(async () => {
     const config = createTestConfig({
         server: { baseUriPath: '/test' },
         experimental: {
-            flags: {
-            },
+            flags: {},
         },
     });
     db = await dbInit('api_token_service_serial', getLogger);

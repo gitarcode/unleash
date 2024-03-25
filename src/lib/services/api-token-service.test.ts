@@ -30,8 +30,7 @@ test('Should init api token', async () => {
             initApiTokens: [token],
         },
         experimental: {
-            flags: {
-            },
+            flags: {},
         },
     });
     const apiTokenStore = new FakeApiTokenStore();

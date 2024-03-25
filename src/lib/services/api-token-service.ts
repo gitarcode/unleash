@@ -86,7 +86,7 @@ export class ApiTokenService {
         this.flagResolver = config.flagResolver;
         this.logger = config.getLogger('/services/api-token-service.ts');
         // This is probably not needed because the scheduler will run it
-          this.fetchActiveTokens();
+        this.fetchActiveTokens();
         this.updateLastSeen();
         if (config.authentication.initApiTokens.length > 0) {
             process.nextTick(async () =>
