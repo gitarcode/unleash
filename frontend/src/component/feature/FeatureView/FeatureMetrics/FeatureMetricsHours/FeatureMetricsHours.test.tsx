@@ -8,8 +8,7 @@ const server = testServerSetup();
 
 test('Display extended daily metrics', async () => {
     testServerRoute(server, '/api/admin/ui-config', {
-        flags: {
-        },
+        flags: {},
         versionInfo: {
             current: { oss: 'irrelevant', enterprise: 'some value' },
         },
