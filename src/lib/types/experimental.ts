@@ -32,7 +32,6 @@ export type IFlagKey =
     | 'celebrateUnleash'
     | 'increaseUnleashWidth'
     | 'featureSearchFeedback'
-    | 'featureSearchFeedbackPosting'
     | 'newStrategyConfigurationFeedback'
     | 'edgeBulkMetrics'
     | 'extendedUsageMetrics'
@@ -165,10 +164,6 @@ const flags: IFlags = {
                     .UNLEASH_EXPERIMENTAL_FEATURE_SEARCH_FEEDBACK_PAYLOAD ?? '',
         },
     },
-    featureSearchFeedbackPosting: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_FEATURE_SEARCH_FEEDBACK_POSTING,
-        false,
-    ),
     newStrategyConfigurationFeedback: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_NEW_STRATEGY_CONFIGURATION_FEEDBACK,
         false,
