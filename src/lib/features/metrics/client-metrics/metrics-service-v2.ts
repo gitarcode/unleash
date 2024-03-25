@@ -116,9 +116,9 @@ export default class ClientMetricsServiceV2 {
             );
 
             const justNames = badNames.map(
-                  (r: PromiseRejectedResult) => r.reason._original.name,
-              );
-              return toggleNames.filter((name) => !justNames.includes(name));
+                (r: PromiseRejectedResult) => r.reason._original.name,
+            );
+            return toggleNames.filter((name) => !justNames.includes(name));
         }
         return toggleNames;
     }
