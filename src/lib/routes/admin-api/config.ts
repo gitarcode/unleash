@@ -2,10 +2,7 @@ import type { Response } from 'express';
 import type { AuthedRequest } from '../../types/core';
 import type { IUnleashServices } from '../../types/services';
 import { IAuthType, type IUnleashConfig } from '../../types/option';
-import version from '../../util/version';
 import Controller from '../controller';
-import type VersionService from '../../services/version-service';
-import type SettingService from '../../services/setting-service';
 import {
     type SimpleAuthSettings,
     simpleAuthSettingsKey,
@@ -25,10 +22,8 @@ import NotFoundError from '../../error/notfound-error';
 import type { SetUiConfigSchema } from '../../openapi/spec/set-ui-config-schema';
 import { createRequestSchema } from '../../openapi/util/create-request-schema';
 import type { FrontendApiService } from '../../services';
-import type MaintenanceService from '../../features/maintenance/maintenance-service';
 import memoizee from 'memoizee';
 import { minutesToMilliseconds } from 'date-fns';
-import type ClientInstanceService from '../../features/metrics/instance/instance-service';
 
 class ConfigController extends Controller {
     private versionService: VersionService;
@@ -154,8 +149,7 @@ class ConfigController extends Controller {
             ...this.config.ui.flags,
             ...expFlags,
             displayUpgradeEdgeBanner:
-                usesOldEdge ||
-                this.config.flagResolver.isEnabled('displayEdgeBanner'),
+                true,
         };
 
         const response: UiConfigSchema = {
