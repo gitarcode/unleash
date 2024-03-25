@@ -82,7 +82,8 @@ const DraftBannerContent: FC<{
 
     const StyledDraftBanner = StyledNormalDraftBanner;
 
-    const StyledDraftBannerContentWrapper = StyledNormalDraftBannerContentWrapper;
+    const StyledDraftBannerContentWrapper =
+        StyledNormalDraftBannerContentWrapper;
 
     return (
         <StyledDraftBanner>
