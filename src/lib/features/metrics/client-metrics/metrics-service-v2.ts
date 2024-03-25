@@ -59,40 +59,38 @@ export default class ClientMetricsServiceV2 {
 
     async aggregateDailyMetrics() {
         const {
-              enabledCount: hourlyEnabledCount,
-              variantCount: hourlyVariantCount,
-          } =
-              await this.clientMetricsStoreV2.countPreviousDayHourlyMetricsBuckets();
-          const {
-              enabledCount: dailyEnabledCount,
-              variantCount: dailyVariantCount,
-          } =
-              await this.clientMetricsStoreV2.countPreviousDayMetricsBuckets();
-          const { payload } = this.flagResolver.getVariant(
-              'extendedUsageMetrics',
-          );
+            enabledCount: hourlyEnabledCount,
+            variantCount: hourlyVariantCount,
+        } =
+            await this.clientMetricsStoreV2.countPreviousDayHourlyMetricsBuckets();
+        const {
+            enabledCount: dailyEnabledCount,
+            variantCount: dailyVariantCount,
+        } = await this.clientMetricsStoreV2.countPreviousDayMetricsBuckets();
+        const { payload } = this.flagResolver.getVariant(
+            'extendedUsageMetrics',
+        );
 
-          const limit =
-              payload?.value &&
-              Number.isInteger(Number.parseInt(payload?.value))
-                  ? Number.parseInt(payload?.value)
-                  : 3600000;
+        const limit =
+            payload?.value && Number.isInteger(Number.parseInt(payload?.value))
+                ? Number.parseInt(payload?.value)
+                : 3600000;
 
-          const totalHourlyCount = hourlyEnabledCount + hourlyVariantCount;
-          const totalDailyCount = dailyEnabledCount + dailyVariantCount;
-          const previousDayDailyCountCalculated =
-              totalDailyCount > totalHourlyCount / 24; // heuristic
+        const totalHourlyCount = hourlyEnabledCount + hourlyVariantCount;
+        const totalDailyCount = dailyEnabledCount + dailyVariantCount;
+        const previousDayDailyCountCalculated =
+            totalDailyCount > totalHourlyCount / 24; // heuristic
 
-          if (previousDayDailyCountCalculated) {
-              return;
-          }
-          if (totalHourlyCount > limit) {
-              this.logger.warn(
-                  `Skipping previous day metrics aggregation. Too many results. Expected max value: ${limit}, Actual value: ${totalHourlyCount}`,
-              );
-              return;
-          }
-          await this.clientMetricsStoreV2.aggregateDailyMetrics();
+        if (previousDayDailyCountCalculated) {
+            return;
+        }
+        if (totalHourlyCount > limit) {
+            this.logger.warn(
+                `Skipping previous day metrics aggregation. Too many results. Expected max value: ${limit}, Actual value: ${totalHourlyCount}`,
+            );
+            return;
+        }
+        await this.clientMetricsStoreV2.aggregateDailyMetrics();
     }
 
     async filterValidToggleNames(toggleNames: string[]): Promise<string[]> {
@@ -220,17 +218,15 @@ export default class ClientMetricsServiceV2 {
         let hours: HourBucket[];
         let metrics: IClientMetricsEnv[];
         // if we're in the daily range we need to add one more day
-          const normalizedHoursBack =
-              hoursBack > 48 ? hoursBack + 24 : hoursBack;
-          metrics =
-              await this.clientMetricsStoreV2.getMetricsForFeatureToggleV2(
-                  featureName,
-                  normalizedHoursBack,
-              );
-          hours =
-              hoursBack > 48
-                  ? generateDayBuckets(Math.floor(hoursBack / 24))
-                  : generateHourBuckets(hoursBack);
+        const normalizedHoursBack = hoursBack > 48 ? hoursBack + 24 : hoursBack;
+        metrics = await this.clientMetricsStoreV2.getMetricsForFeatureToggleV2(
+            featureName,
+            normalizedHoursBack,
+        );
+        hours =
+            hoursBack > 48
+                ? generateDayBuckets(Math.floor(hoursBack / 24))
+                : generateHourBuckets(hoursBack);
 
         const environments = [...new Set(metrics.map((x) => x.environment))];
 
