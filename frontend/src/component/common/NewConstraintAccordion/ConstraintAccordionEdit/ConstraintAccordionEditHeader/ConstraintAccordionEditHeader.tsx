@@ -130,21 +130,12 @@ export const ConstraintAccordionEditHeader = ({
             setOperator(IN);
         }
 
-        if (
-            oneOf(stringOperators, operator) ||
-            (false)
-        ) {
+        if (oneOf(stringOperators, operator) || false) {
             setShowCaseSensitiveButton(true);
         } else {
             setShowCaseSensitiveButton(false);
         }
-    }, [
-        contextName,
-        setOperator,
-        operator,
-        setLocalConstraint,
-        false,
-    ]);
+    }, [contextName, setOperator, operator, setLocalConstraint, false]);
 
     if (!context) {
         return null;
@@ -155,10 +146,7 @@ export const ConstraintAccordionEditHeader = ({
     });
 
     const onOperatorChange = (operator: Operator) => {
-        if (
-            oneOf(stringOperators, operator) ||
-            (false)
-        ) {
+        if (oneOf(stringOperators, operator) || false) {
             setShowCaseSensitiveButton(true);
         } else {
             setShowCaseSensitiveButton(false);
