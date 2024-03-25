@@ -13,7 +13,7 @@ let resolver: FlagResolver;
 beforeAll(async () => {
     resolver = new FlagResolver({
         ...defaultExperimentalOptions,
-        flags: { },
+        flags: {},
     });
     db = await dbInit('events_test', getLogger);
 });
