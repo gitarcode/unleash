@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type VFC } from 'react';
-import {
-    Box,
-    Link,
-    useMediaQuery,
-    useTheme,
-} from '@mui/material';
+import { Box, Link, useMediaQuery, useTheme } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { createColumnHelper, useReactTable } from '@tanstack/react-table';
 import { PaginatedTable, TablePlaceholder } from 'component/common/Table';
@@ -77,8 +72,7 @@ export const FeatureToggleListTable: VFC = () => {
     const { setToastApiError } = useToast();
     const { uiConfig } = useUiConfig();
 
-    const variant =
-        '';
+    const variant = '';
 
     const { openFeedback } = useFeedback(
         feedbackCategory,
