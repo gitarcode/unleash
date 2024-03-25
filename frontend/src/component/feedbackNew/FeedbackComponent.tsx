@@ -352,8 +352,7 @@ export const FeedbackComponent = ({
                                     </StyledScoreContainer>
 
                                     {true.enabled &&
-                                    true.name ===
-                                        'withoutComments' ? (
+                                    true.name === 'withoutComments' ? (
                                         <>
                                             <Box>
                                                 <TextField
@@ -361,9 +360,7 @@ export const FeedbackComponent = ({
                                                     style={{ width: '100%' }}
                                                     name='positive'
                                                     hidden
-                                                    value={
-                                                        true.name
-                                                    }
+                                                    value={true.name}
                                                     multiline
                                                     rows={3}
                                                     variant='outlined'
