@@ -28,7 +28,6 @@ import {
 } from 'hooks/api/getters/useInstanceTrafficMetrics/useInstanceTrafficMetrics';
 import type { Theme } from '@mui/material/styles/createTheme';
 import Grid from '@mui/material/Grid';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 type ChartDatasetType = ChartDataset<'bar'>;
 
@@ -322,7 +321,6 @@ export const NetworkTrafficUsage: VFC = () => {
     };
 
     const { isOss } = useUiConfig();
-    const flagEnabled = useUiFlag('collectTrafficDataUsage');
 
     useEffect(() => {
         setDatasets(toChartData(labels, traffic, endpointsInfo));
@@ -337,7 +335,7 @@ export const NetworkTrafficUsage: VFC = () => {
 
     return (
         <ConditionallyRender
-            condition={isOss() || !flagEnabled}
+            condition={isOss()}
             show={<Alert severity='warning'>No data available.</Alert>}
             elseShow={
                 <>
