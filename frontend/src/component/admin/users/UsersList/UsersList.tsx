@@ -195,13 +195,9 @@ const UsersList = () => {
                         onEdit={() => {
                             navigate(`/admin/users/${user.id}/edit`);
                         }}
-                        onViewAccess={
-                            () => {
-                                    navigate(
-                                        `/admin/users/${user.id}/access`,
-                                    );
-                                }
-                        }
+                        onViewAccess={() => {
+                            navigate(`/admin/users/${user.id}/access`);
+                        }}
                         onChangePassword={openPwDialog(user)}
                         onResetPassword={openResetPwDialog(user)}
                         onDelete={openDelDialog(user)}
