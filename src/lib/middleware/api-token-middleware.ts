@@ -83,8 +83,7 @@ const apiAccessMiddleware = (
                             !isClientApi(req) &&
                             !isEdgeMetricsApi(req)) ||
                         (apiUser.type === FRONTEND && !isProxyApi(req)) ||
-                        (apiUser.type === FRONTEND &&
-                            !flagResolver.isEnabled('embedProxy'))
+                        (apiUser.type === FRONTEND)
                     ) {
                         res.status(403).send({
                             message: TOKEN_TYPE_ERROR_MESSAGE,
