@@ -2,10 +2,7 @@ import { useMemo, type VFC, useState, useEffect } from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import styled from '@mui/material/styles/styled';
 import { usePageTitle } from 'hooks/usePageTitle';
-import Select from 'component/common/select';
-import Box from '@mui/system/Box';
 import Alert from '@mui/material/Alert';
-import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 import {
     Chart as ChartJS,
@@ -20,15 +17,11 @@ import {
     type Chart,
     type Tick,
 } from 'chart.js';
-
-import { Bar } from 'react-chartjs-2';
 import {
     type IInstanceTrafficMetricsResponse,
     useInstanceTrafficMetrics,
 } from 'hooks/api/getters/useInstanceTrafficMetrics/useInstanceTrafficMetrics';
 import type { Theme } from '@mui/material/styles/createTheme';
-import Grid from '@mui/material/Grid';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 type ChartDatasetType = ChartDataset<'bar'>;
 
@@ -322,7 +315,6 @@ export const NetworkTrafficUsage: VFC = () => {
     };
 
     const { isOss } = useUiConfig();
-    const flagEnabled = useUiFlag('collectTrafficDataUsage');
 
     useEffect(() => {
         setDatasets(toChartData(labels, traffic, endpointsInfo));
@@ -336,45 +328,7 @@ export const NetworkTrafficUsage: VFC = () => {
     }, [period]);
 
     return (
-        <ConditionallyRender
-            condition={isOss() || !flagEnabled}
-            show={<Alert severity='warning'>No data available.</Alert>}
-            elseShow={
-                <>
-                    <Grid container component='header' spacing={2}>
-                        <Grid item xs={12} md={10}>
-                            <StyledHeader>
-                                Number of requests to Unleash
-                            </StyledHeader>
-                        </Grid>
-                        <Grid item xs={12} md={2}>
-                            <Select
-                                id='dataperiod-select'
-                                name='dataperiod'
-                                options={selectablePeriods}
-                                value={period}
-                                onChange={(e) => setPeriod(e.target.value)}
-                                style={{
-                                    minWidth: '100%',
-                                    marginBottom: theme.spacing(2),
-                                }}
-                                formControlStyles={{ width: '100%' }}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Box sx={{ display: 'grid', gap: 4 }}>
-                        <div>
-                            <Bar
-                                data={data}
-                                plugins={[customHighlightPlugin]}
-                                options={options}
-                                aria-label='An instance metrics line chart with two lines: requests per second for admin API and requests per second for client API'
-                            />
-                        </div>
-                    </Box>
-                </>
-            }
-        />
+        <Alert severity='warning'>No data available.</Alert>
     );
 };
 
