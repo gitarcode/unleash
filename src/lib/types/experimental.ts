@@ -53,7 +53,6 @@ export type IFlagKey =
     | 'sdkReporting'
     | 'outdatedSdksBanner'
     | 'responseTimeMetricsFix'
-    | 'scimApi'
     | 'displayEdgeBanner'
     | 'globalFrontendApiCache'
     | 'returnGlobalFrontendApiCache'
@@ -256,10 +255,6 @@ const flags: IFlags = {
     ),
     queryMissingTokens: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_QUERY_MISSING_TOKENS,
-        false,
-    ),
-    scimApi: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_SCIM_API,
         false,
     ),
     displayEdgeBanner: parseEnvVarBoolean(
