@@ -234,12 +234,8 @@ const Header: VFC = () => {
             <ContainerComponent>
                 <StyledLink to='/' sx={flexRow} aria-label='Home'>
                     <ThemeMode
-                        darkmode={
-                            <CelebatoryUnleashLogoWhite />
-                        }
-                        lightmode={
-                            <StyledCelebatoryLogo />
-                        }
+                        darkmode={<CelebatoryUnleashLogoWhite />}
+                        lightmode={<StyledCelebatoryLogo />}
                     />
                 </StyledLink>
 
