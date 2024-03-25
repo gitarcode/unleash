@@ -47,7 +47,6 @@ process.nextTick(async () => {
                         newStrategyConfigurationFeedback: true,
                         featureSearchFeedbackPosting: true,
                         extendedUsageMetricsUI: true,
-                        executiveDashboard: true,
                         executiveDashboardUI: true,
                         userAccessUIEnabled: true,
                         sdkReporting: true,
