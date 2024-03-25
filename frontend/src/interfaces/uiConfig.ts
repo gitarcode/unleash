@@ -68,7 +68,6 @@ export type UiFlags = {
     increaseUnleashWidth?: boolean;
     featureSearchFeedback?: Variant;
     enableLicense?: boolean;
-    newStrategyConfigurationFeedback?: boolean;
     extendedUsageMetricsUI?: boolean;
     adminTokenKillSwitch?: boolean;
     executiveDashboardUI?: boolean;
