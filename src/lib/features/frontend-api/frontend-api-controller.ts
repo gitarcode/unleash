@@ -213,21 +213,7 @@ export default class FrontendAPIController extends Controller {
                     )}`,
                 );
             }
-        } else if (
-            this.config.flagResolver.isEnabled('returnGlobalFrontendApiCache')
-        ) {
-            toggles =
-                await this.services.frontendApiService.getNewFrontendApiFeatures(
-                    req.user,
-                    FrontendAPIController.createContext(req),
-                );
-        } else {
-            toggles =
-                await this.services.frontendApiService.getFrontendApiFeatures(
-                    req.user,
-                    FrontendAPIController.createContext(req),
-                );
-        }
+        } else
 
         res.set('Cache-control', 'no-cache');
 
