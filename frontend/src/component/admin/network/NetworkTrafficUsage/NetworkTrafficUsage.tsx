@@ -327,9 +327,7 @@ export const NetworkTrafficUsage: VFC = () => {
         }
     }, [period]);
 
-    return (
-        <Alert severity='warning'>No data available.</Alert>
-    );
+    return <Alert severity='warning'>No data available.</Alert>;
 };
 
 // Register dependencies that we need to draw the chart.
