@@ -72,10 +72,7 @@ export const ConfiguredIntegrations: VFC<ConfiguredIntegrationsProps> = ({
                         );
                     })}
                 <ConditionallyRender
-                    condition={
-                        isEnterprise() &&
-                        signalEndpoints.length > 0
-                    }
+                    condition={isEnterprise() && signalEndpoints.length > 0}
                     show={
                         <IntegrationCard
                             variant='stacked'

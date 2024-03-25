@@ -16,12 +16,7 @@ export const useSignalEndpoints = () => {
 
     const { data, error, mutate } = useConditionalSWR<{
         signalEndpoints: ISignalEndpoint[];
-    }>(
-        isEnterprise(),
-        DEFAULT_DATA,
-        formatApiPath(ENDPOINT),
-        fetcher,
-    );
+    }>(isEnterprise(), DEFAULT_DATA, formatApiPath(ENDPOINT), fetcher);
 
     return useMemo(
         () => ({
