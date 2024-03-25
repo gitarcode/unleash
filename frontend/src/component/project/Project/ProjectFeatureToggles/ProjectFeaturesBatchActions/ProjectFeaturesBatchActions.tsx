@@ -72,19 +72,19 @@ export const ProjectFeaturesBatchActions: FC<
     return (
         <>
             <Button
-                        variant='outlined'
-                        size='small'
-                        onClick={() => setShowBulkEnableDialog(true)}
-                    >
-                        Enable
-                    </Button>
+                variant='outlined'
+                size='small'
+                onClick={() => setShowBulkEnableDialog(true)}
+            >
+                Enable
+            </Button>
             <Button
-                        variant='outlined'
-                        size='small'
-                        onClick={() => setShowBulkDisableDialog(true)}
-                    >
-                        Disable
-                    </Button>
+                variant='outlined'
+                size='small'
+                onClick={() => setShowBulkDisableDialog(true)}
+            >
+                Disable
+            </Button>
             <ArchiveButton
                 projectId={projectId}
                 featureIds={selectedIds}
