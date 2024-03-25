@@ -175,7 +175,6 @@ const Header: VFC = () => {
     const onConfigureClose = () => setConfigRef(null);
 
     const increaseUnleashWidth = useUiFlag('increaseUnleashWidth');
-    const celebatoryUnleash = useUiFlag('celebrateUnleash');
     const insightsDashboard = useUiFlag('executiveDashboardUI');
 
     const routes = getRoutes();
@@ -236,22 +235,10 @@ const Header: VFC = () => {
                 <StyledLink to='/' sx={flexRow} aria-label='Home'>
                     <ThemeMode
                         darkmode={
-                            <ConditionallyRender
-                                condition={celebatoryUnleash}
-                                show={<CelebatoryUnleashLogoWhite />}
-                                elseShow={
-                                    <StyledUnleashLogoWhite aria-label='Unleash logo' />
-                                }
-                            />
+                            <CelebatoryUnleashLogoWhite />
                         }
                         lightmode={
-                            <ConditionallyRender
-                                condition={celebatoryUnleash}
-                                show={<StyledCelebatoryLogo />}
-                                elseShow={
-                                    <StyledUnleashLogo aria-label='Unleash logo' />
-                                }
-                            />
+                            <StyledCelebatoryLogo />
                         }
                     />
                 </StyledLink>
