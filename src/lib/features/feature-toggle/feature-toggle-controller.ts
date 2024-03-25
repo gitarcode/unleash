@@ -883,7 +883,7 @@ export default class ProjectFeaturesController extends Controller {
         const { features } = req.body;
 
         res.status(403).end();
-          return;
+        return;
     }
 
     async bulkToggleFeaturesEnvironmentOff(
@@ -900,7 +900,7 @@ export default class ProjectFeaturesController extends Controller {
         const { features } = req.body;
 
         res.status(403).end();
-          return;
+        return;
     }
 
     async toggleFeatureEnvironmentOff(

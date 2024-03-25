@@ -71,8 +71,7 @@ export const ProjectFeaturesBatchActions: FC<
 
     return (
         <>
-            null
-            null
+            null null
             <ArchiveButton
                 projectId={projectId}
                 featureIds={selectedIds}
