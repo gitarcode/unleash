@@ -80,8 +80,6 @@ export const Demo = ({ children }: IDemoProps): JSX.Element => {
         setStep(0);
     };
 
-    if (!uiConfig.flags.demo) return children;
-
     return (
         <>
             <DemoBanner

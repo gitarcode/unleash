@@ -53,7 +53,6 @@ export type UiFlags = {
     caseInsensitiveInOperators?: boolean;
     notifications?: boolean;
     personalAccessTokensKillSwitch?: boolean;
-    demo?: boolean;
     googleAuthEnabled?: boolean;
     disableBulkToggle?: boolean;
     disableNotifications?: boolean;

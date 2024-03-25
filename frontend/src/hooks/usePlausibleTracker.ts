@@ -27,7 +27,6 @@ export type CustomEvents =
     | 'batch_operations'
     | 'strategyTitle'
     | 'default_strategy'
-    | 'demo'
     | 'demo-start'
     | 'demo-close'
     | 'demo-finish'
