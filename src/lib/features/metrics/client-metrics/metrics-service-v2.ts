@@ -115,12 +115,10 @@ export default class ClientMetricsServiceV2 {
                 )}`,
             );
 
-            if (this.flagResolver.isEnabled('filterInvalidClientMetrics')) {
-                const justNames = badNames.map(
-                    (r: PromiseRejectedResult) => r.reason._original.name,
-                );
-                return toggleNames.filter((name) => !justNames.includes(name));
-            }
+            const justNames = badNames.map(
+                  (r: PromiseRejectedResult) => r.reason._original.name,
+              );
+              return toggleNames.filter((name) => !justNames.includes(name));
         }
         return toggleNames;
     }
