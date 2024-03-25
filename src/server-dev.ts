@@ -37,7 +37,6 @@ process.nextTick(async () => {
                     // externalResolver: unleash,
                     flags: {
                         embedProxy: true,
-                        embedProxyFrontend: true,
                         anonymiseEventLog: false,
                         responseTimeWithAppNameKillSwitch: false,
                         stripClientHeadersOn304: true,
