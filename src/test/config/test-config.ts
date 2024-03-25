@@ -4,7 +4,6 @@ import {
     type IUnleashConfig,
     type IUnleashOptions,
 } from '../../lib/types/option';
-import getLogger from '../fixtures/no-logger';
 import { createConfig } from '../../lib/create-config';
 import path from 'path';
 
@@ -25,7 +24,6 @@ export function createTestConfig(config?: IUnleashOptions): IUnleashConfig {
         },
         experimental: {
             flags: {
-                embedProxy: true,
                 embedProxyFrontend: true,
                 createdByUserIdDataMigration: true,
             },
