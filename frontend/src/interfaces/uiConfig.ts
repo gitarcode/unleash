@@ -78,7 +78,6 @@ export type UiFlags = {
     featureSearchFeedbackPosting?: boolean;
     userAccessUIEnabled?: boolean;
     sdkReporting?: boolean;
-    outdatedSdksBanner?: boolean;
     projectOverviewRefactor?: string;
     collectTrafficDataUsage?: boolean;
 };

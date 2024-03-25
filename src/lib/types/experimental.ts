@@ -51,7 +51,6 @@ export type IFlagKey =
     | 'disableUpdateMaxRevisionId'
     | 'disablePublishUnannouncedEvents'
     | 'sdkReporting'
-    | 'outdatedSdksBanner'
     | 'responseTimeMetricsFix'
     | 'scimApi'
     | 'displayEdgeBanner'
@@ -203,10 +202,6 @@ const flags: IFlags = {
     ),
     sdkReporting: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_SDK_REPORTING,
-        false,
-    ),
-    outdatedSdksBanner: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_OUTDATED_SDKS_BANNER,
         false,
     ),
     feedbackComments: {
