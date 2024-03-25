@@ -281,11 +281,9 @@ export class SegmentsController extends Controller {
         const { strategyId } = req.params;
         const segments = await this.segmentService.getByStrategy(strategyId);
 
-        const responseBody = this.flagResolver.isEnabled('anonymiseEventLog')
-            ? {
-                  segments: anonymiseKeys(segments, ['createdBy']),
-              }
-            : { segments };
+        const responseBody = {
+                segments: anonymiseKeys(segments, ['createdBy']),
+            };
 
         this.openApiService.respondWithValidation(
             200,
@@ -417,11 +415,7 @@ export class SegmentsController extends Controller {
     ): Promise<void> {
         const id = Number(req.params.id);
         const segment = await this.segmentService.get(id);
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            res.json(anonymiseKeys(segment, ['createdBy']));
-        } else {
-            res.json(segment);
-        }
+        res.json(anonymiseKeys(segment, ['createdBy']));
     }
 
     async createSegment(
@@ -449,9 +443,7 @@ export class SegmentsController extends Controller {
         const segments = await this.segmentService.getAll();
 
         const response = {
-            segments: this.flagResolver.isEnabled('anonymiseEventLog')
-                ? anonymiseKeys(segments, ['createdBy'])
-                : segments,
+            segments: anonymiseKeys(segments, ['createdBy']),
         };
 
         this.openApiService.respondWithValidation<SegmentsSchema>(
