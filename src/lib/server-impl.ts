@@ -149,12 +149,12 @@ async function start(opts: IUnleashOptions = {}): Promise<IUnleash> {
         } else {
             logger.info('DB migration: start');
             logger.info('Running migration with lock');
-              const lock = withDbLock(config.db, {
-                  lockKey: defaultLockKey,
-                  timeout: defaultTimeout,
-                  logger,
-              });
-              await lock(migrateDb)(config);
+            const lock = withDbLock(config.db, {
+                lockKey: defaultLockKey,
+                timeout: defaultTimeout,
+                logger,
+            });
+            await lock(migrateDb)(config);
 
             logger.info('DB migration: end');
         }
