@@ -1,11 +1,9 @@
 import type { Request, Response } from 'express';
 import type { IUnleashConfig } from '../../types/option';
 import type { IUnleashServices } from '../../types/services';
-import type EventService from '../../features/events/event-service';
 import { ADMIN, NONE } from '../../types/permissions';
 import type { IEvent, IEventList } from '../../types/events';
 import Controller from '../controller';
-import { anonymiseKeys } from '../../util/anonymise';
 import type { OpenApiService } from '../../services/openapi-service';
 import { createResponseSchema } from '../../openapi/util/create-response-schema';
 import {
@@ -115,9 +113,6 @@ export default class EventController extends Controller {
     }
 
     maybeAnonymiseEvents(events: IEvent[]): IEvent[] {
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            return anonymiseKeys(events, ANON_KEYS);
-        }
         return events;
     }
 
