@@ -14,16 +14,12 @@ import {
     validatedEdgeTokensSchema,
     type ValidatedEdgeTokensSchema,
 } from '../../openapi/spec/validated-edge-tokens-schema';
-import type ClientInstanceService from '../../features/metrics/instance/instance-service';
-import type EdgeService from '../../services/edge-service';
 import type { OpenApiService } from '../../services/openapi-service';
 import {
     emptyResponse,
     getStandardResponses,
 } from '../../openapi/util/standard-responses';
 import type { BulkMetricsSchema } from '../../openapi/spec/bulk-metrics-schema';
-import type ClientMetricsServiceV2 from '../../features/metrics/client-metrics/metrics-service-v2';
-import { clientMetricsEnvBulkSchema } from '../../features/metrics/shared/schema';
 import type { TokenStringListSchema } from '../../openapi';
 
 export default class EdgeController extends Controller {
@@ -122,37 +118,11 @@ export default class EdgeController extends Controller {
         req: IAuthRequest<void, void, BulkMetricsSchema>,
         res: Response<void>,
     ): Promise<void> {
-        if (this.flagResolver.isEnabled('edgeBulkMetrics')) {
-            const { body, ip: clientIp } = req;
-            const { metrics, applications } = body;
-
-            try {
-                const promises: Promise<void>[] = [];
-                for (const app of applications) {
-                    promises.push(
-                        this.clientInstanceService.registerClient(
-                            app,
-                            clientIp,
-                        ),
-                    );
-                }
-                if (metrics && metrics.length > 0) {
-                    const data =
-                        await clientMetricsEnvBulkSchema.validateAsync(metrics);
-                    promises.push(this.metricsV2.registerBulkMetrics(data));
-                }
-                await Promise.all(promises);
-                res.status(202).end();
-            } catch (e) {
-                res.status(400).end();
-            }
-        } else {
-            // @ts-expect-error Expected result here is void, but since we want to communicate extra information in our 404, we allow this to avoid type-checking
-            res.status(404).json({
-                status: 'disabled',
-                reason: 'disabled by killswitch',
-                help: 'You should upgrade Edge to the most recent version to not lose metrics',
-            });
-        }
+        // @ts-expect-error Expected result here is void, but since we want to communicate extra information in our 404, we allow this to avoid type-checking
+          res.status(404).json({
+              status: 'disabled',
+              reason: 'disabled by killswitch',
+              help: 'You should upgrade Edge to the most recent version to not lose metrics',
+          });
     }
 }
