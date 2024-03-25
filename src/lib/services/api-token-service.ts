@@ -35,7 +35,6 @@ import {
     extractUsernameFromUser,
     omitKeys,
 } from '../util';
-import type EventService from '../features/events/event-service';
 
 const resolveTokenPermissions = (tokenType: string) => {
     if (tokenType === ApiTokenType.ADMIN) {
@@ -86,10 +85,8 @@ export class ApiTokenService {
         this.environmentStore = environmentStore;
         this.flagResolver = config.flagResolver;
         this.logger = config.getLogger('/services/api-token-service.ts');
-        if (!this.flagResolver.isEnabled('useMemoizedActiveTokens')) {
-            // This is probably not needed because the scheduler will run it
-            this.fetchActiveTokens();
-        }
+        // This is probably not needed because the scheduler will run it
+          this.fetchActiveTokens();
         this.updateLastSeen();
         if (config.authentication.initApiTokens.length > 0) {
             process.nextTick(async () =>
@@ -128,16 +125,7 @@ export class ApiTokenService {
     }
 
     public async getAllActiveTokens(): Promise<IApiToken[]> {
-        if (this.flagResolver.isEnabled('useMemoizedActiveTokens')) {
-            if (!this.initialized) {
-                // unlikely this will happen but nice to have a fail safe
-                this.logger.info('Fetching active tokens before initialized');
-                await this.fetchActiveTokens();
-            }
-            return this.activeTokens;
-        } else {
-            return this.store.getAllActive();
-        }
+        return this.store.getAllActive();
     }
 
     private async initApiTokens(tokens: ILegacyApiTokenCreate[]) {
