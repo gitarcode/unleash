@@ -52,11 +52,11 @@ export const useApiTokenForm = (project?: string) => {
     }
 
     apiTokenTypes.splice(1, 0, {
-          key: TokenType.FRONTEND,
-          label: `Client-side SDK (${TokenType.FRONTEND})`,
-          title: 'Connect web and mobile SDK directly to Unleash',
-          enabled: hasCreateFrontendAccess || hasCreateFrontendTokenAccess,
-      });
+        key: TokenType.FRONTEND,
+        label: `Client-side SDK (${TokenType.FRONTEND})`,
+        title: 'Connect web and mobile SDK directly to Unleash',
+        enabled: hasCreateFrontendAccess || hasCreateFrontendTokenAccess,
+    });
 
     const firstAccessibleType = apiTokenTypes.find((t) => t.enabled)?.key;
 
