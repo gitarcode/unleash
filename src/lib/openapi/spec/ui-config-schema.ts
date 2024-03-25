@@ -1,6 +1,4 @@
 import type { FromSchema } from 'json-schema-to-ts';
-import { versionSchema } from './version-schema';
-import { variantFlagSchema } from './variant-flag-schema';
 import { resourceLimitsSchema } from './resource-limits-schema';
 
 export const uiConfigSchema = {
@@ -60,11 +58,6 @@ export const uiConfigSchema = {
             type: 'boolean',
             description: 'Whether this instance can send out emails or not.',
             example: true,
-        },
-        maintenanceMode: {
-            type: 'boolean',
-            description: 'Whether maintenance mode is currently active or not.',
-            example: false,
         },
         segmentValuesLimit: {
             type: 'number',
