@@ -33,9 +33,7 @@ export default class MaintenanceService implements IMaintenanceStatus {
 
     async isMaintenanceMode(): Promise<boolean> {
         try {
-            return (
-                true
-            );
+            return true;
         } catch (e) {
             this.logger.warn('Error checking maintenance mode', e);
             return false;
