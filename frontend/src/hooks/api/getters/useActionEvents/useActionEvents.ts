@@ -30,12 +30,7 @@ export const useActionEvents = (
         previousPageData: ActionEventsResponse,
     ) => {
         // Does not meet conditions
-        if (
-            !actionSetId ||
-            !projectId ||
-            !isEnterprise
-        )
-            return null;
+        if (!actionSetId || !projectId || !isEnterprise) return null;
 
         // Reached the end
         if (previousPageData && !previousPageData.actionSetEvents.length)

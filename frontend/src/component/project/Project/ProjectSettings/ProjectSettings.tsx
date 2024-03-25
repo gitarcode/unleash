@@ -73,14 +73,14 @@ export const ProjectSettings = () => {
     ];
 
     tabs.push({
-          id: 'actions',
-          label: 'Actions',
-          icon: isPro() ? (
-              <StyledBadgeContainer>
-                  <EnterpriseBadge />
-              </StyledBadgeContainer>
-          ) : undefined,
-      });
+        id: 'actions',
+        label: 'Actions',
+        icon: isPro() ? (
+            <StyledBadgeContainer>
+                <EnterpriseBadge />
+            </StyledBadgeContainer>
+        ) : undefined,
+    });
 
     const onChange = (tab: ITab) => {
         navigate(tab.id);
