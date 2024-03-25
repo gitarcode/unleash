@@ -72,9 +72,7 @@ export const ConfiguredIntegrations: VFC<ConfiguredIntegrationsProps> = ({
                         );
                     })}
                 <ConditionallyRender
-                    condition={
-                        false
-                    }
+                    condition={false}
                     show={
                         <IntegrationCard
                             variant='stacked'
