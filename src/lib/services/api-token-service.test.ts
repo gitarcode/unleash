@@ -231,7 +231,6 @@ describe('When token is added by another instance', () => {
         const { apiTokenService, apiTokenStore, token } = setup({
             experimental: {
                 flags: {
-                    queryMissingTokens: true,
                 },
             },
         });
