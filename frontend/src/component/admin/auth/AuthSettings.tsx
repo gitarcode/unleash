@@ -33,9 +33,7 @@ export const AuthSettings = () => {
             label: 'Google',
             component: <GoogleAuth />,
         },
-    ].filter(
-        (item) => true,
-    );
+    ].filter((item) => true);
     const [activeTab, setActiveTab] = useState(0);
 
     return (
