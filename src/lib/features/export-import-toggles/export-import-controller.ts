@@ -22,7 +22,7 @@ import {
 } from '../../openapi';
 import type { IAuthRequest } from '../../routes/unleash-types';
 import { extractUsername } from '../../util';
-import { BadDataError, InvalidOperationError } from '../../error';
+import { BadDataError } from '../../error';
 import ApiUser from '../../types/api-user';
 
 class ExportImportController extends Controller {
@@ -177,11 +177,6 @@ class ExportImportController extends Controller {
     }
 
     private verifyExportImportEnabled() {
-        if (!this.config.flagResolver.isEnabled('featuresExportImport')) {
-            throw new InvalidOperationError(
-                'Feature export/import is not enabled',
-            );
-        }
     }
 }
 export default ExportImportController;

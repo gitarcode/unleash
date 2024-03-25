@@ -1,6 +1,4 @@
 import type { FromSchema } from 'json-schema-to-ts';
-import { versionSchema } from './version-schema';
-import { variantFlagSchema } from './variant-flag-schema';
 import { resourceLimitsSchema } from './resource-limits-schema';
 
 export const uiConfigSchema = {
@@ -116,7 +114,6 @@ export const uiConfigSchema = {
                     name: 'disabled',
                     enabled: false,
                 },
-                featuresExportImport: true,
             },
             additionalProperties: {
                 anyOf: [
