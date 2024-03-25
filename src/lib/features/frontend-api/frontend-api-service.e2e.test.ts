@@ -26,8 +26,7 @@ beforeAll(async () => {
     stores = db.stores;
     config = createTestConfig({
         experimental: {
-            flags: {
-            },
+            flags: {},
         },
     });
 
