@@ -4,7 +4,6 @@ import {
 } from '../../helpers/test-helper';
 import dbInit, { type ITestDb } from '../../helpers/database-init';
 import getLogger from '../../../fixtures/no-logger';
-import type User from '../../../../lib/types/user';
 // import { DEFAULT_ENV } from '../../../../lib/util/constants';
 
 let app: IUnleashTest;
@@ -16,7 +15,6 @@ beforeAll(async () => {
     app = await setupAppWithCustomConfig(db.stores, {
         experimental: {
             flags: {
-                strictSchemaValidation: true,
                 optimal304: true,
             },
         },
