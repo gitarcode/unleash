@@ -1,5 +1,4 @@
 import type { ReactNode, VFC } from 'react';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { useFeedback } from 'component/feedbackNew/useFeedback';
 import ReviewsOutlined from '@mui/icons-material/ReviewsOutlined';
 import {
@@ -50,14 +49,13 @@ const StyledActionsSmallScreen = styled('div')(({ theme }) => ({
 }));
 
 export const InsightsHeader: VFC<DashboardHeaderProps> = ({ actions }) => {
-    const showInactiveUsers = useUiFlag('showInactiveUsers');
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
     const { openFeedback } = useFeedback(
         'insights',
         'automatic',
-        showInactiveUsers ? 'withInactiveUsers' : 'withoutInactiveUsers',
+        'withInactiveUsers',
     );
 
     const createFeedbackContext = () => {
