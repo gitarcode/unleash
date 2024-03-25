@@ -184,9 +184,7 @@ export class ApiTokenService {
             );
         }
 
-        if (
-            !token
-        ) {
+        if (!token) {
             token = await this.store.get(secret);
             if (token) {
                 this.activeTokens.push(token);
