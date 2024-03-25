@@ -1,7 +1,6 @@
 import memoizee from 'memoizee';
 import type { IUnleashConfig } from '../../types';
 import type { Logger } from '../../logger';
-import type SettingService from '../../services/setting-service';
 import { maintenanceSettingsKey } from '../../types/settings/maintenance-settings';
 import type { MaintenanceSchema } from '../../openapi/spec/maintenance-schema';
 import { minutesToMilliseconds } from 'date-fns';
@@ -35,8 +34,7 @@ export default class MaintenanceService implements IMaintenanceStatus {
     async isMaintenanceMode(): Promise<boolean> {
         try {
             return (
-                this.config.flagResolver.isEnabled('maintenanceMode') ||
-                (await this.resolveMaintenance())
+                true
             );
         } catch (e) {
             this.logger.warn('Error checking maintenance mode', e);
