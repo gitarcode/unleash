@@ -148,7 +148,7 @@ async function start(opts: IUnleashOptions = {}): Promise<IUnleash> {
         } else {
             logger.info('DB migration: start');
             logger.info('Running migration without lock');
-              await migrateDb(config);
+            await migrateDb(config);
 
             logger.info('DB migration: end');
         }
