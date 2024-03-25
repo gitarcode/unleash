@@ -13,7 +13,7 @@ let resolver: FlagResolver;
 beforeAll(async () => {
     resolver = new FlagResolver({
         ...defaultExperimentalOptions,
-        flags: { createdByUserIdDataMigration: true },
+        flags: { },
     });
     db = await dbInit('events_test', getLogger);
 });

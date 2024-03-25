@@ -41,7 +41,6 @@ export type IFlagKey =
     | 'executiveDashboard'
     | 'executiveDashboardUI'
     | 'feedbackComments'
-    | 'createdByUserIdDataMigration'
     | 'showInactiveUsers'
     | 'inMemoryScheduledChangeRequests'
     | 'collectTrafficDataUsage'
@@ -222,10 +221,6 @@ const flags: IFlags = {
                 '',
         },
     },
-    createdByUserIdDataMigration: parseEnvVarBoolean(
-        process.env.CREATED_BY_USERID_DATA_MIGRATION,
-        false,
-    ),
     showInactiveUsers: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_SHOW_INACTIVE_USERS,
         false,
