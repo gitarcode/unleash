@@ -57,13 +57,11 @@ export const ProjectInsights = () => {
             <NarrowContainer>
                 <FlagTypesUsed featureTypeCounts={data.featureTypeCounts} />
             </NarrowContainer>
-            <NarrowContainer>
+            <NarrowContainer sx={{ padding: 0 }}>
                 <ProjectMembers projectId={projectId} members={data.members} />
             </NarrowContainer>
             <WideContainer>
-                {data.changeRequests && (
-                    <ChangeRequests changeRequests={data.changeRequests} />
-                )}
+                <ChangeRequests />
             </WideContainer>
         </Grid>
     );

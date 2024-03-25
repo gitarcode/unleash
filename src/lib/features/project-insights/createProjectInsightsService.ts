@@ -8,8 +8,6 @@ import FeatureTypeStore from '../../db/feature-type-store';
 import FakeFeatureTypeStore from '../../../test/fixtures/fake-feature-type-store';
 import { ProjectInsightsService } from './project-insights-service';
 import ProjectStore from '../project/project-store';
-import { ProjectInsightsReadModel } from './project-insights-read-model';
-import { FakeProjectInsightsReadModel } from './fake-project-insights-read-model';
 import FeatureStrategiesStore from '../feature-toggle/feature-toggle-strategies-store';
 import FakeFeatureStrategiesStore from '../feature-toggle/fakes/fake-feature-strategies-store';
 
@@ -39,38 +37,34 @@ export const createProjectInsightsService = (
         getLogger,
         flagResolver,
     );
-    const projectInsightsReadModel = new ProjectInsightsReadModel(db);
 
-    return new ProjectInsightsService(
-        {
-            projectStore,
-            featureToggleStore,
-            featureTypeStore,
-            projectStatsStore,
-            featureStrategiesStore,
-        },
-        projectInsightsReadModel,
-    );
+    return new ProjectInsightsService({
+        projectStore,
+        featureToggleStore,
+        featureTypeStore,
+        projectStatsStore,
+        featureStrategiesStore,
+    });
 };
 
-export const createFakeProjectInsightsService = (
-    config: IUnleashConfig,
-): ProjectInsightsService => {
+export const createFakeProjectInsightsService = () => {
     const projectStore = new FakeProjectStore();
     const featureToggleStore = new FakeFeatureToggleStore();
     const featureTypeStore = new FakeFeatureTypeStore();
     const projectStatsStore = new FakeProjectStatsStore();
     const featureStrategiesStore = new FakeFeatureStrategiesStore();
-    const projectInsightsReadModel = new FakeProjectInsightsReadModel();
+    const projectInsightsService = new ProjectInsightsService({
+        projectStore,
+        featureToggleStore,
+        featureTypeStore,
+        projectStatsStore,
+        featureStrategiesStore,
+    });
 
-    return new ProjectInsightsService(
-        {
-            projectStore,
-            featureToggleStore,
-            featureTypeStore,
-            projectStatsStore,
-            featureStrategiesStore,
-        },
-        projectInsightsReadModel,
-    );
+    return {
+        projectInsightsService,
+        projectStatsStore,
+        featureToggleStore,
+        projectStore,
+    };
 };

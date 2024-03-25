@@ -5,9 +5,9 @@
  */
 
 /**
- * Count of change requests in different stages of the [process](https://docs.getunleash.io/reference/change-requests#change-request-flow). Only for enterprise users.
+ * Count of change requests in different stages of the [process](https://docs.getunleash.io/reference/change-requests#change-request-flow).
  */
-export type ProjectInsightsSchemaChangeRequests = {
+export interface ChangeRequestsCountSchema {
     /** The number of applied change requests */
     applied: number;
     /** The number of approved change requests */
@@ -20,4 +20,4 @@ export type ProjectInsightsSchemaChangeRequests = {
     scheduled: number;
     /** The number of total change requests in this project */
     total: number;
-};
+}
