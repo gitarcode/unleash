@@ -261,7 +261,6 @@ export default class FrontendAPIController extends Controller {
         req: ApiUserRequest<unknown, unknown, ClientMetricsSchema>,
         res: Response,
     ) {
-
         if (this.config.flagResolver.isEnabled('disableMetrics')) {
             res.sendStatus(204);
             return;
