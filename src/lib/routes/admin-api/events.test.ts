@@ -17,7 +17,7 @@ async function getSetup(anonymise: boolean = false) {
     const stores = createStores();
     const config = createTestConfig({
         server: { baseUriPath: base },
-        experimental: { flags: { } },
+        experimental: { flags: {} },
     });
     const services = createServices(stores, config);
     const app = await getApp(config, stores, services);

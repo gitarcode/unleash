@@ -282,8 +282,8 @@ export class SegmentsController extends Controller {
         const segments = await this.segmentService.getByStrategy(strategyId);
 
         const responseBody = {
-                segments: anonymiseKeys(segments, ['createdBy']),
-            };
+            segments: anonymiseKeys(segments, ['createdBy']),
+        };
 
         this.openApiService.respondWithValidation(
             200,

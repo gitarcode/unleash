@@ -104,8 +104,7 @@ const validateSegment = (
 beforeAll(async () => {
     const customOptions = {
         experimental: {
-            flags: {
-            },
+            flags: {},
         },
     };
 
