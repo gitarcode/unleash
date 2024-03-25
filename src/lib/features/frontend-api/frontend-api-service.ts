@@ -8,7 +8,6 @@ import type {
     ClientMetricsSchema,
     FrontendApiFeatureSchema,
 } from '../../openapi';
-import type ApiUser from '../../types/api-user';
 import type { IApiUser } from '../../types/api-user';
 import {
     type Context,
@@ -200,7 +199,6 @@ export class FrontendApiService {
             appName: 'proxy',
             url: 'unused',
             storageProvider: new InMemStorageProvider(),
-            disableMetrics: true,
             repository,
             disableAutoStart: true,
             skipInstanceCountWarning: true,
@@ -227,7 +225,6 @@ export class FrontendApiService {
             appName: 'frontend-api',
             url: 'unused',
             storageProvider: new InMemStorageProvider(),
-            disableMetrics: true,
             repository,
             disableAutoStart: true,
             skipInstanceCountWarning: true,
