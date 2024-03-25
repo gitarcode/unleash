@@ -188,46 +188,30 @@ export default class FrontendAPIController extends Controller {
         }
         let toggles: FrontendApiFeatureSchema[];
         let newToggles: FrontendApiFeatureSchema[] = [];
-        if (this.config.flagResolver.isEnabled('globalFrontendApiCache')) {
-            const context = FrontendAPIController.createContext(req);
-            [toggles, newToggles] = await Promise.all([
-                this.getTimedFrontendApiFeatures(req, context),
-                this.getTimedNewFrontendApiFeatures(req, context),
-            ]);
-            const sortedToggles = toggles.sort((a, b) =>
-                a.name.localeCompare(b.name),
-            );
-            const sortedNewToggles = newToggles.sort((a, b) =>
-                a.name.localeCompare(b.name),
-            );
-            if (!isEqual(sortedToggles, sortedNewToggles)) {
-                this.logger.warn(
-                    `old features and new features are different. Old count ${
-                        toggles.length
-                    }, new count ${newToggles.length}, projects ${
-                        req.user.projects
-                    }, environment ${
-                        req.user.environment
-                    }, diff ${JSON.stringify(
-                        diff(sortedToggles, sortedNewToggles),
-                    )}`,
-                );
-            }
-        } else if (
-            this.config.flagResolver.isEnabled('returnGlobalFrontendApiCache')
-        ) {
-            toggles =
-                await this.services.frontendApiService.getNewFrontendApiFeatures(
-                    req.user,
-                    FrontendAPIController.createContext(req),
-                );
-        } else {
-            toggles =
-                await this.services.frontendApiService.getFrontendApiFeatures(
-                    req.user,
-                    FrontendAPIController.createContext(req),
-                );
-        }
+        const context = FrontendAPIController.createContext(req);
+          [toggles, newToggles] = await Promise.all([
+              this.getTimedFrontendApiFeatures(req, context),
+              this.getTimedNewFrontendApiFeatures(req, context),
+          ]);
+          const sortedToggles = toggles.sort((a, b) =>
+              a.name.localeCompare(b.name),
+          );
+          const sortedNewToggles = newToggles.sort((a, b) =>
+              a.name.localeCompare(b.name),
+          );
+          if (!isEqual(sortedToggles, sortedNewToggles)) {
+              this.logger.warn(
+                  `old features and new features are different. Old count ${
+                      toggles.length
+                  }, new count ${newToggles.length}, projects ${
+                      req.user.projects
+                  }, environment ${
+                      req.user.environment
+                  }, diff ${JSON.stringify(
+                      diff(sortedToggles, sortedNewToggles),
+                  )}`,
+              );
+          }
 
         res.set('Cache-control', 'no-cache');
 

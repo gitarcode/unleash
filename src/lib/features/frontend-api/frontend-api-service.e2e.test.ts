@@ -8,7 +8,6 @@ import ConfigurationRevisionService from '../feature-toggle/configuration-revisi
 import getLogger from '../../../test/fixtures/no-logger';
 import { createTestConfig } from '../../../test/config/test-config';
 import { ApiTokenType } from '../../types/models/api-token';
-import type FeatureToggleService from '../feature-toggle/feature-toggle-service';
 import { createFeatureToggleService } from '../feature-toggle/createFeatureToggleService';
 import {
     FRONTEND_API_REPOSITORY_CREATED,
@@ -28,7 +27,6 @@ beforeAll(async () => {
     config = createTestConfig({
         experimental: {
             flags: {
-                globalFrontendApiCache: true,
             },
         },
     });
