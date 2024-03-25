@@ -22,8 +22,7 @@ beforeAll(async () => {
                 type: 'none',
             },
             experimental: {
-                flags: {
-                },
+                flags: {},
             },
         },
         db.rawDatabase,

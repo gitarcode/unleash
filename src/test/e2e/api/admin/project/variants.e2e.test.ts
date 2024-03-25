@@ -14,8 +14,7 @@ beforeAll(async () => {
     db = await dbInit('project_feature_variants_api_serial', getLogger);
     app = await setupAppWithCustomConfig(db.stores, {
         experimental: {
-            flags: {
-            },
+            flags: {},
         },
     });
     await db.stores.environmentStore.create({

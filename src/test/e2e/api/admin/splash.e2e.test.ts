@@ -39,8 +39,7 @@ beforeAll(async () => {
 
     app = await setupAppWithCustomAuth(stores, preHook, {
         experimental: {
-            flags: {
-            },
+            flags: {},
         },
     });
 });

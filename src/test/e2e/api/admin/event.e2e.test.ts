@@ -17,8 +17,7 @@ beforeAll(async () => {
     db = await dbInit('event_api_serial', getLogger);
     app = await setupAppWithCustomConfig(db.stores, {
         experimental: {
-            flags: {
-            },
+            flags: {},
         },
     });
     eventService = new EventService(db.stores, {
