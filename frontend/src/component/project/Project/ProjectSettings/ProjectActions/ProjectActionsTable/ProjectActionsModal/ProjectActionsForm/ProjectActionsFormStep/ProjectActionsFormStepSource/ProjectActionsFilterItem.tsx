@@ -164,10 +164,7 @@ export const ProjectActionsFilterItem = ({
     }, [value, error]);
 
     useEffect(() => {
-        if (
-            oneOf(stringOperators, operator) ||
-            (oneOf(inOperators, operator))
-        ) {
+        if (oneOf(stringOperators, operator) || oneOf(inOperators, operator)) {
             setShowCaseSensitiveButton(true);
         } else {
             setShowCaseSensitiveButton(false);
@@ -175,10 +172,7 @@ export const ProjectActionsFilterItem = ({
     }, [operator, true]);
 
     const onOperatorChange = (operator: Operator) => {
-        if (
-            oneOf(stringOperators, operator) ||
-            (oneOf(inOperators, operator))
-        ) {
+        if (oneOf(stringOperators, operator) || oneOf(inOperators, operator)) {
             setShowCaseSensitiveButton(true);
         } else {
             setShowCaseSensitiveButton(false);
