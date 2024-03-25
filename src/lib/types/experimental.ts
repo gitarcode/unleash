@@ -30,7 +30,6 @@ export type IFlagKey =
     | 'signals'
     | 'automatedActions'
     | 'celebrateUnleash'
-    | 'increaseUnleashWidth'
     | 'featureSearchFeedback'
     | 'featureSearchFeedbackPosting'
     | 'newStrategyConfigurationFeedback'
@@ -146,10 +145,6 @@ const flags: IFlags = {
     ),
     celebrateUnleash: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_CELEBRATE_UNLEASH,
-        false,
-    ),
-    increaseUnleashWidth: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_INCREASE_UNLEASH_WIDTH,
         false,
     ),
     featureSearchFeedback: {
