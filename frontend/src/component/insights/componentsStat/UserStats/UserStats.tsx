@@ -72,8 +72,7 @@ interface IUserStatsProps {
 }
 
 export const UserStats: FC<IUserStatsProps> = ({ count, active, inactive }) => {
-    const showDistribution =
-        active !== undefined && inactive !== undefined;
+    const showDistribution = active !== undefined && inactive !== undefined;
     const activeUsersPercentage = ((active || 0) / count) * 100;
 
     return (
