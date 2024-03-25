@@ -270,7 +270,7 @@ export default class FrontendAPIController extends Controller {
         }
 
         res.sendStatus(204);
-          return;
+        return;
     }
 
     private async registerFrontendApiClient(
