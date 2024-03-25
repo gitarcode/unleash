@@ -17,18 +17,12 @@ import type { IAuthRequest } from '../unleash-types';
 import { extractUserIdFromUser } from '../../util';
 import { type IFlagResolver } from '../../types';
 import { NotFoundError } from '../../error';
-import {
-    type ApplicationOverviewSchema,
-} from '../../openapi/spec/application-overview-schema';
+import { type ApplicationOverviewSchema } from '../../openapi/spec/application-overview-schema';
 import type { OpenApiService } from '../../services';
 import { applicationsQueryParameters } from '../../openapi/spec/applications-query-parameters';
 import { normalizeQueryParams } from '../../features/feature-search/search-utils';
-import {
-    type ApplicationEnvironmentInstancesSchema,
-} from '../../openapi/spec/application-environment-instances-schema';
-import {
-    type OutdatedSdksSchema,
-} from '../../openapi/spec/outdated-sdks-schema';
+import { type ApplicationEnvironmentInstancesSchema } from '../../openapi/spec/application-environment-instances-schema';
+import { type OutdatedSdksSchema } from '../../openapi/spec/outdated-sdks-schema';
 
 class MetricsController extends Controller {
     private logger: Logger;

@@ -32,9 +32,7 @@ import { createKnexTransactionStarter } from '../../db/transaction';
 import type { Db } from '../../db/db';
 import DependentFeaturesController from '../dependent-features/dependent-features-controller';
 import type { ProjectOverviewSchema } from '../../openapi/spec/project-overview-schema';
-import {
-    type ProjectApplicationsSchema,
-} from '../../openapi/spec/project-applications-schema';
+import { type ProjectApplicationsSchema } from '../../openapi/spec/project-applications-schema';
 import { NotFoundError } from '../../error';
 import { projectApplicationsQueryParameters } from '../../openapi/spec/project-applications-query-parameters';
 import ProjectInsightsController from '../project-insights/project-insights-controller';

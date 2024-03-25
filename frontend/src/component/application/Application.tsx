@@ -1,9 +1,5 @@
-
 import { useContext, useState } from 'react';
-import {
-    Tab,
-    styled,
-} from '@mui/material';
+import { Tab, styled } from '@mui/material';
 import AccessContext from 'contexts/AccessContext';
 import useApplicationsApi from 'hooks/api/actions/useApplicationsApi/useApplicationsApi';
 import useApplication from 'hooks/api/getters/useApplication/useApplication';
