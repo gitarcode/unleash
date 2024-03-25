@@ -4,7 +4,6 @@ import { NONE, UPDATE_APPLICATION } from '../../types/permissions';
 import type { IUnleashConfig } from '../../types/option';
 import type { IUnleashServices } from '../../types/services';
 import type { Logger } from '../../logger';
-import type ClientInstanceService from '../../features/metrics/instance/instance-service';
 import { createRequestSchema } from '../../openapi/util/create-request-schema';
 import { createResponseSchema } from '../../openapi/util/create-response-schema';
 import type { ApplicationSchema } from '../../openapi/spec/application-schema';
@@ -16,21 +15,18 @@ import {
 import type { CreateApplicationSchema } from '../../openapi/spec/create-application-schema';
 import type { IAuthRequest } from '../unleash-types';
 import { extractUserIdFromUser } from '../../util';
-import { type IFlagResolver, serializeDates } from '../../types';
+import { type IFlagResolver } from '../../types';
 import { NotFoundError } from '../../error';
 import {
     type ApplicationOverviewSchema,
-    applicationOverviewSchema,
 } from '../../openapi/spec/application-overview-schema';
 import type { OpenApiService } from '../../services';
 import { applicationsQueryParameters } from '../../openapi/spec/applications-query-parameters';
 import { normalizeQueryParams } from '../../features/feature-search/search-utils';
 import {
-    applicationEnvironmentInstancesSchema,
     type ApplicationEnvironmentInstancesSchema,
 } from '../../openapi/spec/application-environment-instances-schema';
 import {
-    outdatedSdksSchema,
     type OutdatedSdksSchema,
 } from '../../openapi/spec/outdated-sdks-schema';
 
@@ -285,55 +281,18 @@ class MetricsController extends Controller {
         req: Request<{ appName: string }>,
         res: Response<ApplicationOverviewSchema>,
     ): Promise<void> {
-        if (!this.flagResolver.isEnabled('sdkReporting')) {
-            throw new NotFoundError();
-        }
-        const { appName } = req.params;
-        const overview =
-            await this.clientInstanceService.getApplicationOverview(appName);
-
-        this.openApiService.respondWithValidation(
-            200,
-            res,
-            applicationOverviewSchema.$id,
-            serializeDates(overview),
-        );
+        throw new NotFoundError();
     }
 
     async getOutdatedSdks(req: Request, res: Response<OutdatedSdksSchema>) {
-        if (!this.flagResolver.isEnabled('sdkReporting')) {
-            throw new NotFoundError();
-        }
-        const outdatedSdks = await this.clientInstanceService.getOutdatedSdks();
-
-        this.openApiService.respondWithValidation(
-            200,
-            res,
-            outdatedSdksSchema.$id,
-            { sdks: outdatedSdks },
-        );
+        throw new NotFoundError();
     }
 
     async getApplicationEnvironmentInstances(
         req: Request<{ appName: string; environment: string }>,
         res: Response<ApplicationEnvironmentInstancesSchema>,
     ): Promise<void> {
-        if (!this.flagResolver.isEnabled('sdkReporting')) {
-            throw new NotFoundError();
-        }
-        const { appName, environment } = req.params;
-        const instances =
-            await this.clientInstanceService.getApplicationEnvironmentInstances(
-                appName,
-                environment,
-            );
-
-        this.openApiService.respondWithValidation(
-            200,
-            res,
-            applicationEnvironmentInstancesSchema.$id,
-            serializeDates({ instances }),
-        );
+        throw new NotFoundError();
     }
 }
 
