@@ -14,10 +14,7 @@ import { ALL } from '../../../types/models/api-token';
 import type { IUser } from '../../../types/user';
 import { collapseHourlyMetrics } from './collapseHourlyMetrics';
 import type { LastSeenService } from '../last-seen/last-seen-service';
-import {
-    generateHourBuckets,
-    type HourBucket,
-} from '../../../util/time-utils';
+import { generateHourBuckets, type HourBucket } from '../../../util/time-utils';
 import type { ClientMetricsSchema } from '../../../../lib/openapi';
 import { nameSchema } from '../../../schema/feature-schema';
 
@@ -52,11 +49,9 @@ export default class ClientMetricsServiceV2 {
         return this.clientMetricsStoreV2.clearMetrics(hoursAgo);
     }
 
-    async clearDailyMetrics(daysAgo: number) {
-    }
+    async clearDailyMetrics(daysAgo: number) {}
 
-    async aggregateDailyMetrics() {
-    }
+    async aggregateDailyMetrics() {}
 
     async filterValidToggleNames(toggleNames: string[]): Promise<string[]> {
         const nameValidations: Promise<
@@ -182,12 +177,11 @@ export default class ClientMetricsServiceV2 {
     ): Promise<IClientMetricsEnv[]> {
         let hours: HourBucket[];
         let metrics: IClientMetricsEnv[];
-        metrics =
-              await this.clientMetricsStoreV2.getMetricsForFeatureToggle(
-                  featureName,
-                  hoursBack,
-              );
-          hours = generateHourBuckets(hoursBack);
+        metrics = await this.clientMetricsStoreV2.getMetricsForFeatureToggle(
+            featureName,
+            hoursBack,
+        );
+        hours = generateHourBuckets(hoursBack);
 
         const environments = [...new Set(metrics.map((x) => x.environment))];
 
