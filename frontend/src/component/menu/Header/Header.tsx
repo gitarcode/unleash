@@ -19,7 +19,6 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { ReactComponent as UnleashLogo } from 'assets/img/logoDarkWithText.svg';
 import { ReactComponent as UnleashLogoWhite } from 'assets/img/logoWithWhiteText.svg';
 import { ReactComponent as CelebatoryUnleashLogo } from 'assets/img/unleashHoliday.svg';
-import { ReactComponent as CelebatoryUnleashLogoWhite } from 'assets/img/unleashHolidayDark.svg';
 
 import { DrawerMenu } from './DrawerMenu/DrawerMenu';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
@@ -175,7 +174,6 @@ const Header: VFC = () => {
     const onConfigureClose = () => setConfigRef(null);
 
     const increaseUnleashWidth = useUiFlag('increaseUnleashWidth');
-    const celebatoryUnleash = useUiFlag('celebrateUnleash');
     const insightsDashboard = useUiFlag('executiveDashboardUI');
 
     const routes = getRoutes();
@@ -236,22 +234,10 @@ const Header: VFC = () => {
                 <StyledLink to='/' sx={flexRow} aria-label='Home'>
                     <ThemeMode
                         darkmode={
-                            <ConditionallyRender
-                                condition={celebatoryUnleash}
-                                show={<CelebatoryUnleashLogoWhite />}
-                                elseShow={
-                                    <StyledUnleashLogoWhite aria-label='Unleash logo' />
-                                }
-                            />
+                            <StyledUnleashLogoWhite aria-label='Unleash logo' />
                         }
                         lightmode={
-                            <ConditionallyRender
-                                condition={celebatoryUnleash}
-                                show={<StyledCelebatoryLogo />}
-                                elseShow={
-                                    <StyledUnleashLogo aria-label='Unleash logo' />
-                                }
-                            />
+                            <StyledUnleashLogo aria-label='Unleash logo' />
                         }
                     />
                 </StyledLink>
