@@ -7,7 +7,6 @@ import { capitalizeFirst } from 'utils/capitalizeFirst';
 import dataDogIcon from 'assets/icons/datadog.svg';
 import jiraIcon from 'assets/icons/jira.svg';
 import jiraCommentIcon from 'assets/icons/jira-comment.svg';
-import signals from 'assets/icons/signals.svg';
 import slackIcon from 'assets/icons/slack.svg';
 import teamsIcon from 'assets/icons/teams.svg';
 import webhooksIcon from 'assets/icons/webhooks.svg';
@@ -52,7 +51,6 @@ const integrations: Record<
     datadog: { title: 'Datadog', icon: dataDogIcon },
     jira: { title: 'Jira', icon: jiraIcon },
     'jira-comment': { title: 'Jira', icon: jiraCommentIcon },
-    signals: { title: 'Signals', icon: signals },
     slack: { title: 'Slack', icon: slackIcon },
     'slack-app': { title: 'Slack', icon: slackIcon },
     teams: { title: 'Teams', icon: teamsIcon },
