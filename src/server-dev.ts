@@ -52,7 +52,6 @@ process.nextTick(async () => {
                         userAccessUIEnabled: true,
                         sdkReporting: true,
                         outdatedSdksBanner: true,
-                        globalFrontendApiCache: true,
                         returnGlobalFrontendApiCache: false,
                         projectOverviewRefactor: true,
                     },
