@@ -266,7 +266,6 @@ export default class ProjectController extends Controller {
         req: IAuthRequest,
         res: Response<ProjectApplicationsSchema>,
     ): Promise<void> {
-
         const { projectId } = req.params;
 
         const {
