@@ -145,6 +145,23 @@ export const DependencyRow: FC<{ feature: IFeatureToggle }> = ({ feature }) => {
                 }
             />
             <ConditionallyRender
+                condition={
+                    hasParentDependency && !feature.dependencies[0]?.enabled
+                }
+                show={
+                    <FlexRow>
+                        <StyledDetail>
+                            <StyledLabel>Dependency value:</StyledLabel>
+                            <span>
+                                {feature.dependencies[0]?.enabled
+                                    ? 'enabled'
+                                    : 'disabled'}
+                            </span>
+                        </StyledDetail>
+                    </FlexRow>
+                }
+            />
+            <ConditionallyRender
                 condition={hasChildren}
                 show={
                     <FlexRow>
@@ -158,12 +175,20 @@ export const DependencyRow: FC<{ feature: IFeatureToggle }> = ({ feature }) => {
                     </FlexRow>
                 }
             />
+
             <ConditionallyRender
                 condition={Boolean(feature.project)}
                 show={
                     <AddDependencyDialogue
                         project={feature.project}
                         featureId={feature.name}
+                        parentFeatureId={feature.dependencies[0]?.feature}
+                        parentFeatureValue={{
+                            status:
+                                feature.dependencies[0]?.enabled === false
+                                    ? 'disabled'
+                                    : 'enabled',
+                        }}
                         onClose={() => setShowDependencyDialogue(false)}
                         showDependencyDialogue={showDependencyDialogue}
                     />

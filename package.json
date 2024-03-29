@@ -151,7 +151,7 @@
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "10.1.0",
-    "@babel/core": "7.24.0",
+    "@babel/core": "7.24.3",
     "@biomejs/biome": "1.6.2",
     "@swc/core": "1.4.8",
     "@swc/jest": "0.2.36",
@@ -167,10 +167,10 @@
     "@types/make-fetch-happen": "10.0.4",
     "@types/memoizee": "0.4.11",
     "@types/mime": "3.0.4",
-    "@types/node": "18.19.24",
+    "@types/node": "18.19.26",
     "@types/nodemailer": "6.4.14",
     "@types/owasp-password-strength-test": "1.3.2",
-    "@types/pg": "8.11.2",
+    "@types/pg": "8.11.4",
     "@types/semver": "7.5.8",
     "@types/stoppable": "1.1.3",
     "@types/supertest": "6.0.2",
@@ -217,8 +217,8 @@
     "tough-cookie": "4.1.3"
   },
   "lint-staged": {
-    "*.{js,ts}": ["biome check --apply"],
-    "*.{jsx,tsx}": ["biome check --apply"],
+    "*.{js,ts}": ["biome check --apply --no-errors-on-unmatched"],
+    "*.{jsx,tsx}": ["biome check --apply --no-errors-on-unmatched"],
     "*.json": ["biome format --write --no-errors-on-unmatched"]
   }
 }

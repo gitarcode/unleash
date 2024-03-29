@@ -13,12 +13,15 @@ const setupApi = () => {
         versionInfo: {
             current: { oss: 'irrelevant', enterprise: 'some value' },
         },
+        flags: {
+            variantDependencies: true,
+        },
     });
     testServerRoute(server, '/api/admin/projects/default/features/feature', {});
     testServerRoute(
         server,
         '/api/admin/projects/default/features/feature/parents',
-        [],
+        ['some_parent'],
     );
     testServerRoute(
         server,
@@ -243,13 +246,14 @@ test('delete dependency with change request', async () => {
 });
 
 test('edit dependency', async () => {
+    setupChangeRequestApi();
     render(
         <FeatureOverviewSidePanelDetails
             feature={
                 {
                     name: 'feature',
                     project: 'default',
-                    dependencies: [{ feature: 'some_parent' }],
+                    dependencies: [{ feature: 'some_parent', enabled: false }],
                     children: [] as string[],
                 } as IFeatureToggle
             }
@@ -264,6 +268,8 @@ test('edit dependency', async () => {
 
     await screen.findByText('Dependency:');
     await screen.findByText('some_parent');
+    await screen.findByText('Dependency value:');
+    await screen.findByText('disabled');
 
     const actionsButton = await screen.findByRole('button', {
         name: /Dependency actions/i,
