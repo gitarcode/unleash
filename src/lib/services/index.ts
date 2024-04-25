@@ -67,6 +67,7 @@ import {
     createEnvironmentService,
     createFakeEnvironmentService,
     createFakeProjectService,
+    createFeatureLifecycleService,
     createFeatureToggleService,
     createProjectService,
 } from '../features';
@@ -124,6 +125,12 @@ import {
     createFakeProjectInsightsService,
     createProjectInsightsService,
 } from '../features/project-insights/createProjectInsightsService';
+import { JobService } from '../features/scheduler/job-service';
+import { JobStore } from '../features/scheduler/job-store';
+import { FeatureLifecycleService } from '../features/feature-lifecycle/feature-lifecycle-service';
+import { createFakeFeatureLifecycleService } from '../features/feature-lifecycle/createFeatureLifecycle';
+import { FeatureLifecycleReadModel } from '../features/feature-lifecycle/feature-lifecycle-read-model';
+import { FakeFeatureLifecycleReadModel } from '../features/feature-lifecycle/fake-feature-lifecycle-read-model';
 
 export const createServices = (
     stores: IUnleashStores,
@@ -153,6 +160,9 @@ export const createServices = (
     const dependentFeaturesReadModel = db
         ? new DependentFeaturesReadModel(db)
         : new FakeDependentFeaturesReadModel();
+    const featureLifecycleReadModel = db
+        ? new FeatureLifecycleReadModel(db)
+        : new FakeFeatureLifecycleReadModel();
     const segmentReadModel = db
         ? new SegmentReadModel(db)
         : new FakeSegmentReadModel();
@@ -253,6 +263,7 @@ export const createServices = (
         privateProjectChecker,
         dependentFeaturesReadModel,
         dependentFeaturesService,
+        featureLifecycleReadModel,
     );
     const transactionalEnvironmentService = db
         ? withTransactional(createEnvironmentService(config), db)
@@ -348,6 +359,16 @@ export const createServices = (
         userService,
     });
 
+    const jobService = new JobService(
+        new JobStore(db!, config),
+        config.getLogger,
+    );
+
+    const { featureLifecycleService } = db
+        ? createFeatureLifecycleService(db, config)
+        : createFakeFeatureLifecycleService(config);
+    featureLifecycleService.listen();
+
     return {
         accessService,
         accountService,
@@ -406,6 +427,8 @@ export const createServices = (
         featureSearchService,
         inactiveUsersService,
         projectInsightsService,
+        jobService,
+        featureLifecycleService,
     };
 };
 
@@ -453,4 +476,6 @@ export {
     ClientFeatureToggleService,
     FeatureSearchService,
     ProjectInsightsService,
+    JobService,
+    FeatureLifecycleService,
 };

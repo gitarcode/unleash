@@ -9,6 +9,7 @@ declare module '@mui/material/styles' {
         fontSizes: {
             extraLargeHeader: string;
             largeHeader: string;
+            mediumHeader: string;
             mainHeader: string;
             bodySize: string;
             smallBody: string;
@@ -154,6 +155,18 @@ declare module '@mui/material/styles' {
     interface Palette extends CustomPalette {}
     interface PaletteOptions extends CustomPalette {}
     interface TypeBackground extends CustomTypeBackground {}
+
+    /* Extend the action object from MUI */
+    interface CustomTypeAction {
+        /**
+         * Add background color on hover for the interactive elements
+         * that use the alternative primary color. First used to add
+         * hover colors to button group elements
+         **/
+        alternative: string;
+    }
+
+    interface TypeAction extends CustomTypeAction {}
 
     /* Extend the background object from MUI */
     interface CustomTypeBackground {

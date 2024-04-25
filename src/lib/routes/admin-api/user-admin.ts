@@ -51,12 +51,13 @@ import {
     type AdminCountSchema,
     adminCountSchema,
 } from '../../openapi/spec/admin-count-schema';
-import { BadDataError } from '../../error';
+import { ForbiddenError } from '../../error';
 import {
     createUserResponseSchema,
     type CreateUserResponseSchema,
 } from '../../openapi/spec/create-user-response-schema';
 import type { IRoleWithPermissions } from '../../types/stores/access-store';
+import idNumberMiddleware from '../../middleware/id-number-middleware';
 
 export default class UserAdminController extends Controller {
     private flagResolver: IFlagResolver;
@@ -80,6 +81,8 @@ export default class UserAdminController extends Controller {
     private groupService: GroupService;
 
     readonly unleashUrl: string;
+
+    readonly isEnterprise: boolean;
 
     constructor(
         config: IUnleashConfig,
@@ -116,6 +119,7 @@ export default class UserAdminController extends Controller {
         this.logger = config.getLogger('routes/user-controller.ts');
         this.unleashUrl = config.server.unleashUrl;
         this.flagResolver = config.flagResolver;
+        this.isEnterprise = config.isEnterprise;
 
         this.route({
             method: 'post',
@@ -351,6 +355,7 @@ export default class UserAdminController extends Controller {
                         ...getStandardResponses(400, 401, 404),
                     },
                 }),
+                idNumberMiddleware(),
             ],
         });
 
@@ -372,6 +377,7 @@ export default class UserAdminController extends Controller {
                         ...getStandardResponses(400, 401, 403, 404),
                     },
                 }),
+                idNumberMiddleware(),
             ],
         });
 
@@ -392,6 +398,7 @@ export default class UserAdminController extends Controller {
                         ...getStandardResponses(401, 403, 404),
                     },
                 }),
+                idNumberMiddleware(),
             ],
         });
     }
@@ -402,6 +409,8 @@ export default class UserAdminController extends Controller {
     ): Promise<void> {
         const { user } = req;
         const receiver = req.body.id;
+        const receiverUser = await this.userService.getByEmail(receiver);
+        await this.throwIfScimUser(receiverUser);
         const resetPasswordUrl =
             await this.userService.createResetPasswordEmail(receiver, user);
 
@@ -500,9 +509,6 @@ export default class UserAdminController extends Controller {
 
     async getUser(req: Request, res: Response<UserSchema>): Promise<void> {
         const { id } = req.params;
-        if (!Number.isInteger(Number(id))) {
-            throw new BadDataError('User id should be an integer');
-        }
         const user = await this.userService.getUser(Number(id));
 
         this.openApiService.respondWithValidation(
@@ -532,7 +538,7 @@ export default class UserAdminController extends Controller {
                 password,
                 rootRole: normalizedRootRole,
             },
-            user,
+            req.audit,
         );
 
         const passwordAuthSettings =
@@ -602,9 +608,8 @@ export default class UserAdminController extends Controller {
         const { user, params, body } = req;
         const { id } = params;
         const { name, email, rootRole } = body;
-        if (!Number.isInteger(Number(id))) {
-            throw new BadDataError('User id should be an integer');
-        }
+
+        await this.throwIfScimUser({ id: Number(id) });
         const normalizedRootRole = Number.isInteger(Number(rootRole))
             ? Number(rootRole)
             : (rootRole as RoleName);
@@ -616,7 +621,7 @@ export default class UserAdminController extends Controller {
                 email,
                 rootRole: normalizedRootRole,
             },
-            user,
+            req.audit,
         );
 
         this.openApiService.respondWithValidation(
@@ -633,11 +638,10 @@ export default class UserAdminController extends Controller {
     async deleteUser(req: IAuthRequest, res: Response): Promise<void> {
         const { user, params } = req;
         const { id } = params;
-        if (!Number.isInteger(Number(id))) {
-            throw new BadDataError('User id should be an integer');
-        }
 
-        await this.userService.deleteUser(+id, user);
+        await this.throwIfScimUser({ id: Number(id) });
+
+        await this.userService.deleteUser(+id, req.audit);
         res.status(200).send();
     }
 
@@ -657,6 +661,8 @@ export default class UserAdminController extends Controller {
     ): Promise<void> {
         const { id } = req.params;
         const { password } = req.body;
+
+        await this.throwIfScimUser({ id: Number(id) });
 
         await this.userService.changePassword(+id, password);
         res.status(200).send();
@@ -715,5 +721,35 @@ export default class UserAdminController extends Controller {
             rootRole,
             projectRoles,
         });
+    }
+
+    async throwIfScimUser({
+        id,
+        scimId,
+    }: Pick<IUser, 'id' | 'scimId'>): Promise<void> {
+        if (!this.isEnterprise) return;
+        if (!this.flagResolver.isEnabled('scimApi')) return;
+
+        const isScimUser = await this.isScimUser({ id, scimId });
+        if (!isScimUser) return;
+
+        const { enabled } = await this.settingService.getWithDefault('scim', {
+            enabled: false,
+        });
+        if (!enabled) return;
+
+        throw new ForbiddenError(
+            'This user is managed by your SCIM provider and cannot be changed manually',
+        );
+    }
+
+    async isScimUser({
+        id,
+        scimId,
+    }: Pick<IUser, 'id' | 'scimId'>): Promise<boolean> {
+        return (
+            Boolean(scimId) ||
+            Boolean((await this.userService.getUser(id)).scimId)
+        );
     }
 }

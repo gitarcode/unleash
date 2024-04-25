@@ -18,17 +18,21 @@ interface ITimeToProductionChartProps {
         InstanceInsightsSchema['projectFlagTrends']
     >;
     isAggregate?: boolean;
+    isLoading?: boolean;
 }
 
 export const TimeToProductionChart: VFC<ITimeToProductionChartProps> = ({
     projectFlagTrends,
     isAggregate,
+    isLoading,
 }) => {
     const theme = useTheme();
     const projectsDatasets = useProjectChartData(projectFlagTrends);
     const notEnoughData = useMemo(
-        () => !projectsDatasets.datasets.some((d) => d.data.length > 1),
-        [projectsDatasets],
+        () =>
+            !isLoading &&
+            !projectsDatasets.datasets.some((d) => d.data.length > 1),
+        [projectsDatasets, isLoading],
     );
 
     const aggregatedPerDay = useMemo(() => {
@@ -62,8 +66,7 @@ export const TimeToProductionChart: VFC<ITimeToProductionChartProps> = ({
     const placeholderData = usePlaceholderData();
     return (
         <LineChart
-            data={notEnoughData ? placeholderData : data}
-            isLocalTooltip
+            data={notEnoughData || isLoading ? placeholderData : data}
             TooltipComponent={TimeToProductionTooltip}
             overrideOptions={
                 notEnoughData
@@ -75,7 +78,7 @@ export const TimeToProductionChart: VFC<ITimeToProductionChartProps> = ({
                           },
                       }
             }
-            cover={notEnoughData ? <NotEnoughData /> : false}
+            cover={notEnoughData ? <NotEnoughData /> : isLoading}
         />
     );
 };

@@ -3,54 +3,53 @@ import type { InstanceInsightsSchema } from 'openapi';
 import { useFilteredTrends } from './useFilteredTrends';
 import { useGroupedProjectTrends } from './useGroupedProjectTrends';
 import { useFilteredFlagsSummary } from './useFilteredFlagsSummary';
-import { useMedianTimeToProduction } from './useMedianTimeToProduction';
+import { useAllDatapoints } from './useAllDatapoints';
 
 export const useInsightsData = (
-    executiveDashboardData: InstanceInsightsSchema,
+    instanceInsights: InstanceInsightsSchema,
     projects: string[],
 ) => {
+    const allMetricsDatapoints = useAllDatapoints(
+        instanceInsights.metricsSummaryTrends,
+    );
     const projectsData = useFilteredTrends(
-        executiveDashboardData.projectFlagTrends,
+        instanceInsights.projectFlagTrends,
         projects,
     );
 
     const groupedProjectsData = useGroupedProjectTrends(projectsData);
 
     const metricsData = useFilteredTrends(
-        executiveDashboardData.metricsSummaryTrends,
+        instanceInsights.metricsSummaryTrends,
         projects,
     );
     const groupedMetricsData = useGroupedProjectTrends(metricsData);
 
     const summary = useFilteredFlagsSummary(
         projectsData,
-        executiveDashboardData.users,
+        instanceInsights.users,
     );
-
-    const medianTimeToProduction =
-        useMedianTimeToProduction(groupedProjectsData);
 
     return useMemo(
         () => ({
-            ...executiveDashboardData,
+            ...instanceInsights,
             projectsData,
             groupedProjectsData,
             metricsData,
             groupedMetricsData,
-            users: executiveDashboardData.users,
-            environmentTypeTrends: executiveDashboardData.environmentTypeTrends,
+            users: instanceInsights.users,
+            environmentTypeTrends: instanceInsights.environmentTypeTrends,
             summary,
-            medianTimeToProduction,
+            allMetricsDatapoints,
         }),
         [
-            executiveDashboardData,
+            instanceInsights,
             projects,
             projectsData,
             groupedProjectsData,
             metricsData,
             groupedMetricsData,
             summary,
-            medianTimeToProduction,
         ],
     );
 };

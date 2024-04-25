@@ -6,23 +6,36 @@ import {
 } from './LegalValueLabel.styles';
 import type React from 'react';
 import { FormControlLabel } from '@mui/material';
+import { Highlighter } from 'component/common/Highlighter/Highlighter';
 
 interface ILegalValueTextProps {
     legal: ILegalValue;
     control: React.ReactElement;
+    filter?: string;
 }
 
-export const LegalValueLabel = ({ legal, control }: ILegalValueTextProps) => {
+export const LegalValueLabel = ({
+    legal,
+    control,
+    filter,
+}: ILegalValueTextProps) => {
     return (
         <StyledContainer>
             <FormControlLabel
                 value={legal.value}
                 control={control}
+                sx={{ width: '100%' }}
                 label={
                     <>
-                        <StyledValue>{legal.value}</StyledValue>
+                        <StyledValue>
+                            <Highlighter search={filter}>
+                                {legal.value}
+                            </Highlighter>
+                        </StyledValue>
                         <StyledDescription>
-                            {legal.description}
+                            <Highlighter search={filter}>
+                                {legal.description}
+                            </Highlighter>
                         </StyledDescription>
                     </>
                 }
@@ -36,6 +49,9 @@ export const filterLegalValues = (
     filter: string,
 ): ILegalValue[] => {
     return legalValues.filter((legalValue) => {
-        return legalValue.value.includes(filter);
+        return (
+            legalValue.value.toLowerCase().includes(filter.toLowerCase()) ||
+            legalValue.description?.toLowerCase().includes(filter.toLowerCase())
+        );
     });
 };

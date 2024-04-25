@@ -67,6 +67,7 @@ export type CustomAuthHandler = (
 ) => void;
 
 export interface IAuthOption {
+    demoAllowAdminLogin?: boolean;
     enableApiToken: boolean;
     type: IAuthType;
     customAuthHandler?: CustomAuthHandler;
@@ -100,6 +101,7 @@ export interface IServerOption {
     gracefulShutdownEnable: boolean;
     gracefulShutdownTimeout: number;
     secret: string;
+    enableScheduledCreatedByMigration: boolean;
 }
 
 export interface IClientCachingOption {

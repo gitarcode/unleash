@@ -10,11 +10,13 @@ import {
     API_TOKEN_CREATED,
     API_TOKEN_DELETED,
     API_TOKEN_UPDATED,
+    TEST_AUDIT_USER,
 } from '../types';
-import { addDays } from 'date-fns';
+import { addDays, minutesToMilliseconds, subDays } from 'date-fns';
 import EventService from '../features/events/event-service';
 import FakeFeatureTagStore from '../../test/fixtures/fake-feature-tag-store';
 import { createFakeEventsService } from '../../lib/features';
+import { extractAuditInfoFromUser } from '../util';
 
 test('Should init api token', async () => {
     const token = {
@@ -135,8 +137,12 @@ test('Api token operations should all have events attached', async () => {
     );
     const saved = await apiTokenService.createApiTokenWithProjects(token);
     const newExpiry = addDays(new Date(), 30);
-    await apiTokenService.updateExpiry(saved.secret, newExpiry, 'test', -9999);
-    await apiTokenService.delete(saved.secret, 'test', -9999);
+    await apiTokenService.updateExpiry(
+        saved.secret,
+        newExpiry,
+        TEST_AUDIT_USER,
+    );
+    await apiTokenService.delete(saved.secret, TEST_AUDIT_USER);
     const { events } = await eventService.getEvents();
     const createdApiTokenEvents = events.filter(
         (e) => e.type === API_TOKEN_CREATED,
@@ -182,7 +188,7 @@ test('getUserForToken should get a user with admin token user id and token name'
             type: ApiTokenType.ADMIN,
             tokenName: 'admin.token',
         },
-        ADMIN_TOKEN_USER as IUser,
+        extractAuditInfoFromUser(ADMIN_TOKEN_USER as IUser),
     );
 
     const user = await tokenService.getUserForToken(token.secret);
@@ -191,17 +197,17 @@ test('getUserForToken should get a user with admin token user id and token name'
     expect(user!.internalAdminTokenUserId).toBe(ADMIN_TOKEN_USER.id);
 });
 
-describe('When token is added by another instance', () => {
-    const setup = (options?: IUnleashOptions) => {
-        const token: IApiTokenCreate = {
-            environment: 'default',
-            projects: ['*'],
-            secret: '*:*:some-random-string',
-            type: ApiTokenType.CLIENT,
-            tokenName: 'new-token-by-another-instance',
-            expiresAt: undefined,
-        };
+describe('API token getTokenWithCache', () => {
+    const token: IApiTokenCreate = {
+        environment: 'default',
+        projects: ['*'],
+        secret: '*:*:some-random-string',
+        type: ApiTokenType.CLIENT,
+        tokenName: 'new-token-by-another-instance',
+        expiresAt: undefined,
+    };
 
+    const setup = (options?: IUnleashOptions) => {
         const config: IUnleashConfig = createTestConfig(options);
         const apiTokenStore = new FakeApiTokenStore();
         const environmentStore = new FakeEnvironmentStore();
@@ -214,33 +220,59 @@ describe('When token is added by another instance', () => {
         return {
             apiTokenService,
             apiTokenStore,
-            token,
         };
     };
-    test('should not return the token when query db flag is disabled', async () => {
-        const { apiTokenService, apiTokenStore, token } = setup();
 
-        // simulate this token being inserted by another instance (apiTokenService does not know about it)
+    test('should return the token and perform only one db query', async () => {
+        const { apiTokenService, apiTokenStore } = setup();
+        const apiTokenStoreGet = jest.spyOn(apiTokenStore, 'get');
+
+        // valid token not present in cache (could be inserted by another instance)
         apiTokenStore.insert(token);
 
-        const found = await apiTokenService.getUserForToken(token.secret);
-        expect(found).toBeUndefined();
+        for (let i = 0; i < 5; i++) {
+            const found = await apiTokenService.getTokenWithCache(token.secret);
+            expect(found).toBeDefined();
+            expect(found?.tokenName).toBe(token.tokenName);
+            expect(found?.createdAt).toBeDefined();
+        }
+        expect(apiTokenStoreGet).toHaveBeenCalledTimes(1);
     });
 
-    test('should return the token when query db flag is enabled', async () => {
-        const { apiTokenService, apiTokenStore, token } = setup({
-            experimental: {
-                flags: {
-                    queryMissingTokens: true,
-                },
-            },
-        });
+    test('should query the db only once for invalid tokens', async () => {
+        jest.useFakeTimers();
+        const { apiTokenService, apiTokenStore } = setup();
+        const apiTokenStoreGet = jest.spyOn(apiTokenStore, 'get');
 
-        // simulate this token being inserted by another instance (apiTokenService does not know about it)
-        apiTokenStore.insert(token);
+        const invalidToken = 'invalid-token';
+        for (let i = 0; i < 5; i++) {
+            expect(
+                await apiTokenService.getTokenWithCache(invalidToken),
+            ).toBeUndefined();
+        }
+        expect(apiTokenStoreGet).toHaveBeenCalledTimes(1);
 
-        const found = await apiTokenService.getUserForToken(token.secret);
-        expect(found).toBeDefined();
-        expect(found?.username).toBe(token.tokenName);
+        // after more than 5 minutes we should be able to query again
+        jest.advanceTimersByTime(minutesToMilliseconds(6));
+        for (let i = 0; i < 5; i++) {
+            expect(
+                await apiTokenService.getTokenWithCache(invalidToken),
+            ).toBeUndefined();
+        }
+        expect(apiTokenStoreGet).toHaveBeenCalledTimes(2);
+    });
+
+    test('should not return the token if it has expired and shoud perform only one db query', async () => {
+        const { apiTokenService, apiTokenStore } = setup();
+        const apiTokenStoreGet = jest.spyOn(apiTokenStore, 'get');
+
+        // valid token not present in cache but expired
+        apiTokenStore.insert({ ...token, expiresAt: subDays(new Date(), 1) });
+
+        for (let i = 0; i < 5; i++) {
+            const found = await apiTokenService.getTokenWithCache(token.secret);
+            expect(found).toBeUndefined();
+        }
+        expect(apiTokenStoreGet).toHaveBeenCalledTimes(1);
     });
 });

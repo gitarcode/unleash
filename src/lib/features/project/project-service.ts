@@ -1,6 +1,6 @@
 import { subDays } from 'date-fns';
 import { ValidationError } from 'joi';
-import type { IUser } from '../../types/user';
+import type { IAuditUser, IUser } from '../../types/user';
 import type {
     AccessService,
     AccessWithRoles,
@@ -34,22 +34,22 @@ import {
     type IUnleashConfig,
     type IUnleashStores,
     MOVE_FEATURE_TOGGLE,
-    PROJECT_CREATED,
-    PROJECT_DELETED,
-    PROJECT_UPDATED,
     ProjectAccessAddedEvent,
     ProjectAccessGroupRolesUpdated,
     ProjectAccessUserRolesDeleted,
     ProjectAccessUserRolesUpdated,
+    ProjectCreatedEvent,
+    ProjectDeletedEvent,
     ProjectGroupAddedEvent,
     ProjectGroupRemovedEvent,
     ProjectGroupUpdateRoleEvent,
+    ProjectUpdatedEvent,
     ProjectUserAddedEvent,
     ProjectUserRemovedEvent,
     ProjectUserUpdateRoleEvent,
     RoleName,
-    SYSTEM_USER,
     SYSTEM_USER_ID,
+    type ProjectCreated,
 } from '../../types';
 import type {
     IProjectAccessModel,
@@ -248,46 +248,86 @@ export default class ProjectService {
         return featureNaming;
     };
 
+    async validateProjectEnvironments(environments: string[] | undefined) {
+        if (
+            this.flagResolver.isEnabled('createProjectWithEnvironmentConfig') &&
+            environments
+        ) {
+            if (environments.length === 0) {
+                throw new BadDataError(
+                    'A project must always have at least one environment.',
+                );
+            }
+
+            const projectsAndExistence = await Promise.all(
+                environments.map(async (env) => [
+                    env,
+                    await this.environmentStore.exists(env),
+                ]),
+            );
+
+            const invalidEnvs = projectsAndExistence
+                .filter(([_, exists]) => !exists)
+                .map(([env]) => env);
+
+            if (invalidEnvs.length > 0) {
+                throw new BadDataError(
+                    `These environments do not exist and can not be selected for the project: ${invalidEnvs
+                        .map((env) => `'${env}'`)
+                        .join(', ')}.`,
+                );
+            }
+        }
+    }
+
     async createProject(
         newProject: CreateProject,
         user: IUser,
-    ): Promise<IProject> {
+        auditUser: IAuditUser,
+        enableChangeRequestsForSpecifiedEnvironments: () => Promise<void> = async () => {},
+    ): Promise<ProjectCreated> {
+        await this.validateProjectEnvironments(newProject.environments);
+
         const validatedData = await projectSchema.validateAsync(newProject);
         const data = this.removeModeForNonEnterprise(validatedData);
         await this.validateUniqueId(data.id);
 
         await this.projectStore.create(data);
 
-        const enabledEnvironments = await this.environmentStore.getAll({
-            enabled: true,
-        });
+        const envsToEnable =
+            this.flagResolver.isEnabled('createProjectWithEnvironmentConfig') &&
+            newProject.environments?.length
+                ? newProject.environments
+                : (
+                      await this.environmentStore.getAll({
+                          enabled: true,
+                      })
+                  ).map((env) => env.name);
 
-        // TODO: Only if enabled!
         await Promise.all(
-            enabledEnvironments.map(async (e) => {
-                await this.featureEnvironmentStore.connectProject(
-                    e.name,
-                    data.id,
-                );
+            envsToEnable.map(async (env) => {
+                await this.featureEnvironmentStore.connectProject(env, data.id);
             }),
         );
 
+        await enableChangeRequestsForSpecifiedEnvironments();
+
         await this.accessService.createDefaultProjectRoles(user, data.id);
 
-        await this.eventService.storeEvent({
-            type: PROJECT_CREATED,
-            createdBy: getCreatedBy(user),
-            createdByUserId: user.id,
-            data,
-            project: newProject.id,
-        });
+        await this.eventService.storeEvent(
+            new ProjectCreatedEvent({
+                data,
+                project: newProject.id,
+                auditUser,
+            }),
+        );
 
-        return data;
+        return { ...data, environments: envsToEnable };
     }
 
     async updateProject(
         updatedProject: IProjectUpdate,
-        user: IUser,
+        auditUser: IAuditUser,
     ): Promise<void> {
         const preData = await this.projectStore.get(updatedProject.id);
 
@@ -296,19 +336,19 @@ export default class ProjectService {
         // updated project contains instructions to update the project but it may not represent a whole project
         const afterData = await this.projectStore.get(updatedProject.id);
 
-        await this.eventService.storeEvent({
-            type: PROJECT_UPDATED,
-            project: updatedProject.id,
-            createdBy: getCreatedBy(user),
-            createdByUserId: user.id,
-            data: afterData,
-            preData,
-        });
+        await this.eventService.storeEvent(
+            new ProjectUpdatedEvent({
+                project: updatedProject.id,
+                data: afterData,
+                preData,
+                auditUser,
+            }),
+        );
     }
 
     async updateProjectEnterpriseSettings(
         updatedProject: IProjectEnterpriseSettingsUpdate,
-        user: IUser,
+        auditUser: IAuditUser,
     ): Promise<void> {
         const preData = await this.projectStore.get(updatedProject.id);
 
@@ -320,14 +360,14 @@ export default class ProjectService {
 
         await this.projectStore.updateProjectEnterpriseSettings(updatedProject);
 
-        await this.eventService.storeEvent({
-            type: PROJECT_UPDATED,
-            project: updatedProject.id,
-            createdBy: getCreatedBy(user),
-            createdByUserId: user.id,
-            data: { ...preData, ...updatedProject },
-            preData,
-        });
+        await this.eventService.storeEvent(
+            new ProjectUpdatedEvent({
+                project: updatedProject.id,
+                data: { ...preData, ...updatedProject },
+                preData,
+                auditUser,
+            }),
+        );
     }
 
     async checkProjectsCompatibility(
@@ -357,6 +397,7 @@ export default class ProjectService {
         featureName: string,
         user: IUser,
         currentProjectId: string,
+        auditUser: IAuditUser,
     ): Promise<any> {
         const feature = await this.featureToggleStore.get(featureName);
 
@@ -387,8 +428,7 @@ export default class ProjectService {
         const updatedFeature = await this.featureToggleService.changeProject(
             featureName,
             newProjectId,
-            getCreatedBy(user),
-            user.id,
+            auditUser,
         );
         await this.featureToggleService.updateFeatureStrategyProject(
             featureName,
@@ -398,7 +438,11 @@ export default class ProjectService {
         return updatedFeature;
     }
 
-    async deleteProject(id: string, user: IUser): Promise<void> {
+    async deleteProject(
+        id: string,
+        user: IUser,
+        auditUser: IAuditUser,
+    ): Promise<void> {
         if (id === DEFAULT_PROJECT) {
             throw new InvalidOperationError(
                 'You can not delete the default project!',
@@ -424,18 +468,17 @@ export default class ProjectService {
         this.featureToggleService.deleteFeatures(
             archivedToggles.map((toggle) => toggle.name),
             id,
-            user.name,
-            user.id,
+            auditUser,
         );
 
         await this.projectStore.delete(id);
 
-        await this.eventService.storeEvent({
-            type: PROJECT_DELETED,
-            createdBy: getCreatedBy(user),
-            project: id,
-            createdByUserId: user.id,
-        });
+        await this.eventService.storeEvent(
+            new ProjectDeletedEvent({
+                project: id,
+                auditUser,
+            }),
+        );
 
         await this.accessService.removeDefaultProjectRoles(user, id);
     }
@@ -465,7 +508,7 @@ export default class ProjectService {
         projectId: string,
         roleId: number,
         userId: number,
-        createdBy: string,
+        auditUser: IAuditUser,
     ): Promise<void> {
         const { roles, users } =
             await this.accessService.getProjectRoleAccess(projectId);
@@ -488,8 +531,7 @@ export default class ProjectService {
         await this.eventService.storeEvent(
             new ProjectUserAddedEvent({
                 project: projectId,
-                createdBy: createdBy || SYSTEM_USER.username,
-                createdByUserId: user.id || SYSTEM_USER.id,
+                auditUser,
                 data: {
                     roleId,
                     userId,
@@ -507,8 +549,7 @@ export default class ProjectService {
         projectId: string,
         roleId: number,
         userId: number,
-        createdBy: string,
-        createdByUserId: number,
+        auditUser: IAuditUser,
     ): Promise<void> {
         const role = await this.findProjectRole(projectId, roleId);
 
@@ -521,8 +562,7 @@ export default class ProjectService {
         await this.eventService.storeEvent(
             new ProjectUserRemovedEvent({
                 project: projectId,
-                createdBy,
-                createdByUserId,
+                auditUser,
                 preData: {
                     roleId,
                     userId,
@@ -536,8 +576,7 @@ export default class ProjectService {
     async removeUserAccess(
         projectId: string,
         userId: number,
-        createdBy: string,
-        createdByUserId: number,
+        auditUser: IAuditUser,
     ): Promise<void> {
         const existingRoles = await this.accessService.getProjectRolesForUser(
             projectId,
@@ -557,8 +596,7 @@ export default class ProjectService {
         await this.eventService.storeEvent(
             new ProjectAccessUserRolesDeleted({
                 project: projectId,
-                createdBy,
-                createdByUserId,
+                auditUser,
                 preData: {
                     roles: existingRoles,
                     userId,
@@ -570,8 +608,7 @@ export default class ProjectService {
     async removeGroupAccess(
         projectId: string,
         groupId: number,
-        createdBy: string,
-        createdByUserId: number,
+        auditUser: IAuditUser,
     ): Promise<void> {
         const existingRoles = await this.accessService.getProjectRolesForGroup(
             projectId,
@@ -591,8 +628,7 @@ export default class ProjectService {
         await this.eventService.storeEvent(
             new ProjectAccessUserRolesDeleted({
                 project: projectId,
-                createdBy,
-                createdByUserId,
+                auditUser,
                 preData: {
                     roles: existingRoles,
                     groupId,
@@ -605,8 +641,7 @@ export default class ProjectService {
         projectId: string,
         roleId: number,
         groupId: number,
-        modifiedBy: string,
-        modifiedById: number,
+        auditUser: IAuditUser,
     ): Promise<void> {
         const role = await this.accessService.getRole(roleId);
         const group = await this.groupService.getGroup(groupId);
@@ -621,15 +656,14 @@ export default class ProjectService {
         await this.accessService.addGroupToRole(
             group.id,
             role.id,
-            modifiedBy,
+            auditUser.username,
             project.id,
         );
 
         await this.eventService.storeEvent(
             new ProjectGroupAddedEvent({
                 project: project.id,
-                createdBy: modifiedBy,
-                createdByUserId: modifiedById,
+                auditUser,
                 data: {
                     groupId: group.id,
                     projectId: project.id,
@@ -646,8 +680,7 @@ export default class ProjectService {
         projectId: string,
         roleId: number,
         groupId: number,
-        modifiedBy: string,
-        modifiedById: number,
+        auditUser: IAuditUser,
     ): Promise<void> {
         const group = await this.groupService.getGroup(groupId);
         const role = await this.accessService.getRole(roleId);
@@ -670,8 +703,7 @@ export default class ProjectService {
         await this.eventService.storeEvent(
             new ProjectGroupRemovedEvent({
                 project: projectId,
-                createdBy: modifiedBy,
-                createdByUserId: modifiedById,
+                auditUser,
                 preData: {
                     groupId: group.id,
                     projectId: project.id,
@@ -685,22 +717,20 @@ export default class ProjectService {
         projectId: string,
         roleId: number,
         usersAndGroups: IProjectAccessModel,
-        createdBy: string,
-        createdByUserId: number,
+        auditUser: IAuditUser,
     ): Promise<void> {
         await this.accessService.addRoleAccessToProject(
             usersAndGroups.users,
             usersAndGroups.groups,
             projectId,
             roleId,
-            createdBy,
+            auditUser,
         );
 
         await this.eventService.storeEvent(
             new ProjectAccessAddedEvent({
                 project: projectId,
-                createdBy,
-                createdByUserId,
+                auditUser,
                 data: {
                     roles: {
                         roleId,
@@ -754,25 +784,21 @@ export default class ProjectService {
         roles: number[],
         groups: number[],
         users: number[],
-        createdBy: string,
-        createdByUserId: number,
+        auditUser: IAuditUser,
     ): Promise<void> {
-        if (
-            await this.isAllowedToAddAccess(createdByUserId, projectId, roles)
-        ) {
+        if (await this.isAllowedToAddAccess(auditUser.id, projectId, roles)) {
             await this.accessService.addAccessToProject(
                 roles,
                 groups,
                 users,
                 projectId,
-                createdBy,
+                auditUser.username,
             );
 
             await this.eventService.storeEvent(
                 new ProjectAccessAddedEvent({
                     project: projectId,
-                    createdBy,
-                    createdByUserId,
+                    auditUser,
                     data: {
                         roles: roles.map((roleId) => {
                             return {
@@ -795,8 +821,7 @@ export default class ProjectService {
         projectId: string,
         userId: number,
         newRoles: number[],
-        createdByUserName: string,
-        createdByUserId: number,
+        auditUser: IAuditUser,
     ): Promise<void> {
         const currentRoles = await this.accessService.getProjectRolesForUser(
             projectId,
@@ -812,7 +837,7 @@ export default class ProjectService {
             await this.validateAtLeastOneOwner(projectId, ownerRole);
         }
         const isAllowedToAssignRoles = await this.isAllowedToAddAccess(
-            createdByUserId,
+            auditUser.id,
             projectId,
             newRoles,
         );
@@ -825,8 +850,7 @@ export default class ProjectService {
             await this.eventService.storeEvent(
                 new ProjectAccessUserRolesUpdated({
                     project: projectId,
-                    createdBy: createdByUserName,
-                    createdByUserId,
+                    auditUser,
                     data: {
                         roles: newRoles,
                         userId,
@@ -848,8 +872,7 @@ export default class ProjectService {
         projectId: string,
         groupId: number,
         newRoles: number[],
-        createdBy: string,
-        createdByUserId: number,
+        auditUser: IAuditUser,
     ): Promise<void> {
         const currentRoles = await this.accessService.getProjectRolesForGroup(
             projectId,
@@ -865,7 +888,7 @@ export default class ProjectService {
             await this.validateAtLeastOneOwner(projectId, ownerRole);
         }
         const isAllowedToAssignRoles = await this.isAllowedToAddAccess(
-            createdByUserId,
+            auditUser.id,
             projectId,
             newRoles,
         );
@@ -874,13 +897,12 @@ export default class ProjectService {
                 projectId,
                 groupId,
                 newRoles,
-                createdBy,
+                auditUser.username,
             );
             await this.eventService.storeEvent(
                 new ProjectAccessGroupRolesUpdated({
                     project: projectId,
-                    createdBy,
-                    createdByUserId,
+                    auditUser,
                     data: {
                         roles: newRoles,
                         groupId,
@@ -991,8 +1013,7 @@ export default class ProjectService {
         projectId: string,
         roleId: number,
         userId: number,
-        createdBy: string,
-        createdByUserId: number,
+        auditUser: IAuditUser,
     ): Promise<void> {
         const usersWithRoles = await this.getAccessToProject(projectId);
         const user = usersWithRoles.users.find((u) => u.id === userId);
@@ -1025,8 +1046,7 @@ export default class ProjectService {
         await this.eventService.storeEvent(
             new ProjectUserUpdateRoleEvent({
                 project: projectId,
-                createdBy,
-                createdByUserId,
+                auditUser,
                 preData: {
                     userId,
                     roleId: currentRole.id,
@@ -1047,8 +1067,7 @@ export default class ProjectService {
         projectId: string,
         roleId: number,
         userId: number,
-        createdBy: string,
-        createdByUserId: number,
+        auditUser: IAuditUser,
     ): Promise<void> {
         const usersWithRoles = await this.getAccessToProject(projectId);
         const user = usersWithRoles.groups.find((u) => u.id === userId);
@@ -1080,8 +1099,7 @@ export default class ProjectService {
         await this.eventService.storeEvent(
             new ProjectGroupUpdateRoleEvent({
                 project: projectId,
-                createdBy,
-                createdByUserId,
+                auditUser,
                 preData: {
                     userId,
                     roleId: currentRole.id,

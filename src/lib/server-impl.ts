@@ -22,7 +22,7 @@ import {
     SYSTEM_USER,
 } from './types';
 
-import User, { type IUser } from './types/user';
+import User, { type IAuditUser, type IUser } from './types/user';
 import ApiUser, { type IApiUser } from './types/api-user';
 import { type Logger, LogLevel } from './logger';
 import AuthenticationRequired from './types/authentication-required';
@@ -47,7 +47,7 @@ async function createApp(
     const stores = createStores(config, db);
     const services = createServices(stores, config, db);
     if (!config.disableScheduler) {
-        await scheduleServices(services);
+        await scheduleServices(services, config);
     }
 
     const metricsMonitor = createMetricsMonitor();
@@ -220,6 +220,7 @@ export type {
     IUnleashConfig,
     IUser,
     IApiUser,
+    IAuditUser,
     IUnleashServices,
     IAuthRequest,
     IApiRequest,

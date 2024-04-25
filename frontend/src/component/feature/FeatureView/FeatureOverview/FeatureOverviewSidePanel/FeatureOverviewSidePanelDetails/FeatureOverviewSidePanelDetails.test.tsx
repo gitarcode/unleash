@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from 'utils/testRenderer';
 import { FeatureOverviewSidePanelDetails } from './FeatureOverviewSidePanelDetails';
-import type { IFeatureToggle } from 'interfaces/featureToggle';
+import type { IDependency, IFeatureToggle } from 'interfaces/featureToggle';
 import { testServerRoute, testServerSetup } from 'utils/testServer';
 import ToastRenderer from 'component/common/ToastRenderer/ToastRenderer';
 
@@ -170,19 +170,22 @@ test('show children', async () => {
     await screen.findByText('2 features');
 });
 
+const feature = {
+    name: 'feature',
+    project: 'default',
+    dependencies: [] as IDependency[],
+    children: [] as string[],
+} as IFeatureToggle;
+
 test('delete dependency', async () => {
     render(
         <>
             <ToastRenderer />
             <FeatureOverviewSidePanelDetails
-                feature={
-                    {
-                        name: 'feature',
-                        project: 'default',
-                        dependencies: [{ feature: 'some_parent' }],
-                        children: [] as string[],
-                    } as IFeatureToggle
-                }
+                feature={{
+                    ...feature,
+                    dependencies: [{ feature: 'some_parent' }],
+                }}
                 header={''}
             />
         </>,
@@ -213,14 +216,10 @@ test('delete dependency with change request', async () => {
         <>
             <ToastRenderer />
             <FeatureOverviewSidePanelDetails
-                feature={
-                    {
-                        name: 'feature',
-                        project: 'default',
-                        dependencies: [{ feature: 'some_parent' }],
-                        children: [] as string[],
-                    } as IFeatureToggle
-                }
+                feature={{
+                    ...feature,
+                    dependencies: [{ feature: 'some_parent' }],
+                }}
                 header={''}
             />
         </>,
@@ -246,17 +245,12 @@ test('delete dependency with change request', async () => {
 });
 
 test('edit dependency', async () => {
-    setupChangeRequestApi();
     render(
         <FeatureOverviewSidePanelDetails
-            feature={
-                {
-                    name: 'feature',
-                    project: 'default',
-                    dependencies: [{ feature: 'some_parent', enabled: false }],
-                    children: [] as string[],
-                } as IFeatureToggle
-            }
+            feature={{
+                ...feature,
+                dependencies: [{ feature: 'some_parent', enabled: false }],
+            }}
             header={''}
         />,
         {
@@ -280,4 +274,68 @@ test('edit dependency', async () => {
     userEvent.click(editButton);
 
     await screen.findByText('Add parent feature dependency');
+});
+
+test('show variant dependencies', async () => {
+    render(
+        <FeatureOverviewSidePanelDetails
+            feature={{
+                ...feature,
+                dependencies: [
+                    {
+                        feature: 'some_parent',
+                        enabled: true,
+                        variants: ['variantA', 'variantB'],
+                    },
+                ],
+            }}
+            header={''}
+        />,
+    );
+
+    const variants = await screen.findByText('2 variants');
+
+    userEvent.hover(variants);
+
+    await screen.findByText('variantA');
+    await screen.findByText('variantB');
+});
+
+test('show variant dependency', async () => {
+    render(
+        <FeatureOverviewSidePanelDetails
+            feature={{
+                ...feature,
+                dependencies: [
+                    {
+                        feature: 'some_parent',
+                        enabled: true,
+                        variants: ['variantA'],
+                    },
+                ],
+            }}
+            header={''}
+        />,
+    );
+
+    await screen.findByText('variantA');
+});
+
+test('show disabled dependency', async () => {
+    render(
+        <FeatureOverviewSidePanelDetails
+            feature={{
+                ...feature,
+                dependencies: [
+                    {
+                        feature: 'some_parent',
+                        enabled: false,
+                    },
+                ],
+            }}
+            header={''}
+        />,
+    );
+
+    await screen.findByText('disabled');
 });

@@ -10,20 +10,24 @@ import {
 } from 'component/insights/components/LineChart/LineChart';
 import { useTheme } from '@mui/material';
 import type { GroupedDataByProject } from 'component/insights/hooks/useGroupedProjectTrends';
+import { usePlaceholderData } from 'component/insights/hooks/usePlaceholderData';
 
 interface IProjectHealthChartProps {
     projectFlagTrends: GroupedDataByProject<
         InstanceInsightsSchema['projectFlagTrends']
     >;
     isAggregate?: boolean;
+    isLoading?: boolean;
 }
 
 export const ProjectHealthChart: VFC<IProjectHealthChartProps> = ({
     projectFlagTrends,
     isAggregate,
+    isLoading,
 }) => {
     const projectsData = useProjectChartData(projectFlagTrends);
     const theme = useTheme();
+    const placeholderData = usePlaceholderData();
 
     const aggregateHealthData = useMemo(() => {
         const labels = Array.from(
@@ -62,16 +66,19 @@ export const ProjectHealthChart: VFC<IProjectHealthChartProps> = ({
                     );
             })
             .sort((a, b) => (a.week > b.week ? 1 : -1));
-
         return {
             datasets: [
                 {
                     label: 'Health',
                     data: weeks.map((item) => ({
                         health: item.total
-                            ? ((item.total - item.stale) / item.total) * 100
+                            ? (
+                                  ((item.total - item.stale) / item.total) *
+                                  100
+                              ).toFixed(2)
                             : undefined,
                         date: item.date,
+                        total: item.total,
                     })),
                     borderColor: theme.palette.primary.light,
                     backgroundColor: fillGradientPrimary,
@@ -82,19 +89,25 @@ export const ProjectHealthChart: VFC<IProjectHealthChartProps> = ({
         };
     }, [projectsData, theme]);
 
-    const data = isAggregate ? aggregateHealthData : projectsData;
+    const aggregateOrProjectData = isAggregate
+        ? aggregateHealthData
+        : projectsData;
     const notEnoughData = useMemo(
         () =>
-            projectsData.datasets.some((d) => d.data.length > 1) ? false : true,
-        [projectsData],
+            !isLoading &&
+            (projectsData.datasets.some((d) => d.data.length > 1)
+                ? false
+                : true),
+        [projectsData, isLoading],
     );
+    const data =
+        notEnoughData || isLoading ? placeholderData : aggregateOrProjectData;
 
     return (
         <LineChart
             key={isAggregate ? 'aggregate' : 'project'}
             data={data}
-            isLocalTooltip
-            TooltipComponent={isAggregate ? undefined : HealthTooltip}
+            TooltipComponent={HealthTooltip}
             overrideOptions={
                 notEnoughData
                     ? {}
@@ -102,7 +115,7 @@ export const ProjectHealthChart: VFC<IProjectHealthChartProps> = ({
                           parsing: { yAxisKey: 'health', xAxisKey: 'date' },
                       }
             }
-            cover={notEnoughData ? <NotEnoughData /> : false}
+            cover={notEnoughData ? <NotEnoughData /> : isLoading}
         />
     );
 };

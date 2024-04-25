@@ -1,12 +1,10 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { mutate } from 'swr';
 import { getProjectFetcher } from 'hooks/api/getters/useProject/getProjectFetcher';
 import useProjects from 'hooks/api/getters/useProjects/useProjects';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
-import { ProjectCard } from '../ProjectCard/ProjectCard';
 import type { IProjectCard } from 'interfaces/project';
-import loadingData from './loadingData';
 import { PageContent } from 'component/common/PageContent/PageContent';
 import AccessContext from 'contexts/AccessContext';
 import { PageHeader } from 'component/common/PageHeader/PageHeader';
@@ -15,7 +13,6 @@ import { CREATE_PROJECT } from 'component/providers/AccessProvider/permissions';
 import Add from '@mui/icons-material/Add';
 import ApiError from 'component/common/ApiError/ApiError';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
-import { TablePlaceholder } from 'component/common/Table';
 import { useMediaQuery, styled } from '@mui/material';
 import theme from 'themes/theme';
 import { Search } from 'component/common/Search/Search';
@@ -25,28 +22,14 @@ import { ReactComponent as ProPlanIcon } from 'assets/icons/pro-enterprise-featu
 import { ReactComponent as ProPlanIconLight } from 'assets/icons/pro-enterprise-feature-badge-light.svg';
 import { safeRegExp } from '@server/util/escape-regex';
 import { ThemeMode } from 'component/common/ThemeMode/ThemeMode';
-
-const StyledDivContainer = styled('div')(({ theme }) => ({
-    display: 'flex',
-    flexWrap: 'wrap',
-    [theme.breakpoints.down('sm')]: {
-        justifyContent: 'center',
-    },
-}));
+import { useUiFlag } from 'hooks/useUiFlag';
+import { useProfile } from 'hooks/api/getters/useProfile/useProfile';
+import { groupProjects } from './group-projects';
+import { ProjectGroup } from './ProjectGroup';
 
 const StyledApiError = styled(ApiError)(({ theme }) => ({
     maxWidth: '400px',
     marginBottom: theme.spacing(2),
-}));
-
-const StyledCardLink = styled(Link)(({ theme }) => ({
-    color: 'inherit',
-    textDecoration: 'none',
-    border: 'none',
-    padding: '0',
-    background: 'transparent',
-    fontFamily: theme.typography.fontFamily,
-    pointer: 'cursor',
 }));
 
 type PageQueryType = Partial<Record<'search', string>>;
@@ -112,6 +95,9 @@ export const ProjectListNew = () => {
         searchParams.get('search') || '',
     );
 
+    const splitProjectList = useUiFlag('projectListFilterMyProjects');
+    const myProjects = new Set(useProfile().profile?.projects || []);
+
     useEffect(() => {
         const tableState: PageQueryType = {};
         if (searchValue) {
@@ -140,6 +126,13 @@ export const ProjectListNew = () => {
         });
     }, [projects, searchValue]);
 
+    const groupedProjects = useMemo(() => {
+        if (!splitProjectList) {
+            return { myProjects: [], otherProjects: filteredProjects };
+        }
+        return groupProjects(myProjects, filteredProjects);
+    }, [filteredProjects, myProjects, splitProjectList]);
+
     const handleHover = (projectId: string) => {
         if (fetchedProjects[projectId]) {
             return;
@@ -166,6 +159,19 @@ export const ProjectListNew = () => {
             ? `${filteredProjects.length} of ${projects.length}`
             : projects.length;
 
+    const ProjectGroupComponent = (props: {
+        sectionTitle?: string;
+        projects: IProjectCard[];
+    }) => {
+        return (
+            <ProjectGroup
+                loading={loading}
+                searchValue={searchValue}
+                handleHover={handleHover}
+                {...props}
+            />
+        );
+    };
     return (
         <PageContent
             isLoading={loading}
@@ -214,75 +220,23 @@ export const ProjectListNew = () => {
             }
         >
             <ConditionallyRender condition={error} show={renderError()} />
-            <StyledDivContainer>
-                <ConditionallyRender
-                    condition={filteredProjects.length < 1 && !loading}
-                    show={
-                        <ConditionallyRender
-                            condition={searchValue?.length > 0}
-                            show={
-                                <TablePlaceholder>
-                                    No projects found matching &ldquo;
-                                    {searchValue}
-                                    &rdquo;
-                                </TablePlaceholder>
-                            }
-                            elseShow={
-                                <TablePlaceholder>
-                                    No projects available.
-                                </TablePlaceholder>
-                            }
+            <ConditionallyRender
+                condition={splitProjectList}
+                show={
+                    <>
+                        <ProjectGroupComponent
+                            sectionTitle='My projects'
+                            projects={groupedProjects.myProjects}
                         />
-                    }
-                    elseShow={
-                        <ConditionallyRender
-                            condition={loading}
-                            show={() =>
-                                loadingData.map((project: IProjectCard) => (
-                                    <ProjectCard
-                                        data-loading
-                                        onHover={() => {}}
-                                        key={project.id}
-                                        name={project.name}
-                                        id={project.id}
-                                        mode={project.mode}
-                                        memberCount={2}
-                                        health={95}
-                                        featureCount={4}
-                                    />
-                                ))
-                            }
-                            elseShow={() =>
-                                filteredProjects.map(
-                                    (project: IProjectCard) => (
-                                        <StyledCardLink
-                                            key={project.id}
-                                            to={`/projects/${project.id}`}
-                                        >
-                                            <ProjectCard
-                                                onHover={() =>
-                                                    handleHover(project.id)
-                                                }
-                                                name={project.name}
-                                                mode={project.mode}
-                                                memberCount={
-                                                    project.memberCount ?? 0
-                                                }
-                                                health={project.health}
-                                                id={project.id}
-                                                featureCount={
-                                                    project.featureCount
-                                                }
-                                                isFavorite={project.favorite}
-                                            />
-                                        </StyledCardLink>
-                                    ),
-                                )
-                            }
+
+                        <ProjectGroupComponent
+                            sectionTitle='Other projects'
+                            projects={groupedProjects.otherProjects}
                         />
-                    }
-                />
-            </StyledDivContainer>
+                    </>
+                }
+                elseShow={<ProjectGroupComponent projects={filteredProjects} />}
+            />
         </PageContent>
     );
 };

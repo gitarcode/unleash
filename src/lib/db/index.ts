@@ -48,8 +48,8 @@ export const createStores = (
     config: IUnleashConfig,
     db: Db,
 ): IUnleashStores => {
-    const { getLogger, eventBus, flagResolver } = config;
-    const eventStore = new EventStore(db, getLogger, flagResolver);
+    const { getLogger, eventBus } = config;
+    const eventStore = new EventStore(db, getLogger);
 
     return {
         eventStore,
@@ -65,6 +65,7 @@ export const createStores = (
             db,
             eventBus,
             getLogger,
+            config.flagResolver,
         ),
         clientInstanceStore: new ClientInstanceStore(db, eventBus, getLogger),
         clientMetricsStoreV2: new ClientMetricsStoreV2(

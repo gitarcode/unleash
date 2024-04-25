@@ -67,7 +67,6 @@ export type UiFlags = {
     celebrateUnleash?: boolean;
     featureSearchFeedback?: Variant;
     enableLicense?: boolean;
-    newStrategyConfigurationFeedback?: boolean;
     adminTokenKillSwitch?: boolean;
     executiveDashboardUI?: boolean;
     feedbackComments?: Variant;
@@ -77,8 +76,15 @@ export type UiFlags = {
     userAccessUIEnabled?: boolean;
     outdatedSdksBanner?: boolean;
     projectOverviewRefactor?: string;
-    collectTrafficDataUsage?: boolean;
+    displayTrafficDataUsage?: boolean;
+    disableShowContextFieldSelectionValues?: boolean;
     variantDependencies?: boolean;
+    projectOverviewRefactorFeedback?: boolean;
+    featureLifecycle?: boolean;
+    scimApi?: boolean;
+    projectListFilterMyProjects?: boolean;
+    createProjectWithEnvironmentConfig?: boolean;
+    projectsListNewCards?: boolean;
 };
 
 export interface IVersionInfo {

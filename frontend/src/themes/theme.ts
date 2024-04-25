@@ -50,6 +50,7 @@ export const theme = {
     fontSizes: {
         extraLargeHeader: '2.5rem',
         largeHeader: '2rem',
+        mediumHeader: '1.5rem',
         mainHeader: '1.25rem',
         bodySize: '1rem',
         smallBody: `${14 / 16}rem`,
@@ -165,6 +166,7 @@ export const theme = {
             focus: colors.action[0.12],
             focusOpacity: 0.12,
             activatedOpacity: 0.12,
+            alternative: colors.purple[900],
         },
 
         /**

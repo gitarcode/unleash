@@ -38,6 +38,7 @@ import Download from '@mui/icons-material/Download';
 import { StyledUsersLinkDiv } from '../Users.styles';
 import { useUiFlag } from 'hooks/useUiFlag';
 import useUiConfig from '../../../../hooks/api/getters/useUiConfig/useUiConfig';
+import { useScimSettings } from 'hooks/api/getters/useScimSettings/useScimSettings';
 
 const UsersList = () => {
     const navigate = useNavigate();
@@ -56,6 +57,9 @@ const UsersList = () => {
         open: false,
     });
     const userAccessUIEnabled = useUiFlag('userAccessUIEnabled');
+    const {
+        settings: { enabled: scimEnabled },
+    } = useScimSettings();
     const [delDialog, setDelDialog] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [emailSent, setEmailSent] = useState(false);
@@ -193,7 +197,9 @@ const UsersList = () => {
                 Header: 'Actions',
                 id: 'Actions',
                 align: 'center',
-                Cell: ({ row: { original: user } }: any) => (
+                Cell: ({
+                    row: { original: user },
+                }: { row: { original: IUser } }) => (
                     <UsersActionsCell
                         onEdit={() => {
                             navigate(`/admin/users/${user.id}/edit`);
@@ -210,6 +216,7 @@ const UsersList = () => {
                         onChangePassword={openPwDialog(user)}
                         onResetPassword={openResetPwDialog(user)}
                         onDelete={openDelDialog(user)}
+                        isScimUser={scimEnabled && Boolean(user.scimId)}
                     />
                 ),
                 width: userAccessUIEnabled ? 240 : 200,
