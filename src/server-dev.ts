@@ -56,7 +56,6 @@ process.nextTick(async () => {
                         projectsListNewCards: true,
                         parseProjectFromSession: true,
                         createProjectWithEnvironmentConfig: true,
-                        applicationOverviewNewQuery: true,
                     },
                 },
                 authentication: {

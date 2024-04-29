@@ -301,9 +301,6 @@ export default class ClientApplicationsStore
     async getApplicationOverview(
         appName: string,
     ): Promise<IApplicationOverview> {
-        if (!this.flagResolver.isEnabled('applicationOverviewNewQuery')) {
-            return this.getOldApplicationOverview(appName);
-        }
         const stopTimer = this.timer('getApplicationOverview');
         const query = this.db
             .with('metrics', (qb) => {
@@ -400,9 +397,6 @@ export default class ClientApplicationsStore
         rows: any[],
         existingStrategies: string[],
     ): IApplicationOverview {
-        if (!this.flagResolver.isEnabled('applicationOverviewNewQuery')) {
-            return this.mapOldApplicationOverviewData(rows, existingStrategies);
-        }
         const featureCount = new Set(rows.flatMap((row) => row.features)).size;
         const missingStrategies: Set<string> = new Set();
 
@@ -454,96 +448,6 @@ export default class ClientApplicationsStore
                 }
                 if (featuresNotMappedToProject) {
                     env.issues.missingFeatures = features;
-                }
-                if (sdk_version && !env.sdks.includes(sdk_version)) {
-                    env.sdks.push(sdk_version);
-                }
-                if (new Date(last_seen) > new Date(env.lastSeen)) {
-                    env.lastSeen = last_seen;
-                }
-            }
-
-            return acc;
-        }, []);
-        environments.forEach((env) => {
-            delete env.uniqueInstanceIds;
-            env.sdks.sort();
-        });
-
-        return {
-            projects: [
-                ...new Set(
-                    rows
-                        .filter((row) => row.project != null)
-                        .map((row) => row.project),
-                ),
-            ],
-            featureCount,
-            environments,
-            issues: {
-                missingStrategies: [...missingStrategies],
-            },
-        };
-    }
-
-    private mapOldApplicationOverviewData(
-        rows: any[],
-        existingStrategies: string[],
-    ): IApplicationOverview {
-        const featureCount = new Set(rows.map((row) => row.feature_name)).size;
-        const missingStrategies: Set<string> = new Set();
-
-        const environments = rows.reduce((acc, row) => {
-            const {
-                environment,
-                instance_id,
-                sdk_version,
-                last_seen,
-                project,
-                feature_name,
-                strategies,
-            } = row;
-
-            if (!environment) return acc;
-
-            strategies.forEach((strategy) => {
-                if (
-                    !DEPRECATED_STRATEGIES.includes(strategy) &&
-                    !existingStrategies.includes(strategy)
-                ) {
-                    missingStrategies.add(strategy);
-                }
-            });
-
-            const featureDoesNotExist = !project && feature_name;
-
-            let env = acc.find((e) => e.name === environment);
-            if (!env) {
-                env = {
-                    name: environment,
-                    instanceCount: instance_id ? 1 : 0,
-                    sdks: sdk_version ? [sdk_version] : [],
-                    lastSeen: last_seen,
-                    uniqueInstanceIds: new Set(
-                        instance_id ? [instance_id] : [],
-                    ),
-                    issues: {
-                        missingFeatures: featureDoesNotExist
-                            ? [feature_name]
-                            : [],
-                    },
-                };
-                acc.push(env);
-            } else {
-                if (instance_id) {
-                    env.uniqueInstanceIds.add(instance_id);
-                    env.instanceCount = env.uniqueInstanceIds.size;
-                }
-                if (
-                    featureDoesNotExist &&
-                    !env.issues.missingFeatures.includes(feature_name)
-                ) {
-                    env.issues.missingFeatures.push(feature_name);
                 }
                 if (sdk_version && !env.sdks.includes(sdk_version)) {
                     env.sdks.push(sdk_version);
