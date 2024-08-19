@@ -61,7 +61,6 @@ export type UiFlags = {
     googleAuthEnabled?: boolean;
     disableBulkToggle?: boolean;
     disableNotifications?: boolean;
-    advancedPlayground?: boolean;
     strategyVariant?: boolean;
     doraMetrics?: boolean;
     dependentFeatures?: boolean;
