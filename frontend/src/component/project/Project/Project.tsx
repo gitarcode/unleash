@@ -14,7 +14,6 @@ import {
     StyledTopRow,
 } from './Project.styles';
 import { Box, Paper, Tabs, Typography, styled } from '@mui/material';
-import FileUpload from '@mui/icons-material/FileUpload';
 import useToast from 'hooks/useToast';
 import useQueryParams from 'hooks/useQueryParams';
 import { useEffect, useState } from 'react';
@@ -22,8 +21,6 @@ import ProjectEnvironment from '../ProjectEnvironment/ProjectEnvironment';
 import { ProjectFeaturesArchive } from './ProjectFeaturesArchive/ProjectFeaturesArchive';
 import ProjectFlags from './ProjectFlags';
 import ProjectHealth from './ProjectHealth/ProjectHealth';
-import PermissionIconButton from 'component/common/PermissionIconButton/PermissionIconButton';
-import { UPDATE_FEATURE } from 'component/providers/AccessProvider/permissions';
 import { useRequiredPathParam } from 'hooks/useRequiredPathParam';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
@@ -34,7 +31,6 @@ import { ProjectChangeRequests } from '../../changeRequest/ProjectChangeRequests
 import { ProjectSettings } from './ProjectSettings/ProjectSettings';
 import { useFavoriteProjectsApi } from 'hooks/api/actions/useFavoriteProjectsApi/useFavoriteProjectsApi';
 import { ImportModal } from './Import/ImportModal';
-import { IMPORT_BUTTON } from 'utils/testIds';
 import { EnterpriseBadge } from 'component/common/EnterpriseBadge/EnterpriseBadge';
 import { Badge } from 'component/common/Badge/Badge';
 import type { UiFlags } from 'interfaces/uiConfig';
@@ -216,25 +212,7 @@ export const Project = () => {
                                 </StyledName>
                             </StyledProjectTitle>
                         </StyledDiv>
-                        <StyledDiv>
-                            <ConditionallyRender
-                                condition={Boolean(
-                                    uiConfig?.flags?.featuresExportImport,
-                                )}
-                                show={
-                                    <PermissionIconButton
-                                        permission={UPDATE_FEATURE}
-                                        projectId={projectId}
-                                        onClick={() => setModalOpen(true)}
-                                        tooltipProps={{ title: 'Import' }}
-                                        data-testid={IMPORT_BUTTON}
-                                        data-loading-project
-                                    >
-                                        <FileUpload />
-                                    </PermissionIconButton>
-                                }
-                            />
-                        </StyledDiv>
+                        <StyledDiv></StyledDiv>
                     </StyledTopRow>
                 </StyledInnerContainer>
 
