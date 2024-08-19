@@ -125,7 +125,6 @@ exports[`should create default config 1`] = `
       "killInsightsUI": false,
       "killScheduledChangeRequestCache": false,
       "maintenanceMode": false,
-      "manyStrategiesPagination": false,
       "messageBanner": {
         "enabled": false,
         "name": "message-banner",
