@@ -99,8 +99,6 @@ const StyledIconButton = styled(IconButton)<{
 const Header: VFC = () => {
     const { onSetThemeMode, themeMode } = useThemeMode();
     const theme = useTheme();
-
-    const disableNotifications = useUiFlag('disableNotifications');
     const { uiConfig, isOss } = useUiConfig();
     const smallScreen = useMediaQuery(theme.breakpoints.down('lg'));
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -201,7 +199,7 @@ const Header: VFC = () => {
                             </StyledIconButton>
                         </Tooltip>
                         <ConditionallyRender
-                            condition={!isOss() && !disableNotifications}
+                            condition={!isOss()}
                             show={<Notifications />}
                         />
                         <Tooltip title='Documentation' arrow>
