@@ -11,17 +11,14 @@ import {
     Typography,
 } from '@mui/material';
 import Add from '@mui/icons-material/Add';
-import FileDownload from '@mui/icons-material/FileDownload';
 import MoreVert from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom';
-import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { CREATE_FEATURE } from 'component/providers/AccessProvider/permissions';
 import { PermissionHOC } from 'component/common/PermissionHOC/PermissionHOC';
 import { useCreateFeaturePath } from 'component/feature/CreateFeatureButton/useCreateFeaturePath';
 import { usePlausibleTracker } from 'hooks/usePlausibleTracker';
 
-const StyledActions = styled('div')(({ theme }) => ({
+const StyledActions = styled('div')(() => ({
     display: 'flex',
     justifyContent: 'center',
 }));
@@ -35,12 +32,9 @@ interface IFeatureFlagListActions {
     onExportClick: () => void;
 }
 
-export const FeatureToggleListActions: FC<IFeatureFlagListActions> = ({
-    onExportClick,
-}: IFeatureFlagListActions) => {
+export const FeatureToggleListActions: FC<IFeatureFlagListActions> = () => {
     const { trackEvent } = usePlausibleTracker();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const featuresExportImport = useUiFlag('featuresExportImport');
     const createFeature = useCreateFeaturePath({
         query: '',
         project: 'default',
@@ -123,31 +117,6 @@ export const FeatureToggleListActions: FC<IFeatureFlagListActions> = ({
                             </MenuItem>
                         )}
                     </PermissionHOC>
-                    <ConditionallyRender
-                        condition={featuresExportImport}
-                        show={
-                            <MenuItem
-                                onClick={() => {
-                                    onExportClick();
-                                    handleClose();
-                                    trackEvent('search-feature-buttons', {
-                                        props: {
-                                            action: 'export',
-                                        },
-                                    });
-                                }}
-                            >
-                                <ListItemIcon>
-                                    <FileDownload />
-                                </ListItemIcon>
-                                <ListItemText>
-                                    <Typography variant='body2'>
-                                        Export
-                                    </Typography>
-                                </ListItemText>
-                            </MenuItem>
-                        }
-                    />
                 </MenuList>
             </StyledPopover>
         </StyledActions>

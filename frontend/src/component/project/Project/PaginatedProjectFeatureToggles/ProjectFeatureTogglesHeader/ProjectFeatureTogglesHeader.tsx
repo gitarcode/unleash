@@ -1,25 +1,16 @@
 import { type ReactNode, type FC, useState } from 'react';
-import {
-    Box,
-    Button,
-    IconButton,
-    Tooltip,
-    useMediaQuery,
-    useTheme,
-} from '@mui/material';
+import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
 import useLoading from 'hooks/useLoading';
 import { PageHeader } from 'component/common/PageHeader/PageHeader';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
 import { Search } from 'component/common/Search/Search';
 import { useUiFlag } from 'hooks/useUiFlag';
 import Add from '@mui/icons-material/Add';
-import FileDownload from '@mui/icons-material/FileDownload';
 import { styled } from '@mui/material';
 import ResponsiveButton from 'component/common/ResponsiveButton/ResponsiveButton';
 import { useSearchParams } from 'react-router-dom';
 import { useRequiredPathParam } from 'hooks/useRequiredPathParam';
 import { CREATE_FEATURE } from 'component/providers/AccessProvider/permissions';
-import { ExportDialog } from 'component/feature/FeatureToggleList/ExportDialog';
 import type { FeatureSchema } from 'openapi';
 import { usePlausibleTracker } from 'hooks/usePlausibleTracker';
 import ReviewsOutlined from '@mui/icons-material/ReviewsOutlined';
@@ -71,20 +62,11 @@ const FlagCreationButton: FC = () => {
 
 export const ProjectFeatureTogglesHeader: FC<
     IProjectFeatureTogglesHeaderProps
-> = ({
-    isLoading,
-    totalItems,
-    searchQuery,
-    onChangeSearchQuery,
-    environmentsToExport,
-    actions,
-}) => {
-    const projectId = useRequiredPathParam('projectId');
+> = ({ isLoading, totalItems, searchQuery, onChangeSearchQuery, actions }) => {
     const headerLoadingRef = useLoading(isLoading || false);
     const [showTitle, setShowTitle] = useState(true);
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const featuresExportImportFlag = useUiFlag('featuresExportImport');
     const [showExportDialog, setShowExportDialog] = useState(false);
     const { trackEvent } = usePlausibleTracker();
     const projectOverviewRefactorFeedback = useUiFlag(
@@ -148,48 +130,6 @@ export const ProjectFeatureTogglesHeader: FC<
                         />
                         {actions}
                         <PageHeader.Divider sx={{ marginLeft: 0 }} />
-                        <ConditionallyRender
-                            condition={featuresExportImportFlag}
-                            show={
-                                <>
-                                    <Tooltip
-                                        title='Export all project flags'
-                                        arrow
-                                    >
-                                        <IconButton
-                                            data-loading
-                                            onClick={() =>
-                                                setShowExportDialog(true)
-                                            }
-                                            sx={(theme) => ({
-                                                marginRight: theme.spacing(2),
-                                            })}
-                                        >
-                                            <FileDownload />
-                                        </IconButton>
-                                    </Tooltip>
-
-                                    <ConditionallyRender
-                                        condition={!isLoading}
-                                        show={
-                                            <ExportDialog
-                                                showExportDialog={
-                                                    showExportDialog
-                                                }
-                                                project={projectId}
-                                                data={[]}
-                                                onClose={() =>
-                                                    setShowExportDialog(false)
-                                                }
-                                                environments={
-                                                    environmentsToExport || []
-                                                }
-                                            />
-                                        }
-                                    />
-                                </>
-                            }
-                        />
                         <ConditionallyRender
                             condition={
                                 projectOverviewRefactorFeedback &&
