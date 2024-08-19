@@ -17,7 +17,6 @@ import { ConditionallyRender } from 'component/common/ConditionallyRender/Condit
 import useProjectOverview, {
     featuresCount,
 } from 'hooks/api/getters/useProjectOverview/useProjectOverview';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { useGlobalFeatureSearch } from '../FeatureToggleList/useGlobalFeatureSearch';
 import { Limit } from 'component/common/Limit/Limit';
 
@@ -37,8 +36,7 @@ export const isProjectFeatureLimitReached = (
 };
 
 const useGlobalFlagLimit = (flagLimit: number, flagCount: number) => {
-    const resourceLimitsEnabled = useUiFlag('resourceLimits');
-    const limitReached = resourceLimitsEnabled && flagCount >= flagLimit;
+    const limitReached = flagCount >= flagLimit;
 
     return {
         limitReached,
@@ -106,8 +104,6 @@ const CreateFeature = () => {
 
     const { total: totalFlags, loading: loadingTotalFlagCount } =
         useGlobalFeatureSearch();
-
-    const resourceLimitsEnabled = useUiFlag('resourceLimits');
 
     const { globalFlagLimitReached, projectFlagLimitReached, limitMessage } =
         useFlagLimits({
@@ -200,15 +196,10 @@ const CreateFeature = () => {
                 clearErrors={clearErrors}
                 featureNaming={projectInfo.featureNaming}
                 Limit={
-                    <ConditionallyRender
-                        condition={resourceLimitsEnabled}
-                        show={
-                            <Limit
-                                name='feature flags'
-                                limit={uiConfig.resourceLimits.featureFlags}
-                                currentValue={totalFlags ?? 0}
-                            />
-                        }
+                    <Limit
+                        name='feature flags'
+                        limit={uiConfig.resourceLimits.featureFlags}
+                        currentValue={totalFlags ?? 0}
                     />
                 }
             >
