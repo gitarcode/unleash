@@ -10,13 +10,9 @@ const alwaysOnFlagResolver = {
 } as unknown as IFlagResolver;
 
 test('Should not allow to exceed project limit', async () => {
-    const LIMIT = 1;
     const projectService = createFakeProjectService({
         ...createTestConfig(),
         flagResolver: alwaysOnFlagResolver,
-        resourceLimits: {
-            projects: LIMIT,
-        },
         eventBus: {
             emit: () => {},
         },
