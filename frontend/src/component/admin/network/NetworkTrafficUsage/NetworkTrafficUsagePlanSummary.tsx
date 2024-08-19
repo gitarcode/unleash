@@ -1,23 +1,21 @@
 import styled from '@mui/material/styles/styled';
 import Box from '@mui/system/Box';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
 import { Badge } from 'component/common/Badge/Badge';
-import { useUiFlag } from 'hooks/useUiFlag';
 
-const StyledContainerGrid = styled(Grid)(({ theme }) => ({
+const StyledContainerGrid = styled(Grid)(() => ({
     display: 'flex',
     flexDirection: 'row',
 }));
 
-const StyledGrid = styled(Grid)(({ theme }) => ({
+const StyledGrid = styled(Grid)(() => ({
     display: 'flex',
     flexDirection: 'row',
     flex: '1 1',
 }));
 
-const StyledColumnGrid = styled(Grid)(({ theme }) => ({
+const StyledColumnGrid = styled(Grid)(() => ({
     display: 'flex',
     flexDirection: 'column',
     flex: '1 1',
@@ -41,7 +39,7 @@ const StyledCardDescription = styled(Box)(({ theme }) => ({
     marginTop: theme.spacing(2),
 }));
 
-const RowContainer = styled(Box)(({ theme }) => ({
+const RowContainer = styled(Box)(() => ({
     display: 'flex',
     flexDirection: 'row',
 }));
@@ -63,11 +61,7 @@ interface INetworkTrafficUsagePlanSummary {
 export const NetworkTrafficUsagePlanSummary = ({
     usageTotal,
     includedTraffic,
-    overageCost,
-    estimatedMonthlyCost,
 }: INetworkTrafficUsagePlanSummary) => {
-    const overages = usageTotal - includedTraffic;
-    const estimateFlagEnabled = useUiFlag('estimateTrafficDataCost');
     return (
         <StyledContainerGrid container spacing={4}>
             <StyledGrid item xs={5.5} md={5.5}>
@@ -111,57 +105,6 @@ export const NetworkTrafficUsagePlanSummary = ({
                     </StyledColumnGrid>
                 </StyledContainer>
             </StyledGrid>
-            <ConditionallyRender
-                condition={
-                    estimateFlagEnabled && includedTraffic > 0 && overages > 0
-                }
-                show={
-                    <StyledGrid item xs={5.5} md={5.5}>
-                        <StyledContainer>
-                            <StyledColumnGrid item>
-                                <Box>
-                                    <b>Accrued traffic charges</b>
-                                </Box>
-                                <StyledCardDescription>
-                                    <RowContainer>
-                                        Requests overages this month (
-                                        <Link href='https://www.getunleash.io/pricing'>
-                                            pricing
-                                        </Link>
-                                        )
-                                        <StyledNumbersDiv>
-                                            {overages.toLocaleString()} requests
-                                        </StyledNumbersDiv>
-                                    </RowContainer>
-                                    <RowContainer>
-                                        Accrued traffic charges
-                                        <StyledNumbersDiv>
-                                            <Badge color='secondary'>
-                                                {overageCost} USD
-                                            </Badge>
-                                        </StyledNumbersDiv>
-                                    </RowContainer>
-                                    <ConditionallyRender
-                                        condition={estimatedMonthlyCost > 0}
-                                        show={
-                                            <RowContainer>
-                                                Estimated traffic charges based
-                                                on current usage
-                                                <StyledNumbersDiv>
-                                                    <Badge color='secondary'>
-                                                        {estimatedMonthlyCost}{' '}
-                                                        USD
-                                                    </Badge>
-                                                </StyledNumbersDiv>
-                                            </RowContainer>
-                                        }
-                                    />
-                                </StyledCardDescription>
-                            </StyledColumnGrid>
-                        </StyledContainer>
-                    </StyledGrid>
-                }
-            />
         </StyledContainerGrid>
     );
 };
