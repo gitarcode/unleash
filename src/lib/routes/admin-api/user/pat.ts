@@ -27,7 +27,7 @@ import {
     type CreatePatSchema,
     createPatSchema,
 } from '../../../openapi/spec/create-pat-schema';
-import { ForbiddenError, NotFoundError } from '../../../error';
+import { ForbiddenError } from '../../../error';
 import idNumberMiddleware from '../../../middleware/id-number-middleware';
 
 export default class PatController extends Controller {
@@ -121,10 +121,6 @@ export default class PatController extends Controller {
         req: IAuthRequest<unknown, unknown, CreatePatSchema>,
         res: Response<PatSchema>,
     ): Promise<void> {
-        if (this.flagResolver.isEnabled('personalAccessTokensKillSwitch')) {
-            throw new NotFoundError('PATs are disabled.');
-        }
-
         if (!req.user.id) {
             throw new ForbiddenError('PATs require an authenticated user.');
         }
@@ -144,10 +140,6 @@ export default class PatController extends Controller {
     }
 
     async getPats(req: IAuthRequest, res: Response<PatsSchema>): Promise<void> {
-        if (this.flagResolver.isEnabled('personalAccessTokensKillSwitch')) {
-            throw new NotFoundError('PATs are disabled.');
-        }
-
         if (!req.user.id) {
             throw new ForbiddenError('PATs require an authenticated user.');
         }
