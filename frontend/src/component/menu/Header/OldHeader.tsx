@@ -32,11 +32,9 @@ import { filterByConfig, mapRouteLink } from 'component/common/util';
 import { useId } from 'hooks/useId';
 import { ThemeMode } from 'component/common/ThemeMode/ThemeMode';
 import { useThemeMode } from 'hooks/useThemeMode';
-import { Notifications } from 'component/common/Notifications/Notifications';
 import { useAdminRoutes } from 'component/admin/useAdminRoutes';
 import InviteLinkButton from './InviteLink/InviteLinkButton/InviteLinkButton';
 import { useUiFlag } from 'hooks/useUiFlag';
-import { Badge } from '../../common/Badge/Badge';
 
 const HeaderComponent = styled(AppBar)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -117,23 +115,6 @@ const styledIconProps = (theme: Theme) => ({
 
 const StyledLink = styled(Link)(({ theme }) => focusable(theme));
 
-const StyledText = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.spacing(1),
-}));
-
-const StyledLinkWithBetaBadge = ({
-    title,
-    to,
-}: { title: string; to: string }) => (
-    <StyledLink to={to} sx={{ margin: 0 }}>
-        <StyledText>
-            <span>{title}</span> <Badge color='success'>Beta</Badge>
-        </StyledText>
-    </StyledLink>
-);
-
 const StyledIconButton = styled(IconButton)<{
     component?: 'a' | 'button';
     href?: string;
@@ -155,8 +136,6 @@ const OldHeader: VFC = () => {
     const configId = useId();
     const [adminRef, setAdminRef] = useState<HTMLButtonElement | null>(null);
     const [configRef, setConfigRef] = useState<HTMLButtonElement | null>(null);
-
-    const disableNotifications = useUiFlag('disableNotifications');
     const { uiConfig, isOss } = useUiConfig();
     const smallScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -284,10 +263,6 @@ const OldHeader: VFC = () => {
                                 />
                             </StyledIconButton>
                         </Tooltip>
-                        <ConditionallyRender
-                            condition={!isOss() && !disableNotifications}
-                            show={<Notifications />}
-                        />
                         <Tooltip title='Documentation' arrow>
                             <StyledIconButton
                                 component='a'

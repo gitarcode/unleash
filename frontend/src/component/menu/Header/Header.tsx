@@ -28,7 +28,6 @@ import LightModeOutlined from '@mui/icons-material/LightModeOutlined';
 import { filterByConfig, mapRouteLink } from 'component/common/util';
 import { ThemeMode } from 'component/common/ThemeMode/ThemeMode';
 import { useThemeMode } from 'hooks/useThemeMode';
-import { Notifications } from 'component/common/Notifications/Notifications';
 import { useAdminRoutes } from 'component/admin/useAdminRoutes';
 import InviteLinkButton from './InviteLink/InviteLinkButton/InviteLinkButton';
 import { useUiFlag } from 'hooks/useUiFlag';
@@ -99,9 +98,7 @@ const StyledIconButton = styled(IconButton)<{
 const Header: VFC = () => {
     const { onSetThemeMode, themeMode } = useThemeMode();
     const theme = useTheme();
-
-    const disableNotifications = useUiFlag('disableNotifications');
-    const { uiConfig, isOss } = useUiConfig();
+    const { uiConfig } = useUiConfig();
     const smallScreen = useMediaQuery(theme.breakpoints.down('lg'));
     const [openDrawer, setOpenDrawer] = useState(false);
     const toggleDrawer = () => setOpenDrawer((prev) => !prev);
@@ -200,10 +197,6 @@ const Header: VFC = () => {
                                 />
                             </StyledIconButton>
                         </Tooltip>
-                        <ConditionallyRender
-                            condition={!isOss() && !disableNotifications}
-                            show={<Notifications />}
-                        />
                         <Tooltip title='Documentation' arrow>
                             <StyledIconButton
                                 component='a'
