@@ -155,9 +155,7 @@ beforeAll(async () => {
         db.stores,
         {
             experimental: {
-                flags: {
-                    featuresExportImport: true,
-                },
+                flags: {},
             },
         },
         db.rawDatabase,
@@ -229,7 +227,7 @@ describe('import-export for project-specific segments', () => {
             .set('Content-Type', 'application/json')
             .expect(200);
 
-        const { name, ...resultStrategy } = strategy;
+        const { ...resultStrategy } = strategy;
         expect(body).toMatchObject({
             features: [
                 {
@@ -301,7 +299,7 @@ test('exports features', async () => {
         .set('Content-Type', 'application/json')
         .expect(200);
 
-    const { name, ...resultStrategy } = strategy;
+    const { ...resultStrategy } = strategy;
     expect(body).toMatchObject({
         features: [
             {
@@ -377,7 +375,7 @@ test('exports features by tag', async () => {
         .set('Content-Type', 'application/json')
         .expect(200);
 
-    const { name, ...resultStrategy } = strategy;
+    const { ...resultStrategy } = strategy;
     expect(body).toMatchObject({
         features: [
             {
@@ -475,7 +473,7 @@ test('should export custom context fields from strategies and variants', async (
         .set('Content-Type', 'application/json')
         .expect(200);
 
-    const { name, ...resultStrategy } = strategy;
+    const { ...resultStrategy } = strategy;
     expect(body).toMatchObject({
         features: [
             {
@@ -520,7 +518,7 @@ test('should export tags', async () => {
         .set('Content-Type', 'application/json')
         .expect(200);
 
-    const { name, ...resultStrategy } = defaultStrategy;
+    const { ...resultStrategy } = defaultStrategy;
     expect(body).toMatchObject({
         features: [
             {
