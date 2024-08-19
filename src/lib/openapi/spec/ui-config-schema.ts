@@ -112,10 +112,6 @@ export const uiConfigSchema = {
             description:
                 'Additional (largely experimental) features that are enabled in this Unleash instance.',
             example: {
-                messageBanner: {
-                    name: 'disabled',
-                    enabled: false,
-                },
                 featuresExportImport: true,
             },
             additionalProperties: {

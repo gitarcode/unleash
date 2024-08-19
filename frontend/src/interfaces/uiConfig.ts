@@ -51,7 +51,6 @@ export type UiFlags = {
     UG?: boolean;
     embedProxyFrontend?: boolean;
     maintenanceMode?: boolean;
-    messageBanner?: Variant;
     banner?: Variant;
     featuresExportImport?: boolean;
     caseInsensitiveInOperators?: boolean;
