@@ -48,7 +48,6 @@ process.nextTick(async () => {
                         outdatedSdksBanner: true,
                         disableShowContextFieldSelectionValues: false,
                         projectOverviewRefactorFeedback: true,
-                        manyStrategiesPagination: true,
                         enableLegacyVariants: false,
                         resourceLimits: true,
                         extendedMetrics: true,
