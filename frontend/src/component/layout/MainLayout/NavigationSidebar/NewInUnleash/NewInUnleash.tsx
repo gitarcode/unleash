@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { useUiFlag } from 'hooks/useUiFlag';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 import { useLocalStorageState } from 'hooks/useLocalStorageState';
 import {
@@ -87,14 +86,13 @@ export const NewInUnleash = ({
         new Set(),
     );
     const { isEnterprise } = useUiConfig();
-    const signalsEnabled = useUiFlag('signals');
 
     const items: NewItem[] = [
         {
             label: 'Signals & Actions',
             icon: <StyledSignalsIcon />,
             link: '/integrations/signals',
-            show: isEnterprise() && signalsEnabled,
+            show: isEnterprise(),
         },
     ];
 
