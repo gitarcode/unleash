@@ -32,7 +32,6 @@ import { Knex } from 'knex';
 import * as permissions from './types/permissions';
 import * as eventType from './types/events';
 import { Db } from './db/db';
-import { defaultLockKey, defaultTimeout, withDbLock } from './util/db-lock';
 import { scheduleServices } from './features/scheduler/schedule-services';
 import { compareAndLogPostgresVersion } from './util/postgres-version-checker';
 
@@ -147,18 +146,8 @@ async function start(opts: IUnleashOptions = {}): Promise<IUnleash> {
             logger.info('DB migration: disabled');
         } else {
             logger.info('DB migration: start');
-            if (config.flagResolver.isEnabled('migrationLock')) {
-                logger.info('Running migration with lock');
-                const lock = withDbLock(config.db, {
-                    lockKey: defaultLockKey,
-                    timeout: defaultTimeout,
-                    logger,
-                });
-                await lock(migrateDb)(config);
-            } else {
-                logger.info('Running migration without lock');
-                await migrateDb(config);
-            }
+            logger.info('Running migration without lock');
+            await migrateDb(config);
 
             logger.info('DB migration: end');
         }
