@@ -73,7 +73,6 @@ exports[`should create default config 1`] = `
   "flagResolver": FlagResolver {
     "experiments": {
       "addonUsageMetrics": false,
-      "adminTokenKillSwitch": false,
       "anonymiseEventLog": false,
       "anonymizeProjectOwners": false,
       "archiveProjects": false,

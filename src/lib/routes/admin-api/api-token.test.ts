@@ -6,16 +6,14 @@ import getApp from '../../app';
 import supertest from 'supertest';
 import { addDays } from 'date-fns';
 
-async function getSetup(adminTokenKillSwitchEnabled: boolean) {
+async function getSetup() {
     const base = `/random${Math.round(Math.random() * 1000)}`;
     const perms = permissions();
     const config = createTestConfig({
         preHook: perms.hook,
         server: { baseUriPath: base },
         experimental: {
-            flags: {
-                adminTokenKillSwitch: adminTokenKillSwitchEnabled,
-            },
+            flags: {},
         },
         //@ts-ignore - Just testing, so only need the isEnabled call here
     });
