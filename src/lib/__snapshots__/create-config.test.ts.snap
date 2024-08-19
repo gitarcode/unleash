@@ -146,7 +146,6 @@ exports[`should create default config 1`] = `
       "removeUnsafeInlineStyleSrc": false,
       "resourceLimits": false,
       "responseTimeMetricsFix": false,
-      "responseTimeWithAppNameKillSwitch": false,
       "showInactiveUsers": false,
       "signals": false,
       "strictSchemaValidation": false,
