@@ -47,7 +47,6 @@ export type IFlagKey =
     | 'userAccessUIEnabled'
     | 'disableUpdateMaxRevisionId'
     | 'disablePublishUnannouncedEvents'
-    | 'outdatedSdksBanner'
     | 'responseTimeMetricsFix'
     | 'displayEdgeBanner'
     | 'disableShowContextFieldSelectionValues'
@@ -188,10 +187,6 @@ const flags: IFlags = {
     ),
     killInsightsUI: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_KILL_INSIGHTS_UI,
-        false,
-    ),
-    outdatedSdksBanner: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_OUTDATED_SDKS_BANNER,
         false,
     ),
     feedbackComments: {
