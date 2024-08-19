@@ -245,9 +245,7 @@ test('should return a 200 if required fields are there', async () => {
 test('should return 204 if metrics are disabled by feature flag', async () => {
     const { request: localRequest } = await getSetup({
         experimental: {
-            flags: {
-                disableMetrics: true,
-            },
+            flags: {},
         },
     });
 
@@ -335,9 +333,7 @@ describe('bulk metrics', () => {
     test('bulk metrics should return 204 if metrics are disabled', async () => {
         const { request: localRequest } = await getSetup({
             experimental: {
-                flags: {
-                    disableMetrics: true,
-                },
+                flags: {},
             },
         });
 
