@@ -1,13 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type VFC } from 'react';
-import {
-    Box,
-    Button,
-    IconButton,
-    Link,
-    Tooltip,
-    useMediaQuery,
-    useTheme,
-} from '@mui/material';
+import { Box, Link, useMediaQuery, useTheme } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { createColumnHelper, useReactTable } from '@tanstack/react-table';
 import { PaginatedTable, TablePlaceholder } from 'component/common/Table';
@@ -34,12 +26,9 @@ import { FeatureToggleFilters } from './FeatureToggleFilters/FeatureToggleFilter
 import { withTableState } from 'utils/withTableState';
 import { FeatureTagCell } from 'component/common/Table/cells/FeatureTagCell/FeatureTagCell';
 import { FeatureSegmentCell } from 'component/common/Table/cells/FeatureSegmentCell/FeatureSegmentCell';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { FeatureToggleListActions } from './FeatureToggleListActions/FeatureToggleListActions';
 import useLoading from 'hooks/useLoading';
 import { usePlausibleTracker } from 'hooks/usePlausibleTracker';
-import { useFeedback } from '../../feedbackNew/useFeedback';
-import ReviewsOutlined from '@mui/icons-material/ReviewsOutlined';
 import { useGlobalFeatureSearch } from './useGlobalFeatureSearch';
 
 export const featuresPlaceholder = Array(15).fill({
@@ -51,33 +40,19 @@ export const featuresPlaceholder = Array(15).fill({
 });
 
 const columnHelper = createColumnHelper<FeatureSearchResponseSchema>();
-const feedbackCategory = 'search';
 
 export const FeatureToggleListTable: VFC = () => {
     const theme = useTheme();
-    const featureSearchFeedback = useUiFlag('featureSearchFeedback');
     const { trackEvent } = usePlausibleTracker();
     const { environments } = useEnvironments();
     const enabledEnvironments = environments
         .filter((env) => env.enabled)
         .map((env) => env.name);
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const isMediumScreen = useMediaQuery(theme.breakpoints.down('lg'));
     const [showExportDialog, setShowExportDialog] = useState(false);
 
     const { setToastApiError } = useToast();
     const { uiConfig } = useUiConfig();
-
-    const variant =
-        featureSearchFeedback !== false
-            ? featureSearchFeedback?.name ?? ''
-            : '';
-
-    const { openFeedback } = useFeedback(
-        feedbackCategory,
-        'automatic',
-        variant,
-    );
 
     const {
         features,
@@ -234,25 +209,6 @@ export const FeatureToggleListTable: VFC = () => {
         }),
     );
 
-    useEffect(() => {
-        if (isSmallScreen) {
-            table.setColumnVisibility({
-                type: false,
-                createdAt: false,
-                tags: false,
-                lastSeenAt: false,
-                stale: false,
-            });
-        } else if (isMediumScreen) {
-            table.setColumnVisibility({
-                lastSeenAt: false,
-                stale: false,
-            });
-        } else {
-            table.setColumnVisibility({});
-        }
-    }, [isSmallScreen, isMediumScreen]);
-
     const setSearchValue = (query = '') => {
         setTableState({ query });
         trackEvent('search-bar', {
@@ -268,15 +224,6 @@ export const FeatureToggleListTable: VFC = () => {
     if (!(environments.length > 0)) {
         return null;
     }
-
-    const createFeedbackContext = () => {
-        openFeedback({
-            title: 'How easy was it to use search and filters?',
-            positiveLabel: 'What do you like most about search and filters?',
-            areasForImprovementsLabel:
-                'What should be improved in search and filters page?',
-        });
-    };
 
     return (
         <PageContent
@@ -322,64 +269,6 @@ export const FeatureToggleListTable: VFC = () => {
                             <FeatureToggleListActions
                                 onExportClick={() => setShowExportDialog(true)}
                             />
-                            {featureSearchFeedback !== false &&
-                                featureSearchFeedback?.enabled && (
-                                    <>
-                                        <ConditionallyRender
-                                            condition={
-                                                variant === 'withoutText'
-                                            }
-                                            show={
-                                                <Tooltip
-                                                    title='Provide feedback'
-                                                    arrow
-                                                >
-                                                    <IconButton
-                                                        onClick={
-                                                            createFeedbackContext
-                                                        }
-                                                        size='large'
-                                                    >
-                                                        <ReviewsOutlined />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            }
-                                        />
-                                        <ConditionallyRender
-                                            condition={variant === 'withText'}
-                                            show={
-                                                <Button
-                                                    startIcon={
-                                                        <ReviewsOutlined />
-                                                    }
-                                                    onClick={
-                                                        createFeedbackContext
-                                                    }
-                                                >
-                                                    Provide feedback
-                                                </Button>
-                                            }
-                                        />{' '}
-                                        <ConditionallyRender
-                                            condition={
-                                                variant === 'withTextOutlined'
-                                            }
-                                            show={
-                                                <Button
-                                                    startIcon={
-                                                        <ReviewsOutlined />
-                                                    }
-                                                    onClick={
-                                                        createFeedbackContext
-                                                    }
-                                                    variant='outlined'
-                                                >
-                                                    Provide feedback
-                                                </Button>
-                                            }
-                                        />
-                                    </>
-                                )}
                         </>
                     }
                 >
