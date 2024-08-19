@@ -53,7 +53,6 @@ export type IFlagKey =
     | 'disableShowContextFieldSelectionValues'
     | 'projectOverviewRefactorFeedback'
     | 'manyStrategiesPagination'
-    | 'enableLegacyVariants'
     | 'navigationSidebar'
     | 'anonymizeProjectOwners'
     | 'resourceLimits'
@@ -266,10 +265,6 @@ const flags: IFlags = {
     ),
     manyStrategiesPagination: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_MANY_STRATEGIES_PAGINATION,
-        false,
-    ),
-    enableLegacyVariants: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_ENABLE_LEGACY_VARIANTS,
         false,
     ),
     navigationSidebar: parseEnvVarBoolean(
