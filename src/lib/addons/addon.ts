@@ -4,7 +4,6 @@ import type { Logger } from '../logger';
 import type { IAddonConfig, IAddonDefinition } from '../types/model';
 import type { IEvent } from '../types/events';
 import type { IntegrationEventsService } from '../features/integration-events/integration-events-service';
-import type { IntegrationEventWriteModel } from '../features/integration-events/integration-events-store';
 import type { IFlagResolver } from '../types';
 
 export default abstract class Addon {
@@ -80,13 +79,7 @@ export default abstract class Addon {
         integrationId: number,
     ): Promise<void>;
 
-    async registerEvent(
-        integrationEvent: IntegrationEventWriteModel,
-    ): Promise<void> {
-        if (this.flagResolver.isEnabled('integrationEvents')) {
-            await this.integrationEventsService.registerEvent(integrationEvent);
-        }
-    }
+    async registerEvent(): Promise<void> {}
 
     destroy?(): void;
 }
