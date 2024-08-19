@@ -51,7 +51,6 @@ process.nextTick(async () => {
                         manyStrategiesPagination: true,
                         enableLegacyVariants: false,
                         resourceLimits: true,
-                        extendedMetrics: true,
                         insightsV2: true,
                         integrationEvents: true,
                         originMiddleware: true,
