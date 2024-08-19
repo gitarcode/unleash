@@ -91,7 +91,6 @@ exports[`should create default config 1`] = `
       "displayEdgeBanner": false,
       "displayTrafficDataUsage": false,
       "edgeBulkMetrics": false,
-      "embedProxy": true,
       "embedProxyFrontend": true,
       "enableLegacyVariants": false,
       "enableLicense": false,

@@ -1,23 +1,15 @@
-import type { Request, Response } from 'express';
+import type { Request } from 'express';
 import Controller from '../../routes/controller';
 import { type IUnleashConfig, type IUnleashServices, NONE } from '../../types';
 import type { Logger } from '../../logger';
 import type { IApiUser } from '../../types/api-user';
 import {
-    type ClientMetricsSchema,
     createRequestSchema,
     createResponseSchema,
     emptyResponse,
     getStandardResponses,
-    type FrontendApiClientSchema,
-    frontendApiFeaturesSchema,
-    type FrontendApiFeaturesSchema,
 } from '../../openapi';
-import type { Context } from 'unleash-client';
-import { enrichContextWithIp } from './index';
 import { corsOriginMiddleware } from '../../middleware';
-import NotImplementedError from '../../error/not-implemented-error';
-import NotFoundError from '../../error/notfound-error';
 import rateLimit from 'express-rate-limit';
 import { minutesToMilliseconds } from 'date-fns';
 import metricsHelper from '../../util/metrics-helper';
@@ -164,76 +156,5 @@ export default class FrontendAPIController extends Controller {
             handler: FrontendAPIController.endpointNotImplemented,
             permission: NONE,
         });
-    }
-
-    private static async endpointNotImplemented(
-        req: ApiUserRequest,
-        res: Response,
-    ) {
-        const error = new NotImplementedError(
-            'The frontend API does not support this endpoint.',
-        );
-        res.status(error.statusCode).json(error);
-    }
-
-    private async getFrontendApiFeatures(
-        req: ApiUserRequest,
-        res: Response<FrontendApiFeaturesSchema>,
-    ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
-        const toggles =
-            await this.services.frontendApiService.getFrontendApiFeatures(
-                req.user,
-                FrontendAPIController.createContext(req),
-            );
-
-        res.set('Cache-control', 'no-cache');
-
-        this.services.openApiService.respondWithValidation(
-            200,
-            res,
-            frontendApiFeaturesSchema.$id,
-            { toggles },
-        );
-    }
-
-    private async registerFrontendApiMetrics(
-        req: ApiUserRequest<unknown, unknown, ClientMetricsSchema>,
-        res: Response,
-    ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
-
-        if (this.config.flagResolver.isEnabled('disableMetrics')) {
-            res.sendStatus(204);
-            return;
-        }
-
-        await this.services.frontendApiService.registerFrontendApiMetrics(
-            req.user,
-            req.body,
-            req.ip,
-        );
-        res.sendStatus(200);
-    }
-
-    private async registerFrontendApiClient(
-        req: ApiUserRequest<unknown, unknown, FrontendApiClientSchema>,
-        res: Response<string>,
-    ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
-        // Client registration is not yet supported by @unleash/proxy,
-        // but proxy clients may still expect a 200 from this endpoint.
-        res.sendStatus(200);
-    }
-
-    private static createContext(req: ApiUserRequest): Context {
-        const { query } = req;
-        return enrichContextWithIp(query, req.ip);
     }
 }
