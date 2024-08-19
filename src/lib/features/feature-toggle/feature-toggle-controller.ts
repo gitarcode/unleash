@@ -699,10 +699,7 @@ export default class ProjectFeaturesController extends Controller {
     }
 
     maybeAnonymise(feature: FeatureToggleView): FeatureToggleView {
-        if (
-            this.flagResolver.isEnabled('anonymiseEventLog') &&
-            feature.createdBy
-        ) {
+        if (feature.createdBy) {
             return {
                 ...feature,
                 ...(feature.collaborators
@@ -754,7 +751,7 @@ export default class ProjectFeaturesController extends Controller {
         res: Response<FeatureSchema>,
     ): Promise<void> {
         const { projectId, featureName } = req.params;
-        const { createdAt, ...data } = req.body;
+        const { ...data } = req.body;
         if (data.name && data.name !== featureName) {
             throw new BadDataError('Cannot change name of feature flag');
         }
@@ -842,7 +839,7 @@ export default class ProjectFeaturesController extends Controller {
         res: Response<FeatureEnvironmentSchema>,
     ): Promise<void> {
         const { environment, featureName, projectId } = req.params;
-        const { defaultStrategy, ...environmentInfo } =
+        const { ...environmentInfo } =
             await this.featureService.getEnvironmentInfo(
                 projectId,
                 environment,
@@ -852,13 +849,7 @@ export default class ProjectFeaturesController extends Controller {
         const result = {
             ...environmentInfo,
             strategies: environmentInfo.strategies.map((strategy) => {
-                const {
-                    strategyName,
-                    projectId: project,
-                    environment: environmentId,
-                    createdAt,
-                    ...rest
-                } = strategy;
+                const { strategyName, ...rest } = strategy;
                 return { ...rest, name: strategyName };
             }),
         };
