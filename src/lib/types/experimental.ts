@@ -15,7 +15,6 @@ export type IFlagKey =
     | 'messageBanner'
     | 'featuresExportImport'
     | 'caseInsensitiveInOperators'
-    | 'strictSchemaValidation'
     | 'personalAccessTokensKillSwitch'
     | 'migrationLock'
     | 'demo'
@@ -109,10 +108,6 @@ const flags: IFlags = {
     ),
     caseInsensitiveInOperators: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_CASE_INSENSITIVE_IN_OPERATORS,
-        false,
-    ),
-    strictSchemaValidation: parseEnvVarBoolean(
-        process.env.UNLEASH_STRICT_SCHEMA_VALIDTION,
         false,
     ),
     personalAccessTokensKillSwitch: parseEnvVarBoolean(
