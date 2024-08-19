@@ -61,7 +61,6 @@ export type IFlagKey =
     | 'removeUnsafeInlineStyleSrc'
     | 'insightsV2'
     | 'integrationEvents'
-    | 'originMiddleware'
     | 'newEventSearch'
     | 'archiveProjects'
     | 'projectListImprovements'
@@ -298,10 +297,6 @@ const flags: IFlags = {
     ),
     integrationEvents: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_INTEGRATION_EVENTS,
-        false,
-    ),
-    originMiddleware: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_ORIGIN_MIDDLEWARE,
         false,
     ),
     newEventSearch: parseEnvVarBoolean(

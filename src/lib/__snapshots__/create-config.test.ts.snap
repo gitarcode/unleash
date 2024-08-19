@@ -137,7 +137,6 @@ exports[`should create default config 1`] = `
       "migrationLock": true,
       "navigationSidebar": true,
       "newEventSearch": false,
-      "originMiddleware": false,
       "outdatedSdksBanner": false,
       "personalAccessTokensKillSwitch": false,
       "projectListImprovements": false,
