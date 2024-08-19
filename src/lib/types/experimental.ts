@@ -54,7 +54,6 @@ export type IFlagKey =
     | 'projectOverviewRefactorFeedback'
     | 'manyStrategiesPagination'
     | 'enableLegacyVariants'
-    | 'navigationSidebar'
     | 'anonymizeProjectOwners'
     | 'resourceLimits'
     | 'extendedMetrics'
@@ -271,10 +270,6 @@ const flags: IFlags = {
     enableLegacyVariants: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_ENABLE_LEGACY_VARIANTS,
         false,
-    ),
-    navigationSidebar: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_SIDEBAR_NAVIGATION,
-        true,
     ),
     anonymizeProjectOwners: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_ANONYMIZE_PROJECT_OWNERS,
