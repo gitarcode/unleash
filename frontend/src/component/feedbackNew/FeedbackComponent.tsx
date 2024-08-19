@@ -20,7 +20,6 @@ import type { IToast } from 'interfaces/toast';
 import { useTheme } from '@mui/material/styles';
 import type { FeedbackData, FeedbackMode } from './FeedbackContext';
 import { usePlausibleTracker } from 'hooks/usePlausibleTracker';
-import { useUiFlag } from 'hooks/useUiFlag';
 import useUserType from './useUserType';
 
 export const ParentContainer = styled('div')(({ theme }) => ({
@@ -209,7 +208,7 @@ export const FeedbackComponent = ({
     const { setHasSubmittedFeedback } = useUserSubmittedFeedback(
         feedbackData.category,
     );
-    const feedbackComments = useUiFlag('feedbackComments');
+    const feedbackComments = true;
 
     function isProvideFeedbackSchema(data: any): data is ProvideFeedbackSchema {
         data.difficultyScore = data.difficultyScore
@@ -338,8 +337,7 @@ export const FeedbackComponent = ({
                                         </ScoreHelpContainer>
                                     </StyledScoreContainer>
 
-                                    {feedbackComments !== false &&
-                                    feedbackComments.enabled &&
+                                    {feedbackComments.enabled &&
                                     feedbackComments.name ===
                                         'withoutComments' ? (
                                         <>
