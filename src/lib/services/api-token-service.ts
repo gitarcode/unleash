@@ -34,7 +34,6 @@ import { addMinutes, isPast } from 'date-fns';
 import metricsHelper from '../util/metrics-helper';
 import { FUNCTION_TIME } from '../metric-events';
 import type { ResourceLimitsSchema } from '../openapi';
-import { throwExceedsLimitError } from '../error/exceeds-limit-error';
 import type EventEmitter from 'events';
 
 const resolveTokenPermissions = (tokenType: string) => {
@@ -83,11 +82,7 @@ export class ApiTokenService {
         }: Pick<IUnleashStores, 'apiTokenStore' | 'environmentStore'>,
         config: Pick<
             IUnleashConfig,
-            | 'getLogger'
-            | 'authentication'
-            | 'flagResolver'
-            | 'eventBus'
-            | 'resourceLimits'
+            'getLogger' | 'authentication' | 'flagResolver' | 'eventBus'
         >,
         eventService: EventService,
     ) {
@@ -307,18 +302,7 @@ export class ApiTokenService {
         return this.insertNewApiToken(createNewToken, auditUser);
     }
 
-    private async validateApiTokenLimit() {
-        if (this.flagResolver.isEnabled('resourceLimits')) {
-            const currentTokenCount = await this.store.count();
-            const limit = this.resourceLimits.apiTokens;
-            if (currentTokenCount >= limit) {
-                throwExceedsLimitError(this.eventBus, {
-                    resource: 'api token',
-                    limit,
-                });
-            }
-        }
-    }
+    private async validateApiTokenLimit() {}
 
     // TODO: Remove this service method after embedded proxy has been released in
     // 4.16.0

@@ -110,7 +110,6 @@ import { allSettledWithRejection } from '../../util/allSettledWithRejection';
 import type EventEmitter from 'node:events';
 import type { IFeatureLifecycleReadModel } from '../feature-lifecycle/feature-lifecycle-read-model-type';
 import type { ResourceLimitsSchema } from '../../openapi';
-import { throwExceedsLimitError } from '../../error/exceeds-limit-error';
 import type { Collaborator } from './types/feature-collaborators-read-model-type';
 
 interface IFeatureContext {
@@ -213,10 +212,7 @@ class FeatureToggleService {
             flagResolver,
             eventBus,
             resourceLimits,
-        }: Pick<
-            IUnleashConfig,
-            'getLogger' | 'flagResolver' | 'eventBus' | 'resourceLimits'
-        >,
+        }: Pick<IUnleashConfig, 'getLogger' | 'flagResolver' | 'eventBus'>,
         segmentService: ISegmentService,
         accessService: AccessService,
         eventService: EventService,
@@ -373,75 +369,12 @@ class FeatureToggleService {
         }
     }
 
-    async validateStrategyLimit(featureEnv: {
-        projectId: string;
-        environment: string;
-        featureName: string;
-    }) {
-        if (!this.flagResolver.isEnabled('resourceLimits')) return;
-
-        const limit = this.resourceLimits.featureEnvironmentStrategies;
-        const existingCount = (
-            await this.featureStrategiesStore.getStrategiesForFeatureEnv(
-                featureEnv.projectId,
-                featureEnv.featureName,
-                featureEnv.environment,
-            )
-        ).length;
-        if (existingCount >= limit) {
-            throwExceedsLimitError(this.eventBus, {
-                resource: 'strategy',
-                limit,
-            });
-        }
+    async validateStrategyLimit() {
+        return;
     }
 
-    private validateConstraintsLimit(constraints: {
-        updated: IConstraint[];
-        existing: IConstraint[];
-    }) {
-        if (!this.flagResolver.isEnabled('resourceLimits')) return;
-
-        const {
-            constraints: constraintsLimit,
-            constraintValues: constraintValuesLimit,
-        } = this.resourceLimits;
-
-        if (
-            constraints.updated.length > constraintsLimit &&
-            constraints.updated.length > constraints.existing.length
-        ) {
-            throwExceedsLimitError(this.eventBus, {
-                resource: 'constraints',
-                limit: constraintsLimit,
-            });
-        }
-
-        const isSameLength =
-            constraints.existing.length === constraints.updated.length;
-        const constraintOverLimit = constraints.updated.find(
-            (constraint, i) => {
-                const updatedCount = constraint.values?.length ?? 0;
-                const existingCount =
-                    constraints.existing[i]?.values?.length ?? 0;
-
-                const isOverLimit =
-                    Array.isArray(constraint.values) &&
-                    updatedCount > constraintValuesLimit;
-                const allowAnyway =
-                    isSameLength && existingCount >= updatedCount;
-
-                return isOverLimit && !allowAnyway;
-            },
-        );
-
-        if (constraintOverLimit) {
-            throwExceedsLimitError(this.eventBus, {
-                resource: `constraint values for ${constraintOverLimit.contextName}`,
-                limit: constraintValuesLimit,
-                resourceNameOverride: 'constraint values',
-            });
-        }
+    private validateConstraintsLimit() {
+        return;
     }
     async validateStrategyType(
         strategyName: string | undefined,
@@ -1222,18 +1155,7 @@ class FeatureToggleService {
         );
     }
 
-    private async validateFeatureFlagLimit() {
-        if (this.flagResolver.isEnabled('resourceLimits')) {
-            const currentFlagCount = await this.featureToggleStore.count();
-            const limit = this.resourceLimits.featureFlags;
-            if (currentFlagCount >= limit) {
-                throwExceedsLimitError(this.eventBus, {
-                    resource: 'feature flag',
-                    limit,
-                });
-            }
-        }
-    }
+    private async validateFeatureFlagLimit() {}
 
     private async validateActiveProject(projectId: string) {
         if (this.flagResolver.isEnabled('archiveProjects')) {

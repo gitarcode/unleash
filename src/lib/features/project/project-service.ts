@@ -84,7 +84,6 @@ import type {
     IProjectQuery,
 } from './project-store-type';
 import type { IProjectFlagCreatorsReadModel } from './project-flag-creators-read-model.type';
-import { throwExceedsLimitError } from '../../error/exceeds-limit-error';
 import type EventEmitter from 'events';
 import type { ApiTokenService } from '../../services/api-token-service';
 import type { TransitionalProjectData } from './project-read-model-type';
@@ -325,17 +324,7 @@ export default class ProjectService {
     }
 
     async validateProjectLimit() {
-        if (!this.flagResolver.isEnabled('resourceLimits')) return;
-
-        const limit = Math.max(this.resourceLimits.projects, 1);
-        const projectCount = await this.projectStore.count();
-
-        if (projectCount >= limit) {
-            throwExceedsLimitError(this.eventBus, {
-                resource: 'project',
-                limit,
-            });
-        }
+        return;
     }
 
     async generateProjectId(name: string): Promise<string> {
@@ -1536,7 +1525,7 @@ export default class ProjectService {
         if (this.isEnterprise) {
             return data;
         }
-        const { mode, changeRequestEnvironments, ...proData } = data;
+        const { ...proData } = data;
         return proData;
     }
 }
