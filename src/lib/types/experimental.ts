@@ -63,7 +63,6 @@ export type IFlagKey =
     | 'integrationEvents'
     | 'originMiddleware'
     | 'newEventSearch'
-    | 'archiveProjects'
     | 'projectListImprovements'
     | 'useProjectReadModel'
     | 'webhookServiceNameLogging'
@@ -306,10 +305,6 @@ const flags: IFlags = {
     ),
     newEventSearch: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_NEW_EVENT_SEARCH,
-        false,
-    ),
-    archiveProjects: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_ARCHIVE_PROJECTS,
         false,
     ),
     projectListImprovements: parseEnvVarBoolean(
