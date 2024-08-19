@@ -1,7 +1,6 @@
 import { type ReactNode, type FC, useState } from 'react';
 import {
     Box,
-    Button,
     IconButton,
     Tooltip,
     useMediaQuery,
@@ -22,8 +21,6 @@ import { CREATE_FEATURE } from 'component/providers/AccessProvider/permissions';
 import { ExportDialog } from 'component/feature/FeatureToggleList/ExportDialog';
 import type { FeatureSchema } from 'openapi';
 import { usePlausibleTracker } from 'hooks/usePlausibleTracker';
-import ReviewsOutlined from '@mui/icons-material/ReviewsOutlined';
-import { useFeedback } from 'component/feedbackNew/useFeedback';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 import { CreateFeatureDialog } from './CreateFeatureDialog';
 
@@ -87,10 +84,6 @@ export const ProjectFeatureTogglesHeader: FC<
     const featuresExportImportFlag = useUiFlag('featuresExportImport');
     const [showExportDialog, setShowExportDialog] = useState(false);
     const { trackEvent } = usePlausibleTracker();
-    const projectOverviewRefactorFeedback = useUiFlag(
-        'projectOverviewRefactorFeedback',
-    );
-    const { openFeedback } = useFeedback('newProjectOverview', 'automatic');
     const handleSearch = (query: string) => {
         onChangeSearchQuery?.(query);
         trackEvent('search-bar', {
@@ -98,16 +91,6 @@ export const ProjectFeatureTogglesHeader: FC<
                 screen: 'project',
                 length: query.length,
             },
-        });
-    };
-
-    const createFeedbackContext = () => {
-        openFeedback({
-            title: 'How easy was it to work with the project overview in Unleash?',
-            positiveLabel:
-                'What do you like most about the updated project overview?',
-            areasForImprovementsLabel:
-                'What improvements are needed in the project overview?',
         });
     };
 
@@ -188,22 +171,6 @@ export const ProjectFeatureTogglesHeader: FC<
                                         }
                                     />
                                 </>
-                            }
-                        />
-                        <ConditionallyRender
-                            condition={
-                                projectOverviewRefactorFeedback &&
-                                !isSmallScreen
-                            }
-                            show={
-                                <Button
-                                    startIcon={<ReviewsOutlined />}
-                                    onClick={createFeedbackContext}
-                                    variant='outlined'
-                                    data-loading
-                                >
-                                    Provide feedback
-                                </Button>
                             }
                         />
                         <FlagCreationButton />
