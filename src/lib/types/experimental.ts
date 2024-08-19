@@ -46,7 +46,6 @@ export type IFlagKey =
     | 'checkEdgeValidTokensFromCache'
     | 'userAccessUIEnabled'
     | 'disableUpdateMaxRevisionId'
-    | 'disablePublishUnannouncedEvents'
     | 'outdatedSdksBanner'
     | 'responseTimeMetricsFix'
     | 'displayEdgeBanner'
@@ -236,10 +235,6 @@ const flags: IFlags = {
         false,
     ),
     disableUpdateMaxRevisionId: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_DISABLE_SCHEDULED_CACHES,
-        false,
-    ),
-    disablePublishUnannouncedEvents: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_DISABLE_SCHEDULED_CACHES,
         false,
     ),
