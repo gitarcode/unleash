@@ -2243,20 +2243,7 @@ class FeatureToggleService {
         return featureToggle;
     }
 
-    private async verifyLegacyVariants(featureName: string) {
-        const existingLegacyVariantsExist =
-            await this.featureEnvironmentStore.variantExists(featureName);
-        const enableLegacyVariants = this.flagResolver.isEnabled(
-            'enableLegacyVariants',
-        );
-        const useLegacyVariants =
-            existingLegacyVariantsExist || enableLegacyVariants;
-        if (!useLegacyVariants) {
-            throw new InvalidOperationError(
-                `Environment variants deprecated for feature: ${featureName}. Use strategy variants instead.`,
-            );
-        }
-    }
+    private async verifyLegacyVariants() {}
 
     async saveVariantsOnEnv(
         projectId: string,
