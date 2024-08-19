@@ -58,7 +58,6 @@ export type IFlagKey =
     | 'anonymizeProjectOwners'
     | 'resourceLimits'
     | 'extendedMetrics'
-    | 'removeUnsafeInlineStyleSrc'
     | 'insightsV2'
     | 'integrationEvents'
     | 'originMiddleware'
@@ -286,10 +285,6 @@ const flags: IFlags = {
     ),
     extendedMetrics: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_EXTENDED_METRICS,
-        false,
-    ),
-    removeUnsafeInlineStyleSrc: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_REMOVE_UNSAFE_INLINE_STYLE_SRC,
         false,
     ),
     insightsV2: parseEnvVarBoolean(
