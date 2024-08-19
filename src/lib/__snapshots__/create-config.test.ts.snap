@@ -99,7 +99,6 @@ exports[`should create default config 1`] = `
       "encryptEmails": false,
       "estimateTrafficDataCost": false,
       "extendedMetrics": false,
-      "extendedUsageMetrics": false,
       "featureSearchFeedback": {
         "enabled": false,
         "name": "withText",
