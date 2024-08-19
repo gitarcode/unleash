@@ -79,7 +79,6 @@ exports[`should create default config 1`] = `
       "archiveProjects": false,
       "automatedActions": false,
       "caseInsensitiveInOperators": false,
-      "celebrateUnleash": false,
       "collectTrafficDataUsage": false,
       "demo": false,
       "disableBulkToggle": false,

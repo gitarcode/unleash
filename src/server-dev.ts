@@ -41,7 +41,6 @@ process.nextTick(async () => {
                         anonymiseEventLog: false,
                         responseTimeWithAppNameKillSwitch: false,
                         stripHeadersOnAPI: true,
-                        celebrateUnleash: true,
                         featureSearchFeedbackPosting: true,
                         killInsightsUI: false,
                         userAccessUIEnabled: true,
