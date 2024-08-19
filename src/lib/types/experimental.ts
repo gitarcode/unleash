@@ -45,7 +45,6 @@ export type IFlagKey =
     | 'queryMissingTokens'
     | 'checkEdgeValidTokensFromCache'
     | 'userAccessUIEnabled'
-    | 'disableUpdateMaxRevisionId'
     | 'disablePublishUnannouncedEvents'
     | 'outdatedSdksBanner'
     | 'responseTimeMetricsFix'
@@ -233,10 +232,6 @@ const flags: IFlags = {
     ),
     userAccessUIEnabled: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_USER_ACCESS_UI_ENABLED,
-        false,
-    ),
-    disableUpdateMaxRevisionId: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_DISABLE_SCHEDULED_CACHES,
         false,
     ),
     disablePublishUnannouncedEvents: parseEnvVarBoolean(
