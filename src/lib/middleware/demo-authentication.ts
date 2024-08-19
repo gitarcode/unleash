@@ -6,16 +6,12 @@ import ApiUser from '../types/api-user';
 import { ApiTokenType } from '../types/models/api-token';
 import type { IAuthRequest, IUser } from '../server-impl';
 import type { IApiRequest } from '../routes/unleash-types';
-import { encrypt } from '../util';
 
 function demoAuthentication(
     app: Application,
     basePath: string,
     { userService }: Pick<IUnleashServices, 'userService'>,
-    {
-        authentication,
-        flagResolver,
-    }: Pick<IUnleashConfig, 'authentication' | 'flagResolver'>,
+    { authentication }: Pick<IUnleashConfig, 'authentication' | 'flagResolver'>,
 ): void {
     app.post(`${basePath}/auth/demo/login`, async (req: IAuthRequest, res) => {
         let { email } = req.body;
@@ -25,9 +21,7 @@ function demoAuthentication(
             if (authentication.demoAllowAdminLogin && email === 'admin') {
                 user = await userService.loginDemoAuthDefaultAdmin();
             } else {
-                email = flagResolver.isEnabled('encryptEmails', { email })
-                    ? encrypt(email)
-                    : email;
+                email = email;
 
                 user = await userService.loginUserWithoutPassword(email, true);
             }
