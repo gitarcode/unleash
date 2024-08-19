@@ -148,7 +148,6 @@ exports[`should create default config 1`] = `
       "responseTimeMetricsFix": false,
       "responseTimeWithAppNameKillSwitch": false,
       "showInactiveUsers": false,
-      "signals": false,
       "strictSchemaValidation": false,
       "useMemoizedActiveTokens": false,
       "useProjectReadModel": false,
