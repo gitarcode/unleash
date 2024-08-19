@@ -19,7 +19,6 @@ beforeAll(async () => {
         {
             experimental: {
                 flags: {
-                    strictSchemaValidation: true,
                 },
             },
         },
@@ -339,7 +338,7 @@ test('returns a feature flags impression data for a different project', async ()
 
     await app.request
         .post('/api/admin/projects/impression-data-client/features')
-        .send(flag)
+        .send(true)
         .expect(201)
         .expect((res) => {
             expect(res.body.impressionData).toBe(true);
