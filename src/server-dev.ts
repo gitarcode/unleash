@@ -59,7 +59,6 @@ process.nextTick(async () => {
                         projectListImprovements: true,
                         useProjectReadModel: true,
                         webhookServiceNameLogging: true,
-                        addonUsageMetrics: true,
                     },
                 },
                 authentication: {

@@ -66,8 +66,7 @@ export type IFlagKey =
     | 'archiveProjects'
     | 'projectListImprovements'
     | 'useProjectReadModel'
-    | 'webhookServiceNameLogging'
-    | 'addonUsageMetrics';
+    | 'webhookServiceNameLogging';
 
 export type IFlags = Partial<{ [key in IFlagKey]: boolean | Variant }>;
 
@@ -322,10 +321,6 @@ const flags: IFlags = {
     ),
     webhookServiceNameLogging: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_WEBHOOK_SERVICE_NAME_LOGGING,
-        false,
-    ),
-    addonUsageMetrics: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_ADDON_USAGE_METRICS,
         false,
     ),
 };
