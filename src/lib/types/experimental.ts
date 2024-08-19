@@ -49,7 +49,6 @@ export type IFlagKey =
     | 'disablePublishUnannouncedEvents'
     | 'outdatedSdksBanner'
     | 'responseTimeMetricsFix'
-    | 'displayEdgeBanner'
     | 'disableShowContextFieldSelectionValues'
     | 'projectOverviewRefactorFeedback'
     | 'manyStrategiesPagination'
@@ -245,10 +244,6 @@ const flags: IFlags = {
     ),
     queryMissingTokens: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_QUERY_MISSING_TOKENS,
-        false,
-    ),
-    displayEdgeBanner: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_DISPLAY_EDGE_BANNER,
         false,
     ),
     responseTimeMetricsFix: parseEnvVarBoolean(
