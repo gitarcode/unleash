@@ -48,7 +48,6 @@ export type IFlagKey =
     | 'disableUpdateMaxRevisionId'
     | 'disablePublishUnannouncedEvents'
     | 'outdatedSdksBanner'
-    | 'responseTimeMetricsFix'
     | 'displayEdgeBanner'
     | 'disableShowContextFieldSelectionValues'
     | 'projectOverviewRefactorFeedback'
@@ -249,10 +248,6 @@ const flags: IFlags = {
     ),
     displayEdgeBanner: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_DISPLAY_EDGE_BANNER,
-        false,
-    ),
-    responseTimeMetricsFix: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_RESPONSE_TIME_METRICS_FIX,
         false,
     ),
     disableShowContextFieldSelectionValues: parseEnvVarBoolean(
