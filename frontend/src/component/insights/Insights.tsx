@@ -9,9 +9,8 @@ import {
 import { useInsights } from 'hooks/api/getters/useInsights/useInsights';
 import { InsightsHeader } from './components/InsightsHeader/InsightsHeader';
 import { useInsightsData } from './hooks/useInsightsData';
-import { type IChartsProps, InsightsCharts } from './InsightsCharts';
+import { type IChartsProps } from './InsightsCharts';
 import { LegacyInsightsCharts } from './LegacyInsightsCharts';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { Sticky } from 'component/common/Sticky/Sticky';
 import { InsightsFilters } from './InsightsFilters';
 import { FilterItemParam } from '../../utils/serializeQueryParams';
@@ -56,7 +55,7 @@ const StyledProjectSelect = styled(ProjectSelect)(({ theme }) => ({
  */
 const LegacyInsights: FC = () => {
     const [scrolled, setScrolled] = useState(false);
-    const { insights, loading, error } = useInsights();
+    const { insights, loading } = useInsights();
     const stateConfig = {
         projects: withDefault(ArrayParam, [allOption.id]),
     };
@@ -118,7 +117,7 @@ export const NewInsights: FC<InsightsProps> = ({ ChartComponent }) => {
         to: FilterItemParam,
     };
     const [state, setState] = usePersistentTableState('insights', stateConfig);
-    const { insights, loading, error } = useInsights(
+    const { insights, loading } = useInsights(
         state.from?.values[0],
         state.to?.values[0],
     );
@@ -160,10 +159,5 @@ export const NewInsights: FC<InsightsProps> = ({ ChartComponent }) => {
 };
 
 export const Insights: FC = () => {
-    const isInsightsV2Enabled = useUiFlag('insightsV2');
-
-    if (isInsightsV2Enabled)
-        return <NewInsights ChartComponent={InsightsCharts} />;
-
     return <LegacyInsights />;
 };
