@@ -44,7 +44,6 @@ import { ViewIntegration } from 'component/integrations/ViewIntegration/ViewInte
 import { PaginatedApplicationList } from '../application/ApplicationList/PaginatedApplicationList';
 import { AddonRedirect } from 'component/integrations/AddonRedirect/AddonRedirect';
 import { Insights } from '../insights/Insights';
-import { FeedbackList } from '../feedbackNew/FeedbackList';
 import { Application } from 'component/application/Application';
 import { Signals } from 'component/signals/Signals';
 import { LazyCreateProject } from '../project/Project/CreateProject/LazyCreateProject';
@@ -269,14 +268,6 @@ export const routes: IRoute[] = [
         type: 'protected',
         flag: EEA,
         menu: { mobile: true, advanced: true },
-    },
-    {
-        path: '/feedback',
-        title: 'Feedback',
-        component: FeedbackList,
-        type: 'protected',
-        flag: 'featureSearchFeedbackPosting',
-        menu: {},
     },
 
     // Tags
