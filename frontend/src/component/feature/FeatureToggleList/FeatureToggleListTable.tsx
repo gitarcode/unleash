@@ -26,7 +26,6 @@ import { FavoriteIconCell } from 'component/common/Table/cells/FavoriteIconCell/
 import { FavoriteIconHeader } from 'component/common/Table/FavoriteIconHeader/FavoriteIconHeader';
 import { useEnvironments } from 'hooks/api/getters/useEnvironments/useEnvironments';
 import { ExportDialog } from './ExportDialog';
-import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 import { focusable } from 'themes/themeStyles';
 import { FeatureEnvironmentSeenCell } from 'component/common/Table/cells/FeatureSeenCell/FeatureEnvironmentSeenCell';
 import useToast from 'hooks/useToast';
@@ -62,11 +61,9 @@ export const FeatureToggleListTable: VFC = () => {
         .filter((env) => env.enabled)
         .map((env) => env.name);
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const isMediumScreen = useMediaQuery(theme.breakpoints.down('lg'));
     const [showExportDialog, setShowExportDialog] = useState(false);
 
     const { setToastApiError } = useToast();
-    const { uiConfig } = useUiConfig();
 
     const variant =
         featureSearchFeedback !== false
@@ -233,25 +230,6 @@ export const FeatureToggleListTable: VFC = () => {
             data,
         }),
     );
-
-    useEffect(() => {
-        if (isSmallScreen) {
-            table.setColumnVisibility({
-                type: false,
-                createdAt: false,
-                tags: false,
-                lastSeenAt: false,
-                stale: false,
-            });
-        } else if (isMediumScreen) {
-            table.setColumnVisibility({
-                lastSeenAt: false,
-                stale: false,
-            });
-        } else {
-            table.setColumnVisibility({});
-        }
-    }, [isSmallScreen, isMediumScreen]);
 
     const setSearchValue = (query = '') => {
         setTableState({ query });
@@ -429,16 +407,11 @@ export const FeatureToggleListTable: VFC = () => {
                     </Box>
                 }
             />
-            <ConditionallyRender
-                condition={Boolean(uiConfig?.flags?.featuresExportImport)}
-                show={
-                    <ExportDialog
-                        showExportDialog={showExportDialog}
-                        data={data}
-                        onClose={() => setShowExportDialog(false)}
-                        environments={enabledEnvironments}
-                    />
-                }
+            <ExportDialog
+                showExportDialog={showExportDialog}
+                data={data}
+                onClose={() => setShowExportDialog(false)}
+                environments={enabledEnvironments}
             />
         </PageContent>
     );
