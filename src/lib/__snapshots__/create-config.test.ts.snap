@@ -145,7 +145,6 @@ exports[`should create default config 1`] = `
       "queryMissingTokens": false,
       "removeUnsafeInlineStyleSrc": false,
       "resourceLimits": false,
-      "responseTimeMetricsFix": false,
       "responseTimeWithAppNameKillSwitch": false,
       "showInactiveUsers": false,
       "signals": false,
