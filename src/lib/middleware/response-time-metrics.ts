@@ -56,7 +56,6 @@ export function responseTimeMetrics(
         pathname = pathname ?? collapse(req.path);
         let appName: string | undefined;
         if (
-            !flagResolver.isEnabled('responseTimeWithAppNameKillSwitch') &&
             (instanceStatsService.getAppCountSnapshot('7d') ??
                 appNameReportingThreshold) < appNameReportingThreshold
         ) {
