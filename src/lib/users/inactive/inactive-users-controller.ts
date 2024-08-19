@@ -89,9 +89,7 @@ export class InactiveUsersController extends Controller {
     ): Promise<void> {
         this.logger.info('Hitting inactive users');
         let inactiveUsers = await this.inactiveUsersService.getInactiveUsers();
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            inactiveUsers = this.anonymiseUsers(inactiveUsers);
-        }
+        inactiveUsers = this.anonymiseUsers(inactiveUsers);
         this.openApiService.respondWithValidation(
             200,
             res,

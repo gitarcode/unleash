@@ -22,7 +22,6 @@ import type { IEvent } from '../../types';
 import { anonymiseKeys, extractUserIdFromUser } from '../../util';
 
 const ANON_KEYS = ['email', 'username', 'createdBy'];
-const version = 1 as const;
 export default class EventSearchController extends Controller {
     private eventService: EventService;
 
@@ -97,9 +96,6 @@ export default class EventSearchController extends Controller {
     }
 
     maybeAnonymiseEvents(events: IEvent[]): IEvent[] {
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            return anonymiseKeys(events, ANON_KEYS);
-        }
-        return events;
+        return anonymiseKeys(events, ANON_KEYS);
     }
 }
