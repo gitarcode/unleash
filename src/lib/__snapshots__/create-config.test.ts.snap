@@ -140,7 +140,6 @@ exports[`should create default config 1`] = `
       "originMiddleware": false,
       "outdatedSdksBanner": false,
       "personalAccessTokensKillSwitch": false,
-      "projectListImprovements": false,
       "projectOverviewRefactorFeedback": false,
       "queryMissingTokens": false,
       "removeUnsafeInlineStyleSrc": false,
