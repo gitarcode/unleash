@@ -35,7 +35,6 @@ export type IFlagKey =
     | 'extendedUsageMetrics'
     | 'adminTokenKillSwitch'
     | 'killInsightsUI'
-    | 'feedbackComments'
     | 'showInactiveUsers'
     | 'killScheduledChangeRequestCache'
     | 'collectTrafficDataUsage'
@@ -194,19 +193,6 @@ const flags: IFlags = {
         process.env.UNLEASH_EXPERIMENTAL_OUTDATED_SDKS_BANNER,
         false,
     ),
-    feedbackComments: {
-        name: 'feedbackComments',
-        enabled: parseEnvVarBoolean(
-            process.env.UNLEASH_EXPERIMENTAL_FEEDBACK_COMMENTS,
-            false,
-        ),
-        payload: {
-            type: PayloadType.JSON,
-            value:
-                process.env.UNLEASH_EXPERIMENTAL_FEEDBACK_COMMENTS_PAYLOAD ??
-                '',
-        },
-    },
     showInactiveUsers: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_SHOW_INACTIVE_USERS,
         false,
