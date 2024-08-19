@@ -4,7 +4,7 @@ import {
     useEffect,
     useState,
 } from 'react';
-import { Alert, Pagination, styled } from '@mui/material';
+import { Alert, styled } from '@mui/material';
 import useFeatureStrategyApi from 'hooks/api/actions/useFeatureStrategyApi/useFeatureStrategyApi';
 import { formatUnknownError } from 'utils/formatUnknownError';
 import useToast from 'hooks/useToast';
@@ -17,10 +17,7 @@ import { useFeature } from 'hooks/api/getters/useFeature/useFeature';
 import { useChangeRequestApi } from 'hooks/api/actions/useChangeRequestApi/useChangeRequestApi';
 import { useChangeRequestsEnabled } from 'hooks/useChangeRequestsEnabled';
 import { usePendingChangeRequests } from 'hooks/api/getters/usePendingChangeRequests/usePendingChangeRequests';
-import usePagination from 'hooks/usePagination';
-import type { IFeatureStrategy } from 'interfaces/strategy';
 import { usePlausibleTracker } from 'hooks/usePlausibleTracker';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 interface IEnvironmentAccordionBodyProps {
     isDisabled: boolean;
@@ -54,7 +51,6 @@ const EnvironmentAccordionBody = ({
         usePendingChangeRequests(projectId);
     const { setToastData, setToastApiError } = useToast();
     const { refetchFeature } = useFeature(projectId, featureId);
-    const manyStrategiesPagination = useUiFlag('manyStrategiesPagination');
     const [strategies, setStrategies] = useState(
         featureEnvironment?.strategies || [],
     );
@@ -79,10 +75,6 @@ const EnvironmentAccordionBody = ({
     if (!featureEnvironment) {
         return null;
     }
-
-    const pageSize = 20;
-    const { page, pages, setPageIndex, pageIndex } =
-        usePagination<IFeatureStrategy>(strategies, pageSize);
 
     const onReorder = async (payload: { id: string; sortOrder: number }[]) => {
         try {
@@ -212,72 +204,21 @@ const EnvironmentAccordionBody = ({
                 <ConditionallyRender
                     condition={strategies.length > 0}
                     show={
-                        <ConditionallyRender
-                            condition={
-                                strategies.length < 50 ||
-                                !manyStrategiesPagination
-                            }
-                            show={
-                                <>
-                                    {strategies.map((strategy, index) => (
-                                        <StrategyDraggableItem
-                                            key={strategy.id}
-                                            strategy={strategy}
-                                            index={index}
-                                            environmentName={
-                                                featureEnvironment.name
-                                            }
-                                            otherEnvironments={
-                                                otherEnvironments
-                                            }
-                                            isDragging={
-                                                dragItem?.id === strategy.id
-                                            }
-                                            onDragStartRef={onDragStartRef}
-                                            onDragOver={onDragOver(strategy.id)}
-                                            onDragEnd={onDragEnd}
-                                        />
-                                    ))}
-                                </>
-                            }
-                            elseShow={
-                                <>
-                                    <Alert severity='error'>
-                                        We noticed you're using a high number of
-                                        activation strategies. To ensure a more
-                                        targeted approach, consider leveraging
-                                        constraints or segments.
-                                    </Alert>
-                                    <br />
-                                    {page.map((strategy, index) => (
-                                        <StrategyDraggableItem
-                                            key={strategy.id}
-                                            strategy={strategy}
-                                            index={index + pageIndex * pageSize}
-                                            environmentName={
-                                                featureEnvironment.name
-                                            }
-                                            otherEnvironments={
-                                                otherEnvironments
-                                            }
-                                            isDragging={false}
-                                            onDragStartRef={(() => {}) as any}
-                                            onDragOver={(() => {}) as any}
-                                            onDragEnd={(() => {}) as any}
-                                        />
-                                    ))}
-                                    <br />
-                                    <Pagination
-                                        count={pages.length}
-                                        shape='rounded'
-                                        page={pageIndex + 1}
-                                        onChange={(_, page) =>
-                                            setPageIndex(page - 1)
-                                        }
-                                    />
-                                </>
-                            }
-                        />
+                        <>
+                            {strategies.map((strategy, index) => (
+                                <StrategyDraggableItem
+                                    key={strategy.id}
+                                    strategy={strategy}
+                                    index={index}
+                                    environmentName={featureEnvironment.name}
+                                    otherEnvironments={otherEnvironments}
+                                    isDragging={dragItem?.id === strategy.id}
+                                    onDragStartRef={onDragStartRef}
+                                    onDragOver={onDragOver(strategy.id)}
+                                    onDragEnd={onDragEnd}
+                                />
+                            ))}
+                        </>
                     }
                     elseShow={
                         <FeatureStrategyEmpty
