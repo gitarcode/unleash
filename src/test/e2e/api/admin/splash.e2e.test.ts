@@ -40,7 +40,6 @@ beforeAll(async () => {
     app = await setupAppWithCustomAuth(stores, preHook, {
         experimental: {
             flags: {
-                strictSchemaValidation: true,
             },
         },
     });

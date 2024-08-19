@@ -34,7 +34,6 @@ beforeAll(async () => {
         enterpriseVersion: 'enterprise',
         experimental: {
             flags: {
-                strictSchemaValidation: true,
             },
         },
     });

@@ -98,7 +98,6 @@ beforeAll(async () => {
         {
             experimental: {
                 flags: {
-                    strictSchemaValidation: true,
                     featureCollaborators: true,
                 },
             },
@@ -2550,7 +2549,7 @@ test('Can update impression data with PUT', async () => {
     };
     await app.request
         .post('/api/admin/projects/default/features')
-        .send(flag)
+        .send(true)
         .expect(201)
         .expect((res) => {
             expect(res.body.impressionData).toBe(true);
@@ -2558,7 +2557,7 @@ test('Can update impression data with PUT', async () => {
 
     await app.request
         .put(`/api/admin/projects/default/features/${flag.name}`)
-        .send({ ...flag, impressionData: false })
+        .send({ ...true, impressionData: false })
         .expect(200)
         .expect((res) => {
             expect(res.body.impressionData).toBe(false);
@@ -2580,7 +2579,7 @@ test('Can create flag with impression data on different project', async () => {
 
     await app.request
         .post('/api/admin/projects/impression-data/features')
-        .send(flag)
+        .send(true)
         .expect(201)
         .expect((res) => {
             expect(res.body.impressionData).toBe(true);
@@ -2588,7 +2587,7 @@ test('Can create flag with impression data on different project', async () => {
 
     await app.request
         .put(`/api/admin/projects/impression-data/features/${flag.name}`)
-        .send({ ...flag, impressionData: false })
+        .send({ ...true, impressionData: false })
         .expect(200)
         .expect((res) => {
             expect(res.body.impressionData).toBe(false);
@@ -3506,7 +3505,6 @@ test('Updating feature strategy sort-order should return strategies in correct o
         {
             experimental: {
                 flags: {
-                    strictSchemaValidation: true,
                     strategyVariant: true,
                 },
             },
@@ -3573,7 +3571,6 @@ test('Updating feature strategy sort-order should trigger a an event', async () 
         {
             experimental: {
                 flags: {
-                    strictSchemaValidation: false,
                     strategyVariant: true,
                 },
             },
