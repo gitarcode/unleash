@@ -12,14 +12,12 @@ import {
     ProjectUserRemovedEvent,
 } from '../../types/events';
 import { TEST_AUDIT_USER } from '../../types';
-
-const TEST_USER_ID = -9999;
-async function getSetup(anonymise: boolean = false) {
+async function getSetup() {
     const base = `/random${Math.round(Math.random() * 1000)}`;
     const stores = createStores();
     const config = createTestConfig({
         server: { baseUriPath: base },
-        experimental: { flags: { anonymiseEventLog: anonymise } },
+        experimental: { flags: {} },
     });
     const services = createServices(stores, config);
     const app = await getApp(config, stores, services);

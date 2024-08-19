@@ -5,7 +5,6 @@ import type EventService from '../../features/events/event-service';
 import { ADMIN, NONE } from '../../types/permissions';
 import type { IEvent, IEventList } from '../../types/events';
 import Controller from '../controller';
-import { anonymiseKeys } from '../../util/anonymise';
 import type { OpenApiService } from '../../services/openapi-service';
 import { createResponseSchema } from '../../openapi/util/create-response-schema';
 import {
@@ -26,8 +25,6 @@ import {
     eventCreatorsSchema,
     type ProjectFlagCreatorsSchema,
 } from '../../openapi';
-
-const ANON_KEYS = ['email', 'username', 'createdBy'];
 const version = 1 as const;
 export default class EventController extends Controller {
     private eventService: EventService;
@@ -143,9 +140,6 @@ export default class EventController extends Controller {
     }
 
     maybeAnonymiseEvents(events: IEvent[]): IEvent[] {
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            return anonymiseKeys(events, ANON_KEYS);
-        }
         return events;
     }
 
