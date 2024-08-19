@@ -36,7 +36,6 @@ export type IFlagKey =
     | 'adminTokenKillSwitch'
     | 'killInsightsUI'
     | 'feedbackComments'
-    | 'showInactiveUsers'
     | 'killScheduledChangeRequestCache'
     | 'collectTrafficDataUsage'
     | 'displayTrafficDataUsage'
@@ -207,10 +206,6 @@ const flags: IFlags = {
                 '',
         },
     },
-    showInactiveUsers: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_SHOW_INACTIVE_USERS,
-        false,
-    ),
     useMemoizedActiveTokens: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_MEMOIZED_ACTIVE_TOKENS,
         false,
