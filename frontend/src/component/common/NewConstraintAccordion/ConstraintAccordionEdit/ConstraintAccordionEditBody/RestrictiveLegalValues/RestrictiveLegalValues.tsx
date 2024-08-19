@@ -8,7 +8,6 @@ import {
     filterLegalValues,
     LegalValueLabel,
 } from '../LegalValueLabel/LegalValueLabel';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 interface IRestrictiveLegalValuesProps {
     data: {
@@ -87,10 +86,6 @@ export const RestrictiveLegalValues = ({
 
     // Lazily initialise the values because there might be a lot of them.
     const [valuesMap, setValuesMap] = useState(() => createValuesMap(values));
-
-    const disableShowContextFieldSelectionValues = useUiFlag(
-        'disableShowContextFieldSelectionValues',
-    );
 
     const cleanDeletedLegalValues = (constraintValues: string[]): string[] => {
         const deletedValuesSet = getLegalValueSet(deletedLegalValues);
@@ -173,10 +168,7 @@ export const RestrictiveLegalValues = ({
                 show={
                     <>
                         <ConditionallyRender
-                            condition={
-                                !disableShowContextFieldSelectionValues &&
-                                Boolean(values)
-                            }
+                            condition={Boolean(values)}
                             show={
                                 <StyledValuesContainer sx={{ border: 0 }}>
                                     {values.map((value) => {
