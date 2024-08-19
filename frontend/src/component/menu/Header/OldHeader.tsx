@@ -15,8 +15,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import UserProfile from 'component/user/UserProfile';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import { ReactComponent as UnleashLogo } from 'assets/img/logoDarkWithText.svg';
-import { ReactComponent as UnleashLogoWhite } from 'assets/img/logoWithWhiteText.svg';
 import { ReactComponent as CelebatoryUnleashLogo } from 'assets/img/unleashHoliday.svg';
 import { ReactComponent as CelebatoryUnleashLogoWhite } from 'assets/img/unleashHolidayDark.svg';
 
@@ -36,7 +34,6 @@ import { Notifications } from 'component/common/Notifications/Notifications';
 import { useAdminRoutes } from 'component/admin/useAdminRoutes';
 import InviteLinkButton from './InviteLink/InviteLinkButton/InviteLinkButton';
 import { useUiFlag } from 'hooks/useUiFlag';
-import { Badge } from '../../common/Badge/Badge';
 
 const HeaderComponent = styled(AppBar)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -79,10 +76,6 @@ const StyledNav = styled('nav')({
     flexGrow: 1,
 });
 
-const StyledUnleashLogoWhite = styled(UnleashLogoWhite)({ width: '150px' });
-
-const StyledUnleashLogo = styled(UnleashLogo)({ width: '150px' });
-
 const StyledCelebatoryLogo = styled(CelebatoryUnleashLogo)({ width: '150px' });
 
 const StyledLinks = styled('div')(({ theme }) => ({
@@ -117,23 +110,6 @@ const styledIconProps = (theme: Theme) => ({
 
 const StyledLink = styled(Link)(({ theme }) => focusable(theme));
 
-const StyledText = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.spacing(1),
-}));
-
-const StyledLinkWithBetaBadge = ({
-    title,
-    to,
-}: { title: string; to: string }) => (
-    <StyledLink to={to} sx={{ margin: 0 }}>
-        <StyledText>
-            <span>{title}</span> <Badge color='success'>Beta</Badge>
-        </StyledText>
-    </StyledLink>
-);
-
 const StyledIconButton = styled(IconButton)<{
     component?: 'a' | 'button';
     href?: string;
@@ -163,7 +139,6 @@ const OldHeader: VFC = () => {
     const toggleDrawer = () => setOpenDrawer((prev) => !prev);
     const onAdminClose = () => setAdminRef(null);
     const onConfigureClose = () => setConfigRef(null);
-    const celebatoryUnleash = useUiFlag('celebrateUnleash');
     const killInsightsDashboard = useUiFlag('killInsightsUI');
 
     const routes = getRoutes();
@@ -215,24 +190,8 @@ const OldHeader: VFC = () => {
             <ContainerComponent>
                 <StyledLink to='/' sx={flexRow} aria-label='Home'>
                     <ThemeMode
-                        darkmode={
-                            <ConditionallyRender
-                                condition={celebatoryUnleash}
-                                show={<CelebatoryUnleashLogoWhite />}
-                                elseShow={
-                                    <StyledUnleashLogoWhite aria-label='Unleash logo' />
-                                }
-                            />
-                        }
-                        lightmode={
-                            <ConditionallyRender
-                                condition={celebatoryUnleash}
-                                show={<StyledCelebatoryLogo />}
-                                elseShow={
-                                    <StyledUnleashLogo aria-label='Unleash logo' />
-                                }
-                            />
-                        }
+                        darkmode={<CelebatoryUnleashLogoWhite />}
+                        lightmode={<StyledCelebatoryLogo />}
                     />
                 </StyledLink>
 
