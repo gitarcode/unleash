@@ -84,7 +84,6 @@ exports[`should create default config 1`] = `
       "demo": false,
       "disableBulkToggle": false,
       "disableMetrics": false,
-      "disableNotifications": false,
       "disablePublishUnannouncedEvents": false,
       "disableShowContextFieldSelectionValues": false,
       "disableUpdateMaxRevisionId": false,
