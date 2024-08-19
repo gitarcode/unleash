@@ -6,10 +6,7 @@ import type React from 'react';
 import { useState } from 'react';
 import { ConstraintFormHeader } from '../ConstraintFormHeader/ConstraintFormHeader';
 import { parseParameterStrings } from 'utils/parseParameter';
-import { useUiFlag } from 'hooks/useUiFlag';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
-import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
-import { Limit } from 'component/common/Limit/Limit';
 
 interface IFreeTextInputProps {
     values: string[];
@@ -72,9 +69,7 @@ export const FreeTextInput = ({
 }: IFreeTextInputProps) => {
     const [inputValues, setInputValues] = useState('');
     const { classes: styles } = useStyles();
-    const resourceLimitsEnabled = useUiFlag('resourceLimits');
-    const { uiConfig, loading } = useUiConfig();
-    const constraintValuesLimit = uiConfig.resourceLimits.constraintValues;
+    const { loading } = useUiConfig();
 
     const onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === ENTER) {
@@ -88,15 +83,8 @@ export const FreeTextInput = ({
             ...values,
             ...parseParameterStrings(inputValues),
         ]);
-        const limitReached = Boolean(
-            resourceLimitsEnabled && newValues.length > constraintValuesLimit,
-        );
 
-        if (limitReached) {
-            setError(
-                `constraints cannot have more than ${constraintValuesLimit} values`,
-            );
-        } else if (newValues.length === 0) {
+        if (newValues.length === 0) {
             setError('values cannot be empty');
         } else if (newValues.some((v) => v.length > 100)) {
             setError('values cannot be longer than 100 characters');
@@ -147,19 +135,7 @@ export const FreeTextInput = ({
                     removeValue={removeValue}
                 />
             </div>
-            <LimitContainer>
-                <ConditionallyRender
-                    condition={resourceLimitsEnabled}
-                    show={
-                        <Limit
-                            name='single constraint values'
-                            shortName='values'
-                            currentValue={values.length}
-                            limit={constraintValuesLimit}
-                        />
-                    }
-                />
-            </LimitContainer>
+            <LimitContainer></LimitContainer>
         </>
     );
 };

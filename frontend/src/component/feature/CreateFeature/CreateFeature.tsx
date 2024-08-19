@@ -17,9 +17,7 @@ import { ConditionallyRender } from 'component/common/ConditionallyRender/Condit
 import useProjectOverview, {
     featuresCount,
 } from 'hooks/api/getters/useProjectOverview/useProjectOverview';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { useGlobalFeatureSearch } from '../FeatureToggleList/useGlobalFeatureSearch';
-import { Limit } from 'component/common/Limit/Limit';
 
 const StyledAlert = styled(Alert)(({ theme }) => ({
     marginBottom: theme.spacing(2),
@@ -36,43 +34,25 @@ export const isProjectFeatureLimitReached = (
     );
 };
 
-const useGlobalFlagLimit = (flagLimit: number, flagCount: number) => {
-    const resourceLimitsEnabled = useUiFlag('resourceLimits');
-    const limitReached = resourceLimitsEnabled && flagCount >= flagLimit;
-
-    return {
-        limitReached,
-        limitMessage: limitReached
-            ? `You have reached the instance-wide limit of ${flagLimit} feature flags.`
-            : undefined,
-    };
-};
-
 type FlagLimitsProps = {
     global: { limit: number; count: number };
     project: { limit?: number; count: number };
 };
 
-export const useFlagLimits = ({ global, project }: FlagLimitsProps) => {
-    const {
-        limitReached: globalFlagLimitReached,
-        limitMessage: globalLimitMessage,
-    } = useGlobalFlagLimit(global.limit, global.count);
+export const useFlagLimits = ({ project }: FlagLimitsProps) => {
 
     const projectFlagLimitReached = isProjectFeatureLimitReached(
         project.limit,
         project.count,
     );
 
-    const limitMessage = globalFlagLimitReached
-        ? globalLimitMessage
-        : projectFlagLimitReached
-          ? `You have reached the project limit of ${project.limit} feature flags.`
-          : undefined;
+    const limitMessage = projectFlagLimitReached
+        ? `You have reached the project limit of ${project.limit} feature flags.`
+        : undefined;
 
     return {
         limitMessage,
-        globalFlagLimitReached,
+        globalFlagLimitReached: false,
         projectFlagLimitReached,
     };
 };
@@ -106,8 +86,6 @@ const CreateFeature = () => {
 
     const { total: totalFlags, loading: loadingTotalFlagCount } =
         useGlobalFeatureSearch();
-
-    const resourceLimitsEnabled = useUiFlag('resourceLimits');
 
     const { globalFlagLimitReached, projectFlagLimitReached, limitMessage } =
         useFlagLimits({
@@ -200,16 +178,6 @@ const CreateFeature = () => {
                 clearErrors={clearErrors}
                 featureNaming={projectInfo.featureNaming}
                 Limit={
-                    <ConditionallyRender
-                        condition={resourceLimitsEnabled}
-                        show={
-                            <Limit
-                                name='feature flags'
-                                limit={uiConfig.resourceLimits.featureFlags}
-                                currentValue={totalFlags ?? 0}
-                            />
-                        }
-                    />
                 }
             >
                 <CreateButton

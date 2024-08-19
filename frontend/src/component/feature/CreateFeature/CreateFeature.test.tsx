@@ -7,17 +7,9 @@ import { Route, Routes } from 'react-router-dom';
 
 const server = testServerSetup();
 
-const setupApi = ({
-    flagCount,
-    flagLimit,
-}: { flagCount: number; flagLimit: number }) => {
+const setupApi = ({ flagCount }: { flagCount: number; flagLimit: number }) => {
     testServerRoute(server, '/api/admin/ui-config', {
-        flags: {
-            resourceLimits: true,
-        },
-        resourceLimits: {
-            featureFlags: flagLimit,
-        },
+        flags: {},
     });
 
     testServerRoute(server, '/api/admin/search/features', {
