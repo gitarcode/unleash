@@ -30,7 +30,6 @@ export type IFlagKey =
     | 'automatedActions'
     | 'celebrateUnleash'
     | 'featureSearchFeedback'
-    | 'featureSearchFeedbackPosting'
     | 'edgeBulkMetrics'
     | 'extendedUsageMetrics'
     | 'adminTokenKillSwitch'
@@ -166,10 +165,6 @@ const flags: IFlags = {
                     .UNLEASH_EXPERIMENTAL_FEATURE_SEARCH_FEEDBACK_PAYLOAD ?? '',
         },
     },
-    featureSearchFeedbackPosting: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_FEATURE_SEARCH_FEEDBACK_POSTING,
-        false,
-    ),
     encryptEmails: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_ENCRYPT_EMAILS,
         false,
