@@ -90,7 +90,6 @@ exports[`should create default config 1`] = `
       "disableUpdateMaxRevisionId": false,
       "displayEdgeBanner": false,
       "displayTrafficDataUsage": false,
-      "edgeBulkMetrics": false,
       "embedProxy": true,
       "embedProxyFrontend": true,
       "enableLegacyVariants": false,
