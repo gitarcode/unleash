@@ -57,7 +57,6 @@ export type IFlagKey =
     | 'navigationSidebar'
     | 'anonymizeProjectOwners'
     | 'resourceLimits'
-    | 'extendedMetrics'
     | 'removeUnsafeInlineStyleSrc'
     | 'insightsV2'
     | 'integrationEvents'
@@ -282,10 +281,6 @@ const flags: IFlags = {
     ),
     resourceLimits: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_RESOURCE_LIMITS,
-        false,
-    ),
-    extendedMetrics: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_EXTENDED_METRICS,
         false,
     ),
     removeUnsafeInlineStyleSrc: parseEnvVarBoolean(
