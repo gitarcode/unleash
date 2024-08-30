@@ -49,13 +49,6 @@ export const adminRoutes: INavigationMenuItem[] = [
         group: 'access',
     },
     {
-        path: '/admin/cors',
-        title: 'CORS origins',
-        flag: 'embedProxyFrontend',
-        menu: { adminSettings: true },
-        group: 'access',
-    },
-    {
         path: '/admin/auth',
         title: 'Single sign-on',
         menu: { adminSettings: true, mode: ['pro', 'enterprise'] },
