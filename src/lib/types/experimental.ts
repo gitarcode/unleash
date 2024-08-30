@@ -8,7 +8,6 @@ export type IFlagKey =
     | 'encryptEmails'
     | 'enableLicense'
     | 'enableLicenseChecker'
-    | 'embedProxy'
     | 'embedProxyFrontend'
     | 'responseTimeWithAppNameKillSwitch'
     | 'maintenanceMode'
