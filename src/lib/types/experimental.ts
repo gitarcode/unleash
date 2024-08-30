@@ -10,7 +10,6 @@ export type IFlagKey =
     | 'enableLicenseChecker'
     | 'embedProxy'
     | 'embedProxyFrontend'
-    | 'responseTimeWithAppNameKillSwitch'
     | 'maintenanceMode'
     | 'messageBanner'
     | 'featuresExportImport'
