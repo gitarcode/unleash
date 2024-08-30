@@ -30,7 +30,6 @@ export type IFlagKey =
     | 'automatedActions'
     | 'celebrateUnleash'
     | 'featureSearchFeedback'
-    | 'featureSearchFeedbackPosting'
     | 'edgeBulkMetrics'
     | 'extendedUsageMetrics'
     | 'adminTokenKillSwitch'
