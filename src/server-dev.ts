@@ -53,7 +53,6 @@ process.nextTick(async () => {
                         originMiddleware: true,
                         newEventSearch: true,
                         projectListImprovements: true,
-                        useProjectReadModel: true,
                         addonUsageMetrics: true,
                         onboardingMetrics: true,
                     },
