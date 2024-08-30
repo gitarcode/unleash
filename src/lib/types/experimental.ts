@@ -34,7 +34,6 @@ export type IFlagKey =
     | 'edgeBulkMetrics'
     | 'extendedUsageMetrics'
     | 'adminTokenKillSwitch'
-    | 'feedbackComments'
     | 'showInactiveUsers'
     | 'killScheduledChangeRequestCache'
     | 'collectTrafficDataUsage'
