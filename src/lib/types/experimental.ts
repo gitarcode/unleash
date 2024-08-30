@@ -56,7 +56,6 @@ export type IFlagKey =
     | 'anonymizeProjectOwners'
     | 'extendedMetrics'
     | 'removeUnsafeInlineStyleSrc'
-    | 'originMiddleware'
     | 'newEventSearch'
     | 'archiveProjects'
     | 'projectListImprovements'
