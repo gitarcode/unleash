@@ -51,7 +51,6 @@ export type IFlagKey =
     | 'disableShowContextFieldSelectionValues'
     | 'projectOverviewRefactorFeedback'
     | 'manyStrategiesPagination'
-    | 'enableLegacyVariants'
     | 'navigationSidebar'
     | 'anonymizeProjectOwners'
     | 'extendedMetrics'
