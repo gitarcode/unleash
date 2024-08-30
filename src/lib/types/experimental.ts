@@ -58,7 +58,6 @@ export type IFlagKey =
     | 'removeUnsafeInlineStyleSrc'
     | 'originMiddleware'
     | 'newEventSearch'
-    | 'archiveProjects'
     | 'projectListImprovements'
     | 'useProjectReadModel'
     | 'addonUsageMetrics'
