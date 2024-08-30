@@ -59,7 +59,6 @@ export type IFlagKey =
     | 'originMiddleware'
     | 'newEventSearch'
     | 'archiveProjects'
-    | 'projectListImprovements'
     | 'useProjectReadModel'
     | 'addonUsageMetrics'
     | 'onboardingMetrics';
