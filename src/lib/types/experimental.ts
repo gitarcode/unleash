@@ -16,7 +16,6 @@ export type IFlagKey =
     | 'featuresExportImport'
     | 'caseInsensitiveInOperators'
     | 'strictSchemaValidation'
-    | 'personalAccessTokensKillSwitch'
     | 'migrationLock'
     | 'demo'
     | 'googleAuthEnabled'
