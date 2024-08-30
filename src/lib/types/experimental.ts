@@ -36,7 +36,6 @@ export type IFlagKey =
     | 'adminTokenKillSwitch'
     | 'feedbackComments'
     | 'showInactiveUsers'
-    | 'killScheduledChangeRequestCache'
     | 'collectTrafficDataUsage'
     | 'displayTrafficDataUsage'
     | 'estimateTrafficDataCost'
