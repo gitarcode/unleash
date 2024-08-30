@@ -1,7 +1,6 @@
 import { forwardRef, type ReactNode } from 'react';
 import { Box, Grid, styled, useMediaQuery, useTheme } from '@mui/material';
 import Header from 'component/menu/Header/Header';
-import OldHeader from 'component/menu/Header/OldHeader';
 import Footer from 'component/menu/Footer/Footer';
 import Proclamation from 'component/common/Proclamation/Proclamation';
 import BreadcrumbNav from 'component/common/BreadcrumbNav/BreadcrumbNav';
@@ -16,7 +15,6 @@ import { useChangeRequestsEnabled } from 'hooks/useChangeRequestsEnabled';
 import { DraftBanner } from './DraftBanner/DraftBanner';
 import { ThemeMode } from 'component/common/ThemeMode/ThemeMode';
 import { NavigationSidebar } from './NavigationSidebar/NavigationSidebar';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 interface IMainLayoutProps {
     children: ReactNode;
@@ -37,26 +35,6 @@ const MainLayoutContentWrapper = styled('main')(({ theme }) => ({
     width: '100%',
     backgroundColor: theme.palette.background.application,
     position: 'relative',
-}));
-
-const OldMainLayoutContent = styled(Grid)(({ theme }) => ({
-    width: '100%',
-    maxWidth: '1512px',
-    margin: '0 auto',
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    [theme.breakpoints.down('lg')]: {
-        maxWidth: '1250px',
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1),
-    },
-    [theme.breakpoints.down(1024)]: {
-        marginLeft: 0,
-        marginRight: 0,
-    },
-    [theme.breakpoints.down('sm')]: {
-        minWidth: '100%',
-    },
 }));
 
 const NewMainLayoutContent = styled(Grid)(({ theme }) => ({
@@ -113,22 +91,14 @@ export const MainLayout = forwardRef<HTMLDivElement, IMainLayoutProps>(
         const { isChangeRequestConfiguredInAnyEnv } = useChangeRequestsEnabled(
             projectId || '',
         );
-
-        const sidebarNavigationEnabled = useUiFlag('navigationSidebar');
-        const StyledMainLayoutContent = sidebarNavigationEnabled
-            ? NewMainLayoutContent
-            : OldMainLayoutContent;
+        const StyledMainLayoutContent = NewMainLayoutContent;
         const theme = useTheme();
         const isSmallScreen = useMediaQuery(theme.breakpoints.down('lg'));
 
         return (
             <>
                 <SkipNavLink />
-                <ConditionallyRender
-                    condition={sidebarNavigationEnabled}
-                    show={<Header />}
-                    elseShow={<OldHeader />}
-                />
+                <Header />
 
                 <SkipNavTarget />
                 <MainLayoutContainer>
@@ -148,9 +118,7 @@ export const MainLayout = forwardRef<HTMLDivElement, IMainLayoutProps>(
                             })}
                         >
                             <ConditionallyRender
-                                condition={
-                                    sidebarNavigationEnabled && !isSmallScreen
-                                }
+                                condition={!isSmallScreen}
                                 show={<NavigationSidebar />}
                             />
 
