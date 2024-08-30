@@ -23,7 +23,6 @@ export type IFlagKey =
     | 'disableBulkToggle'
     | 'disableNotifications'
     | 'advancedPlayground'
-    | 'filterInvalidClientMetrics'
     | 'disableMetrics'
     | 'stripHeadersOnAPI'
     | 'signals'
