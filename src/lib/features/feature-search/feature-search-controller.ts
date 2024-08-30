@@ -22,7 +22,6 @@ import {
     featureSearchQueryParameters,
 } from '../../openapi/spec/feature-search-query-parameters';
 import { normalizeQueryParams } from './search-utils';
-import { anonymise } from '../../util';
 
 type FeatureSearchServices = Pick<
     IUnleashServices,
@@ -75,15 +74,6 @@ export default class FeatureSearchController extends Controller {
     maybeAnonymise(
         features: IFeatureSearchOverview[],
     ): IFeatureSearchOverview[] {
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            return features.map((feature) => ({
-                ...feature,
-                createdBy: {
-                    ...feature.createdBy,
-                    name: anonymise(feature.createdBy.name),
-                },
-            }));
-        }
         return features;
     }
 

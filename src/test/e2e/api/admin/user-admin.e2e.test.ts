@@ -386,7 +386,7 @@ test('generates USER_UPDATED event', async () => {
 test('Anonymises name, username and email fields if anonymiseEventLog flag is set', async () => {
     const anonymisedApp = await setupAppWithCustomConfig(
         stores,
-        { experimental: { flags: { anonymiseEventLog: true } } },
+        { experimental: { flags: {} } },
         db.rawDatabase,
     );
     await anonymisedApp.request
