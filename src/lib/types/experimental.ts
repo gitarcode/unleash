@@ -11,7 +11,6 @@ export type IFlagKey =
     | 'embedProxy'
     | 'embedProxyFrontend'
     | 'responseTimeWithAppNameKillSwitch'
-    | 'maintenanceMode'
     | 'messageBanner'
     | 'featuresExportImport'
     | 'caseInsensitiveInOperators'
