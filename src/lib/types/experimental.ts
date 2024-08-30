@@ -19,7 +19,6 @@ export type IFlagKey =
     | 'personalAccessTokensKillSwitch'
     | 'migrationLock'
     | 'demo'
-    | 'googleAuthEnabled'
     | 'disableBulkToggle'
     | 'disableNotifications'
     | 'advancedPlayground'
