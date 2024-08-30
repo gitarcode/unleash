@@ -20,7 +20,6 @@ export type IFlagKey =
     | 'migrationLock'
     | 'demo'
     | 'googleAuthEnabled'
-    | 'disableBulkToggle'
     | 'disableNotifications'
     | 'advancedPlayground'
     | 'filterInvalidClientMetrics'
