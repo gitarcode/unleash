@@ -28,7 +28,6 @@ export type IFlagKey =
     | 'stripHeadersOnAPI'
     | 'signals'
     | 'automatedActions'
-    | 'celebrateUnleash'
     | 'featureSearchFeedback'
     | 'featureSearchFeedbackPosting'
     | 'edgeBulkMetrics'
