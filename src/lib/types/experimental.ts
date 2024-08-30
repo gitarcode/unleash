@@ -5,7 +5,6 @@ import { getDefaultVariant } from 'unleash-client/lib/variant';
 export type IFlagKey =
     | 'accessLogs'
     | 'anonymiseEventLog'
-    | 'encryptEmails'
     | 'enableLicense'
     | 'enableLicenseChecker'
     | 'embedProxy'
