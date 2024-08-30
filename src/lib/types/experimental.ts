@@ -29,7 +29,6 @@ export type IFlagKey =
     | 'signals'
     | 'automatedActions'
     | 'celebrateUnleash'
-    | 'featureSearchFeedback'
     | 'featureSearchFeedbackPosting'
     | 'edgeBulkMetrics'
     | 'extendedUsageMetrics'
