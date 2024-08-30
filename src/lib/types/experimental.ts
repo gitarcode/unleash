@@ -55,7 +55,6 @@ export type IFlagKey =
     | 'navigationSidebar'
     | 'anonymizeProjectOwners'
     | 'extendedMetrics'
-    | 'removeUnsafeInlineStyleSrc'
     | 'originMiddleware'
     | 'newEventSearch'
     | 'archiveProjects'
