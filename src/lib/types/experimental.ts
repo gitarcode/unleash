@@ -49,7 +49,6 @@ export type IFlagKey =
     | 'responseTimeMetricsFix'
     | 'displayEdgeBanner'
     | 'disableShowContextFieldSelectionValues'
-    | 'projectOverviewRefactorFeedback'
     | 'manyStrategiesPagination'
     | 'enableLegacyVariants'
     | 'navigationSidebar'
