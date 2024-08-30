@@ -57,7 +57,6 @@ export type IFlagKey =
     | 'extendedMetrics'
     | 'removeUnsafeInlineStyleSrc'
     | 'originMiddleware'
-    | 'newEventSearch'
     | 'archiveProjects'
     | 'projectListImprovements'
     | 'useProjectReadModel'
