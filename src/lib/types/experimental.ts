@@ -39,7 +39,6 @@ export type IFlagKey =
     | 'killScheduledChangeRequestCache'
     | 'collectTrafficDataUsage'
     | 'displayTrafficDataUsage'
-    | 'estimateTrafficDataCost'
     | 'useMemoizedActiveTokens'
     | 'queryMissingTokens'
     | 'userAccessUIEnabled'
