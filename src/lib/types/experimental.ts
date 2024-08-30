@@ -61,7 +61,6 @@ export type IFlagKey =
     | 'archiveProjects'
     | 'projectListImprovements'
     | 'useProjectReadModel'
-    | 'addonUsageMetrics'
     | 'onboardingMetrics';
 
 export type IFlags = Partial<{ [key in IFlagKey]: boolean | Variant }>;
