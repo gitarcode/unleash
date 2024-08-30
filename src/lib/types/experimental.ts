@@ -14,7 +14,6 @@ export type IFlagKey =
     | 'maintenanceMode'
     | 'messageBanner'
     | 'featuresExportImport'
-    | 'caseInsensitiveInOperators'
     | 'strictSchemaValidation'
     | 'personalAccessTokensKillSwitch'
     | 'migrationLock'
