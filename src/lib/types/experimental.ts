@@ -45,7 +45,6 @@ export type IFlagKey =
     | 'userAccessUIEnabled'
     | 'disableUpdateMaxRevisionId'
     | 'disablePublishUnannouncedEvents'
-    | 'outdatedSdksBanner'
     | 'responseTimeMetricsFix'
     | 'displayEdgeBanner'
     | 'disableShowContextFieldSelectionValues'
