@@ -24,7 +24,6 @@ export type IFlagKey =
     | 'disableNotifications'
     | 'advancedPlayground'
     | 'filterInvalidClientMetrics'
-    | 'disableMetrics'
     | 'stripHeadersOnAPI'
     | 'signals'
     | 'automatedActions'
