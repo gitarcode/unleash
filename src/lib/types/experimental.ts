@@ -50,7 +50,6 @@ export type IFlagKey =
     | 'displayEdgeBanner'
     | 'disableShowContextFieldSelectionValues'
     | 'projectOverviewRefactorFeedback'
-    | 'manyStrategiesPagination'
     | 'enableLegacyVariants'
     | 'navigationSidebar'
     | 'anonymizeProjectOwners'
