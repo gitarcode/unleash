@@ -44,7 +44,6 @@ export type IFlagKey =
     | 'queryMissingTokens'
     | 'userAccessUIEnabled'
     | 'disableUpdateMaxRevisionId'
-    | 'disablePublishUnannouncedEvents'
     | 'outdatedSdksBanner'
     | 'responseTimeMetricsFix'
     | 'displayEdgeBanner'
