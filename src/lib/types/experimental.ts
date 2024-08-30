@@ -26,7 +26,6 @@ export type IFlagKey =
     | 'filterInvalidClientMetrics'
     | 'disableMetrics'
     | 'stripHeadersOnAPI'
-    | 'signals'
     | 'automatedActions'
     | 'celebrateUnleash'
     | 'featureSearchFeedback'
