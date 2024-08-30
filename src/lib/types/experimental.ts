@@ -15,7 +15,6 @@ export type IFlagKey =
     | 'messageBanner'
     | 'featuresExportImport'
     | 'caseInsensitiveInOperators'
-    | 'strictSchemaValidation'
     | 'personalAccessTokensKillSwitch'
     | 'migrationLock'
     | 'demo'
