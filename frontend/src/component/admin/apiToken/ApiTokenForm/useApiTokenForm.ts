@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 import { useEnvironments } from 'hooks/api/getters/useEnvironments/useEnvironments';
 import type { IApiTokenCreate } from 'hooks/api/actions/useApiTokensApi/useApiTokensApi';
 import { TokenType } from 'interfaces/token';
@@ -16,7 +15,6 @@ import { useUiFlag } from '../../../../hooks/useUiFlag';
 export type ApiTokenFormErrorType = 'username' | 'projects';
 export const useApiTokenForm = (project?: string) => {
     const { environments } = useEnvironments();
-    const { uiConfig } = useUiConfig();
     const adminTokenKillSwitch = useUiFlag('adminTokenKillSwitch');
     const initialEnvironment = environments?.find((e) => e.enabled)?.name;
 
@@ -51,14 +49,12 @@ export const useApiTokenForm = (project?: string) => {
         });
     }
 
-    if (uiConfig.flags.embedProxyFrontend) {
-        apiTokenTypes.splice(1, 0, {
-            key: TokenType.FRONTEND,
-            label: `Client-side SDK (${TokenType.FRONTEND})`,
-            title: 'Connect web and mobile SDK directly to Unleash',
-            enabled: hasCreateFrontendAccess || hasCreateFrontendTokenAccess,
-        });
-    }
+    apiTokenTypes.splice(1, 0, {
+        key: TokenType.FRONTEND,
+        label: `Client-side SDK (${TokenType.FRONTEND})`,
+        title: 'Connect web and mobile SDK directly to Unleash',
+        enabled: hasCreateFrontendAccess || hasCreateFrontendTokenAccess,
+    });
 
     const firstAccessibleType = apiTokenTypes.find((t) => t.enabled)?.key;
 
