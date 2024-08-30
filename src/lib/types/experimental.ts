@@ -32,7 +32,6 @@ export type IFlagKey =
     | 'featureSearchFeedback'
     | 'featureSearchFeedbackPosting'
     | 'edgeBulkMetrics'
-    | 'extendedUsageMetrics'
     | 'adminTokenKillSwitch'
     | 'feedbackComments'
     | 'showInactiveUsers'
