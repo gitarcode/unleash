@@ -943,29 +943,17 @@ export default class MetricsMonitor {
                 return;
             }
 
-            if (flagResolver.isEnabled('extendedMetrics')) {
-                clientSdkVersionUsage.increment({
-                    sdk_name: heartbeatEvent.sdkName,
-                    sdk_version: heartbeatEvent.sdkVersion,
-                    platform_name:
-                        heartbeatEvent.metadata?.platformName ?? 'not-set',
-                    platform_version:
-                        heartbeatEvent.metadata?.platformVersion ?? 'not-set',
-                    yggdrasil_version:
-                        heartbeatEvent.metadata?.yggdrasilVersion ?? 'not-set',
-                    spec_version:
-                        heartbeatEvent.metadata?.specVersion ?? 'not-set',
-                });
-            } else {
-                clientSdkVersionUsage.increment({
-                    sdk_name: heartbeatEvent.sdkName,
-                    sdk_version: heartbeatEvent.sdkVersion,
-                    platform_name: 'not-set',
-                    platform_version: 'not-set',
-                    yggdrasil_version: 'not-set',
-                    spec_version: 'not-set',
-                });
-            }
+            clientSdkVersionUsage.increment({
+                sdk_name: heartbeatEvent.sdkName,
+                sdk_version: heartbeatEvent.sdkVersion,
+                platform_name:
+                    heartbeatEvent.metadata?.platformName ?? 'not-set',
+                platform_version:
+                    heartbeatEvent.metadata?.platformVersion ?? 'not-set',
+                yggdrasil_version:
+                    heartbeatEvent.metadata?.yggdrasilVersion ?? 'not-set',
+                spec_version: heartbeatEvent.metadata?.specVersion ?? 'not-set',
+            });
         });
 
         eventStore.on(PROJECT_ENVIRONMENT_REMOVED, ({ project }) => {
