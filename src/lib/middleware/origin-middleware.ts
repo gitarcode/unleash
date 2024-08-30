@@ -9,16 +9,11 @@ import {
 export const originMiddleware = ({
     getLogger,
     eventBus,
-    flagResolver,
 }: Pick<IUnleashConfig, 'getLogger' | 'eventBus' | 'flagResolver'>) => {
     const logger = getLogger('/middleware/origin-middleware.ts');
     logger.debug('Enabling origin middleware');
 
     return (req: Request, _: Response, next: NextFunction) => {
-        if (!flagResolver.isEnabled('originMiddleware')) {
-            return next();
-        }
-
         const isUI = !req.headers.authorization;
 
         if (isUI) {
