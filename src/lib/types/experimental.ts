@@ -21,7 +21,6 @@ export type IFlagKey =
     | 'demo'
     | 'googleAuthEnabled'
     | 'disableBulkToggle'
-    | 'disableNotifications'
     | 'advancedPlayground'
     | 'filterInvalidClientMetrics'
     | 'disableMetrics'
