@@ -40,7 +40,6 @@ export type IFlagKey =
     | 'collectTrafficDataUsage'
     | 'displayTrafficDataUsage'
     | 'estimateTrafficDataCost'
-    | 'useMemoizedActiveTokens'
     | 'queryMissingTokens'
     | 'userAccessUIEnabled'
     | 'disableUpdateMaxRevisionId'
