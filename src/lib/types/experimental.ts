@@ -53,7 +53,6 @@ export type IFlagKey =
     | 'manyStrategiesPagination'
     | 'enableLegacyVariants'
     | 'navigationSidebar'
-    | 'anonymizeProjectOwners'
     | 'extendedMetrics'
     | 'removeUnsafeInlineStyleSrc'
     | 'originMiddleware'
