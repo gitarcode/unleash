@@ -17,7 +17,6 @@ import { ProjectList as LegacyProjectList } from './LegacyProjectList';
 import { ProjectCreationButton } from './ProjectCreationButton/ProjectCreationButton';
 import { useGroupedProjects } from './hooks/useGroupedProjects';
 import { useProjectsSearchAndSort } from './hooks/useProjectsSearchAndSort';
-import { ProjectArchiveLink } from './ProjectArchiveLink/ProjectArchiveLink';
 
 const StyledApiError = styled(ApiError)(({ theme }) => ({
     maxWidth: '500px',
@@ -36,7 +35,6 @@ const NewProjectList = () => {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
     const [state, setState] = useProjectsListState();
-    const archiveProjectsEnabled = useUiFlag('archiveProjects');
 
     const myProjects = new Set(useProfile().profile?.projects || []);
 
@@ -76,11 +74,6 @@ const NewProjectList = () => {
                                         <PageHeader.Divider />
                                     </>
                                 }
-                            />
-
-                            <ConditionallyRender
-                                condition={Boolean(archiveProjectsEnabled)}
-                                show={<ProjectArchiveLink />}
                             />
                             <ProjectCreationButton
                                 isDialogOpen={Boolean(state.create)}
