@@ -46,7 +46,6 @@ import { FavoriteIconButton } from 'component/common/FavoriteIconButton/Favorite
 import { ChildrenTooltip } from './FeatureOverview/FeatureOverviewMetaData/ChildrenTooltip';
 import copy from 'copy-to-clipboard';
 import useToast from 'hooks/useToast';
-import { useUiFlag } from 'hooks/useUiFlag';
 import type { IFeatureToggle } from 'interfaces/featureToggle';
 import { Collaborators } from './Collaborators';
 
@@ -129,11 +128,10 @@ export const StyledLink = styled(Link)(() => ({
 }));
 
 const useLegacyVariants = (environments: IFeatureToggle['environments']) => {
-    const enableLegacyVariants = useUiFlag('enableLegacyVariants');
     const existingLegacyVariantsExist = environments.some(
         (environment) => environment.variants?.length,
     );
-    return enableLegacyVariants || existingLegacyVariantsExist;
+    return existingLegacyVariantsExist;
 };
 
 export const FeatureView = () => {
