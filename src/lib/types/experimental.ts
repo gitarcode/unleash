@@ -16,7 +16,6 @@ export type IFlagKey =
     | 'featuresExportImport'
     | 'caseInsensitiveInOperators'
     | 'strictSchemaValidation'
-    | 'personalAccessTokensKillSwitch'
     | 'migrationLock'
     | 'demo'
     | 'googleAuthEnabled'
@@ -108,10 +107,6 @@ const flags: IFlags = {
     ),
     strictSchemaValidation: parseEnvVarBoolean(
         process.env.UNLEASH_STRICT_SCHEMA_VALIDTION,
-        false,
-    ),
-    personalAccessTokensKillSwitch: parseEnvVarBoolean(
-        process.env.UNLEASH_PAT_KILL_SWITCH,
         false,
     ),
     migrationLock: parseEnvVarBoolean(process.env.MIGRATION_LOCK, true),
