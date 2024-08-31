@@ -17,7 +17,7 @@ let featureToggleStore: IFeatureToggleStore;
 
 beforeAll(async () => {
     db = await dbInit('onboarding_read_model', getLogger, {
-        experimental: { flags: { onboardingMetrics: true } },
+        experimental: { flags: {} },
     });
     onboardingReadModel = new OnboardingReadModel(db.rawDatabase);
     userStore = db.stores.userStore;
