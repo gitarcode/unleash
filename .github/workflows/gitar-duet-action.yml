@@ -1,0 +1,41 @@
+name: Gitar Duet
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  gitar-duet:
+    if: startsWith(github.actor, 'gitar-bot') && startsWith(github.event.pull_request.user.login, 'gitar-bot')
+    runs-on: ubuntu-latest
+    name: Gitar Duet
+    permissions:
+      contents: write # Required to update with Gitar Duet changes
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'yarn'
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - run: yarn install --immutable
+        env:
+          YARN_ENABLE_SCRIPTS: false
+
+      - run: yarn lint:fix # Fix linting issues
+
+      - run: yarn test:updateSnapshot || true # Update test snapshots
+
+      - name: Run Gitar Duet Action
+        uses: gitarcode/gitar-duet-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

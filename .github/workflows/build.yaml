@@ -8,6 +8,7 @@ on:
       - website/**
       - coverage/**
   pull_request:
+    types: [opened, synchronize]
     paths-ignore:
       - frontend/**
       - website/**
