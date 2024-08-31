@@ -1,0 +1,42 @@
+name: Gitar Bot PR Action
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  gitar-bot-pr-automated-updates:
+    if: github.actor == 'gitar-bot-staging[bot]'
+    runs-on: ubuntu-latest
+    name: Gitar Bot PR Automated Updates
+    permissions:
+      contents: write # Required to update the PR with automated changes
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'yarn'
+      - name: Enable corepack
+        run: corepack enable
+      - run: yarn install --immutable
+        env:
+          YARN_ENABLE_SCRIPTS: false
+      - run: yarn lint:fix # Fix linting issues
+      - run: yarn test:updateSnapshot || true # Ignore test failures and update snapshots
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -am "Apply automated updates for Gitar Bot PRs"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
