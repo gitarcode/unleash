@@ -1,0 +1,41 @@
+name: Gitar Duet
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  gitar-duet-composition:
+    if: startsWith(github.actor, 'gitar-bot')
+    runs-on: ubuntu-latest
+    name: Gitar Duet Composition
+    permissions:
+      contents: write # Required to update with Gitar Duet changes
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'yarn'
+      - name: Enable corepack
+        run: corepack enable
+      - run: yarn install --immutable
+        env:
+          YARN_ENABLE_SCRIPTS: false
+      - run: yarn lint:fix # Harmonize the code
+      - run: yarn test:updateSnapshot || true # Update test compositions
+      - name: Compose Gitar Duet changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -am "Gitar Duet Composition for #${{ github.event.pull_request.number }}"
+
+      - name: Create and push Gitar Duet branch
+        run: |
+          git checkout -b gitar_duet_${{ github.event.pull_request.number }}
+          git push origin gitar_duet_${{ github.event.pull_request.number }}
