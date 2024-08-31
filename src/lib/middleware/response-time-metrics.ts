@@ -6,7 +6,6 @@ import type { InstanceStatsService } from '../services';
 import type { RequestHandler } from 'express';
 
 const _responseTime = responseTime.default;
-const appNameReportingThreshold = 1000;
 
 export const storeRequestedRoute: RequestHandler = (req, res, next) => {
     if (req.route) {
@@ -55,13 +54,6 @@ export function responseTimeMetrics(
         // when pathname is undefined use a fallback
         pathname = pathname ?? collapse(req.path);
         let appName: string | undefined;
-        if (
-            !flagResolver.isEnabled('responseTimeWithAppNameKillSwitch') &&
-            (instanceStatsService.getAppCountSnapshot('7d') ??
-                appNameReportingThreshold) < appNameReportingThreshold
-        ) {
-            appName = req.headers['unleash-appname'] ?? req.query.appName;
-        }
 
         const timingInfo = {
             path: pathname,
