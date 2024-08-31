@@ -75,16 +75,13 @@ export default class FeatureSearchController extends Controller {
     maybeAnonymise(
         features: IFeatureSearchOverview[],
     ): IFeatureSearchOverview[] {
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            return features.map((feature) => ({
-                ...feature,
-                createdBy: {
-                    ...feature.createdBy,
-                    name: anonymise(feature.createdBy.name),
-                },
-            }));
-        }
-        return features;
+        return features.map((feature) => ({
+            ...feature,
+            createdBy: {
+                ...feature.createdBy,
+                name: anonymise(feature.createdBy.name),
+            },
+        }));
     }
 
     async searchFeatures(
