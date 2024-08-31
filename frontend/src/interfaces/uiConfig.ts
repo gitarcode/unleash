@@ -53,7 +53,6 @@ export type UiFlags = {
     maintenanceMode?: boolean;
     messageBanner?: Variant;
     banner?: Variant;
-    featuresExportImport?: boolean;
     caseInsensitiveInOperators?: boolean;
     notifications?: boolean;
     personalAccessTokensKillSwitch?: boolean;
