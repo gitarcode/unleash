@@ -2,6 +2,7 @@ name: PR -> Frontend Build & Test
 
 on:
   pull_request:
+    types: [opened, synchronize]
     paths:
       - frontend/**
       - .github/workflows/**frontend**
