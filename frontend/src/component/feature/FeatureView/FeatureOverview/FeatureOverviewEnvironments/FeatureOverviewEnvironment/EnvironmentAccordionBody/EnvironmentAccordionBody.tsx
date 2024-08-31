@@ -20,7 +20,6 @@ import { usePendingChangeRequests } from 'hooks/api/getters/usePendingChangeRequ
 import usePagination from 'hooks/usePagination';
 import type { IFeatureStrategy } from 'interfaces/strategy';
 import { usePlausibleTracker } from 'hooks/usePlausibleTracker';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 interface IEnvironmentAccordionBodyProps {
     isDisabled: boolean;
@@ -54,7 +53,6 @@ const EnvironmentAccordionBody = ({
         usePendingChangeRequests(projectId);
     const { setToastData, setToastApiError } = useToast();
     const { refetchFeature } = useFeature(projectId, featureId);
-    const manyStrategiesPagination = useUiFlag('manyStrategiesPagination');
     const [strategies, setStrategies] = useState(
         featureEnvironment?.strategies || [],
     );
@@ -213,10 +211,7 @@ const EnvironmentAccordionBody = ({
                     condition={strategies.length > 0}
                     show={
                         <ConditionallyRender
-                            condition={
-                                strategies.length < 50 ||
-                                !manyStrategiesPagination
-                            }
+                            condition={strategies.length < 50}
                             show={
                                 <>
                                     {strategies.map((strategy, index) => (
