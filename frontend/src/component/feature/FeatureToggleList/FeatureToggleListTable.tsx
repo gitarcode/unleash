@@ -26,7 +26,6 @@ import { FavoriteIconCell } from 'component/common/Table/cells/FavoriteIconCell/
 import { FavoriteIconHeader } from 'component/common/Table/FavoriteIconHeader/FavoriteIconHeader';
 import { useEnvironments } from 'hooks/api/getters/useEnvironments/useEnvironments';
 import { ExportDialog } from './ExportDialog';
-import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 import { focusable } from 'themes/themeStyles';
 import { FeatureEnvironmentSeenCell } from 'component/common/Table/cells/FeatureSeenCell/FeatureEnvironmentSeenCell';
 import useToast from 'hooks/useToast';
@@ -66,7 +65,6 @@ export const FeatureToggleListTable: VFC = () => {
     const [showExportDialog, setShowExportDialog] = useState(false);
 
     const { setToastApiError } = useToast();
-    const { uiConfig } = useUiConfig();
 
     const variant =
         featureSearchFeedback !== false
@@ -429,16 +427,11 @@ export const FeatureToggleListTable: VFC = () => {
                     </Box>
                 }
             />
-            <ConditionallyRender
-                condition={Boolean(uiConfig?.flags?.featuresExportImport)}
-                show={
-                    <ExportDialog
-                        showExportDialog={showExportDialog}
-                        data={data}
-                        onClose={() => setShowExportDialog(false)}
-                        environments={enabledEnvironments}
-                    />
-                }
+            <ExportDialog
+                showExportDialog={showExportDialog}
+                data={data}
+                onClose={() => setShowExportDialog(false)}
+                environments={enabledEnvironments}
             />
         </PageContent>
     );
