@@ -210,24 +210,22 @@ test('should paginate with offset', async () => {
     await app.createFeature('my_feature_c');
     await app.createFeature('my_feature_d');
 
-    const { body: firstPage } =
-        await searchFeaturesWithOffset({
-            query: 'feature',
-            offset: '0',
-            limit: '2',
-        });
+    const { body: firstPage } = await searchFeaturesWithOffset({
+        query: 'feature',
+        offset: '0',
+        limit: '2',
+    });
 
     expect(firstPage).toMatchObject({
         features: [{ name: 'my_feature_a' }, { name: 'my_feature_b' }],
         total: 4,
     });
 
-    const { body: secondPage } =
-        await searchFeaturesWithOffset({
-            query: 'feature',
-            offset: '2',
-            limit: '2',
-        });
+    const { body: secondPage } = await searchFeaturesWithOffset({
+        query: 'feature',
+        offset: '2',
+        limit: '2',
+    });
 
     expect(secondPage).toMatchObject({
         features: [{ name: 'my_feature_c' }, { name: 'my_feature_d' }],
