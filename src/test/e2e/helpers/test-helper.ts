@@ -318,16 +318,14 @@ async function createApp(
             unleashUrl: 'http://localhost:4242',
         },
         disableScheduler: true,
-        ...{
-            ...customOptions,
-            experimental: {
-                ...(customOptions?.experimental ?? {}),
-                flags: {
-                    strictSchemaValidation: true,
-                    ...(customOptions?.experimental?.flags ?? {}),
-                },
-            },
-        },
+        ...customOptions,
+          experimental: {
+              ...(customOptions?.experimental ?? {}),
+              flags: {
+                  strictSchemaValidation: true,
+                  ...(customOptions?.experimental?.flags ?? {}),
+              },
+          },,
     });
     const services = createServices(stores, config, db);
     const unleashSession = sessionDb(config, undefined);
@@ -372,16 +370,14 @@ export async function setupAppWithoutSupertest(
             unleashUrl: 'http://localhost:4242',
         },
         disableScheduler: true,
-        ...{
-            ...customOptions,
-            experimental: {
-                ...(customOptions?.experimental ?? {}),
-                flags: {
-                    strictSchemaValidation: true,
-                    ...(customOptions?.experimental?.flags ?? {}),
-                },
-            },
-        },
+        ...customOptions,
+          experimental: {
+              ...(customOptions?.experimental ?? {}),
+              flags: {
+                  strictSchemaValidation: true,
+                  ...(customOptions?.experimental?.flags ?? {}),
+              },
+          },,
     });
     const services = createServices(stores, config, db);
     const unleashSession = sessionDb(config, undefined);
