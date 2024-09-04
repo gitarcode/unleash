@@ -14,8 +14,7 @@ beforeAll(async () => {
     db = await dbInit('constraints', getLogger);
     app = await setupAppWithCustomConfig(db.stores, {
         experimental: {
-            flags: {
-            },
+            flags: {},
         },
     });
 });

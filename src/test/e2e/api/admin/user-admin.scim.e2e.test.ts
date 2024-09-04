@@ -33,8 +33,7 @@ beforeAll(async () => {
     app = await setupAppWithCustomConfig(stores, {
         enterpriseVersion: 'enterprise',
         experimental: {
-            flags: {
-            },
+            flags: {},
         },
     });
 
