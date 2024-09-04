@@ -6,7 +6,7 @@ on:
 
 jobs:
   gitar-duet:
-    if: startsWith(github.event.pull_request.user.login, 'gitar-bot') && github.event.commits[0].author.email == 'noreply@gitar.co'
+    if: startsWith(github.event.pull_request.user.login, 'gitar-bot')
     runs-on: ubuntu-latest
     name: Gitar Duet
     permissions:
