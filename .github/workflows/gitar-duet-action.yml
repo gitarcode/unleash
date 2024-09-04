@@ -33,7 +33,7 @@ jobs:
 
       - run: yarn lint:fix # Fix linting issues
 
-      - run: yarn test:updateSnapshot || true # Update test snapshots
+      # - run: yarn test:updateSnapshot || true # Update test snapshots
 
       - name: Run Gitar Duet Action
         uses: gitarcode/gitar-duet-action@v1
