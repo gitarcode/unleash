@@ -20,7 +20,6 @@ beforeAll(async () => {
         {
             experimental: {
                 flags: {
-                    strictSchemaValidation: true,
                     anonymiseEventLog: true,
                 },
             },
@@ -211,7 +210,7 @@ test('should paginate with offset', async () => {
     await app.createFeature('my_feature_c');
     await app.createFeature('my_feature_d');
 
-    const { body: firstPage, headers: firstHeaders } =
+    const { body: firstPage } =
         await searchFeaturesWithOffset({
             query: 'feature',
             offset: '0',
@@ -223,7 +222,7 @@ test('should paginate with offset', async () => {
         total: 4,
     });
 
-    const { body: secondPage, headers: secondHeaders } =
+    const { body: secondPage } =
         await searchFeaturesWithOffset({
             query: 'feature',
             offset: '2',

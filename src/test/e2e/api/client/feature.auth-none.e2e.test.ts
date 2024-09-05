@@ -5,13 +5,11 @@ import {
 import dbInit, { type ITestDb } from '../../helpers/database-init';
 import getLogger from '../../../fixtures/no-logger';
 import { DEFAULT_ENV } from '../../../../lib/util/constants';
-import type User from '../../../../lib/types/user';
 import { ApiTokenType } from '../../../../lib/types/models/api-token';
 import { TEST_AUDIT_USER } from '../../../../lib/types';
 
 let app: IUnleashTest;
 let db: ITestDb;
-const testUser = { name: 'test', id: -9999 } as User;
 let clientSecret: string;
 let frontendSecret: string;
 
@@ -25,7 +23,6 @@ beforeAll(async () => {
             },
             experimental: {
                 flags: {
-                    strictSchemaValidation: true,
                 },
             },
         },
