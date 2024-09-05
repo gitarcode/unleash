@@ -902,27 +902,8 @@ export default class ProjectFeaturesController extends Controller {
         >,
         res: Response<void>,
     ): Promise<void> {
-        const { environment, projectId } = req.params;
-        const { shouldActivateDisabledStrategies } = req.query;
-        const { features } = req.body;
-
-        if (this.flagResolver.isEnabled('disableBulkToggle')) {
-            res.status(403).end();
-            return;
-        }
-
-        await this.startTransaction(async (tx) =>
-            this.transactionalFeatureToggleService(tx).bulkUpdateEnabled(
-                projectId,
-                features,
-                environment,
-                true,
-                req.audit,
-                req.user,
-                shouldActivateDisabledStrategies === 'true',
-            ),
-        );
-        res.status(200).end();
+        res.status(403).end();
+        return;
     }
 
     async bulkToggleFeaturesEnvironmentOff(
@@ -934,27 +915,8 @@ export default class ProjectFeaturesController extends Controller {
         >,
         res: Response<void>,
     ): Promise<void> {
-        const { environment, projectId } = req.params;
-        const { shouldActivateDisabledStrategies } = req.query;
-        const { features } = req.body;
-
-        if (this.flagResolver.isEnabled('disableBulkToggle')) {
-            res.status(403).end();
-            return;
-        }
-
-        await this.startTransaction(async (tx) =>
-            this.transactionalFeatureToggleService(tx).bulkUpdateEnabled(
-                projectId,
-                features,
-                environment,
-                false,
-                req.audit,
-                req.user,
-                shouldActivateDisabledStrategies === 'true',
-            ),
-        );
-        res.status(200).end();
+        res.status(403).end();
+        return;
     }
 
     async toggleFeatureEnvironmentOff(
