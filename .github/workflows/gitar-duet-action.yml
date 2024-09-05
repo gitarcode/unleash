@@ -10,10 +10,8 @@ jobs:
     name: Gitar Duet
     permissions:
       contents: write # Required to update with Gitar Duet changes
-
-    steps:
-      - run: |
-          echo ${{ toJSON(github.event) }}
+    if: github.event.pusher.name == 'Gitar'
+    steps:      
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
