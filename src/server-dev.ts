@@ -38,7 +38,6 @@ process.nextTick(async () => {
                     flags: {
                         embedProxy: true,
                         embedProxyFrontend: true,
-                        anonymiseEventLog: false,
                         responseTimeWithAppNameKillSwitch: false,
                         stripHeadersOnAPI: true,
                         celebrateUnleash: true,
