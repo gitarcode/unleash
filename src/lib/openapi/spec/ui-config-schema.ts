@@ -116,7 +116,6 @@ export const uiConfigSchema = {
                     name: 'disabled',
                     enabled: false,
                 },
-                featuresExportImport: true,
             },
             additionalProperties: {
                 anyOf: [
