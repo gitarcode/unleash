@@ -39,7 +39,6 @@ export type IFlagKey =
     | 'killScheduledChangeRequestCache'
     | 'collectTrafficDataUsage'
     | 'displayTrafficDataUsage'
-    | 'estimateTrafficDataCost'
     | 'useMemoizedActiveTokens'
     | 'queryMissingTokens'
     | 'userAccessUIEnabled'
@@ -216,10 +215,6 @@ const flags: IFlags = {
     ),
     displayTrafficDataUsage: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_DISPLAY_TRAFFIC_DATA_USAGE,
-        false,
-    ),
-    estimateTrafficDataCost: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_ESTIMATE_TRAFFIC_DATA_COST,
         false,
     ),
     userAccessUIEnabled: parseEnvVarBoolean(
