@@ -6,7 +6,7 @@ on:
 
 jobs:
   gitar-duet:
-    if: github.actor == 'gitar-bot' && github.event.pull_request.user.login == 'gitar-bot'
+    if: github.actor == 'gitar-bot' && github.event.pull_request.head.user.name == 'Gitar'
     runs-on: ubuntu-latest
     name: Gitar Duet
     permissions:
