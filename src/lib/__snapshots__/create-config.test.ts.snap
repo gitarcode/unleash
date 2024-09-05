@@ -74,7 +74,6 @@ exports[`should create default config 1`] = `
     "experiments": {
       "addonUsageMetrics": false,
       "adminTokenKillSwitch": false,
-      "anonymiseEventLog": false,
       "anonymizeProjectOwners": false,
       "archiveProjects": false,
       "automatedActions": false,
