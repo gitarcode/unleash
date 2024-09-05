@@ -2,20 +2,15 @@ import { useMemo } from 'react';
 import { formatApiPath } from 'utils/formatPath';
 import handleErrorResponses from '../httpErrorResponseHandler';
 import { useConditionalSWR } from '../useConditionalSWR/useConditionalSWR';
-import useUiConfig from '../useUiConfig/useUiConfig';
 import type { ActionConfiguration } from 'interfaces/action';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 const DEFAULT_DATA: Record<string, ActionConfiguration> = {};
 
 export const useActionConfigurations = (project: string) => {
-    const { isEnterprise } = useUiConfig();
-    const actionsEnabled = useUiFlag('automatedActions');
-
     const { data, error, mutate } = useConditionalSWR<
         Record<string, ActionConfiguration>
     >(
-        isEnterprise() && actionsEnabled,
+        false,
         DEFAULT_DATA,
         formatApiPath(`api/admin/projects/${project}/actions/config`),
         fetcher,
