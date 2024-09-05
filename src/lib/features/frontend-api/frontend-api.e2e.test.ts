@@ -1156,9 +1156,7 @@ test('should return 204 if metrics are disabled', async () => {
         {
             frontendApiOrigins: ['https://example.com'],
             experimental: {
-                flags: {
-                    disableMetrics: true,
-                },
+                flags: {},
             },
         },
         db.rawDatabase,
