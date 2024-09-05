@@ -17,7 +17,6 @@ import { GridCol } from 'component/common/GridCol/GridCol';
 import { Badge } from 'component/common/Badge/Badge';
 import { GridColLink } from './GridColLink/GridColLink';
 import { useTrafficDataEstimation } from 'hooks/useTrafficData';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { useInstanceTrafficMetrics } from 'hooks/api/getters/useInstanceTrafficMetrics/useInstanceTrafficMetrics';
 
 const StyledPlanBox = styled('aside')(({ theme }) => ({
@@ -82,14 +81,7 @@ export const BillingPlan: FC<IBillingPlanProps> = ({ instanceStatus }) => {
     const expired = trialHasExpired(instanceStatus);
     const { isPro } = useUiConfig();
 
-    const {
-        currentPeriod,
-        toChartData,
-        toTrafficUsageSum,
-        endpointsInfo,
-        getDayLabels,
-        calculateOverageCost,
-    } = useTrafficDataEstimation();
+    const { currentPeriod, endpointsInfo } = useTrafficDataEstimation();
 
     const eligibleUsers = users.filter((user: any) => user.email);
 
@@ -108,29 +100,12 @@ export const BillingPlan: FC<IBillingPlanProps> = ({ instanceStatus }) => {
     const freeAssigned = Math.min(eligibleUsers.length, seats);
     const paidAssigned = eligibleUsers.length - freeAssigned;
     const paidAssignedPrice = price.user * paidAssigned;
-
-    const displayTrafficDataUsageEnabled = useUiFlag('displayTrafficDataUsage');
     const includedTraffic = isPro() ? proPlanIncludedRequests : 0;
     const traffic = useInstanceTrafficMetrics(currentPeriod.key);
 
     const overageCost = useMemo(() => {
-        if (!displayTrafficDataUsageEnabled || !includedTraffic) {
-            return 0;
-        }
-        const trafficData = toChartData(
-            getDayLabels(currentPeriod.dayCount),
-            traffic,
-            endpointsInfo,
-        );
-        const totalTraffic = toTrafficUsageSum(trafficData);
-        return calculateOverageCost(totalTraffic, includedTraffic);
-    }, [
-        displayTrafficDataUsageEnabled,
-        includedTraffic,
-        traffic,
-        currentPeriod,
-        endpointsInfo,
-    ]);
+        return 0;
+    }, [false, includedTraffic, traffic, currentPeriod, endpointsInfo]);
 
     const totalCost = planPrice + paidAssignedPrice + overageCost;
 
