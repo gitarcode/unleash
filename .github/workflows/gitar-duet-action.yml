@@ -1,12 +1,13 @@
 name: Gitar Duet
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
+    branches:
+      - 'gitar_*'
 
 jobs:
   gitar-duet:
-    if: github.actor == 'gitar-bot' && github.event.pull_request.head.user.name == 'Gitar'
+    if: github.event.pusher.name == 'Gitar'
     runs-on: ubuntu-latest
     name: Gitar Duet
     permissions:
