@@ -6,13 +6,15 @@ on:
 
 jobs:
   gitar-duet:
-    if: github.actor == 'gitar-bot' && github.event.pull_request.head.user.name == 'Gitar'
+    if: github.actor == 'gitar-bot'
     runs-on: ubuntu-latest
     name: Gitar Duet
     permissions:
       contents: write # Required to update with Gitar Duet changes
 
     steps:
+      - run: |
+          echo ${{ toJSON(github.event.pull_request) }}
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
