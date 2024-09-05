@@ -15,7 +15,6 @@ beforeAll(async () => {
         experimental: {
             flags: {
                 strictSchemaValidation: true,
-                enableLegacyVariants: false,
             },
         },
     });
