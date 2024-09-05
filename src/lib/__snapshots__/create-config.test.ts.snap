@@ -131,7 +131,6 @@ exports[`should create default config 1`] = `
           "value": "",
         },
       },
-      "migrationLock": true,
       "navigationSidebar": true,
       "newEventSearch": false,
       "onboardingMetrics": false,
