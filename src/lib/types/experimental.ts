@@ -41,7 +41,6 @@ export type IFlagKey =
     | 'displayTrafficDataUsage'
     | 'estimateTrafficDataCost'
     | 'useMemoizedActiveTokens'
-    | 'queryMissingTokens'
     | 'userAccessUIEnabled'
     | 'disableUpdateMaxRevisionId'
     | 'disablePublishUnannouncedEvents'
@@ -232,10 +231,6 @@ const flags: IFlags = {
     ),
     disablePublishUnannouncedEvents: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_DISABLE_SCHEDULED_CACHES,
-        false,
-    ),
-    queryMissingTokens: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_QUERY_MISSING_TOKENS,
         false,
     ),
     displayEdgeBanner: parseEnvVarBoolean(
