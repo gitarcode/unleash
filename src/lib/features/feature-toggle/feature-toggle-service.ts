@@ -1229,17 +1229,7 @@ class FeatureToggleService {
         }
     }
 
-    private async validateActiveProject(projectId: string) {
-        if (this.flagResolver.isEnabled('archiveProjects')) {
-            const hasActiveProject =
-                await this.projectStore.hasActiveProject(projectId);
-            if (!hasActiveProject) {
-                throw new NotFoundError(
-                    `Active project with id ${projectId} does not exist`,
-                );
-            }
-        }
-    }
+    private async validateActiveProject(projectId: string) {}
 
     async createFeatureToggle(
         projectId: string,
@@ -1253,12 +1243,7 @@ class FeatureToggleService {
         await this.validateName(value.name);
         await this.validateFeatureFlagNameAgainstPattern(value.name, projectId);
 
-        let projectExists: boolean;
-        if (this.flagResolver.isEnabled('archiveProjects')) {
-            projectExists = await this.projectStore.hasActiveProject(projectId);
-        } else {
-            projectExists = await this.projectStore.hasProject(projectId);
-        }
+        let projectExists = await this.projectStore.hasProject(projectId);
 
         if (await this.projectStore.isFeatureLimitReached(projectId)) {
             throw new InvalidOperationError(
