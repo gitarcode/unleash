@@ -14,7 +14,6 @@ import {
 } from './feature-event-formatter-md';
 import type { IEvent } from '../types/events';
 import type { IntegrationEventState } from '../features/integration-events/integration-events-store';
-import { ADDON_EVENTS_HANDLED } from '../metric-events';
 
 interface ISlackAddonParameters {
     url: string;
@@ -129,12 +128,6 @@ export default class SlackAddon extends Addon {
             state = 'successWithErrors';
             const successWithErrorsMessage = `Some (${failedRequests.length} of ${results.length}) Slack webhook requests failed. Status codes: ${codes}.`;
             stateDetails.push(successWithErrorsMessage);
-            if (this.flagResolver.isEnabled('addonUsageMetrics')) {
-                this.eventBus.emit(ADDON_EVENTS_HANDLED, {
-                    result: state,
-                    destination: 'slack',
-                });
-            }
 
             this.logger.warn(successWithErrorsMessage);
         }
