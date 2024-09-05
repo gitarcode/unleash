@@ -219,7 +219,7 @@ class ProjectStore implements IProjectStore {
     }
 
     async getAll(query: IProjectQuery = {}): Promise<IProject[]> {
-        let projects = this.db
+        const projects = this.db
             .select(COLUMNS)
             .from(TABLE)
             .where(query)
@@ -231,7 +231,7 @@ class ProjectStore implements IProjectStore {
     }
 
     async get(id: string): Promise<IProject> {
-        let extraColumns: string[] = [];
+        const extraColumns: string[] = [];
 
         return this.db
             .first([...COLUMNS, ...SETTINGS_COLUMNS, ...extraColumns])
@@ -711,13 +711,13 @@ class ProjectStore implements IProjectStore {
     }
 
     async count(): Promise<number> {
-        let count = this.db.from(TABLE).count('*');
+        const count = this.db.from(TABLE).count('*');
 
         return count.then((res) => Number(res[0].count));
     }
 
     async getProjectModeCounts(): Promise<ProjectModeCount[]> {
-        let query = this.db
+        const query = this.db
             .select(
                 this.db.raw(
                     `COALESCE(${SETTINGS_TABLE}.project_mode, 'open') as mode`,
