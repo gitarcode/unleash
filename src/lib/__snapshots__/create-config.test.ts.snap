@@ -149,7 +149,6 @@ exports[`should create default config 1`] = `
       "strictSchemaValidation": false,
       "useMemoizedActiveTokens": false,
       "useProjectReadModel": false,
-      "userAccessUIEnabled": false,
     },
     "externalResolver": {
       "getVariant": [Function],
