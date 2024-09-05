@@ -108,7 +108,6 @@ exports[`should create default config 1`] = `
           "value": "",
         },
       },
-      "featureSearchFeedbackPosting": false,
       "featuresExportImport": true,
       "feedbackComments": {
         "enabled": false,
