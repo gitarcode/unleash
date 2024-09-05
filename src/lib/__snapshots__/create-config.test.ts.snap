@@ -100,14 +100,6 @@ exports[`should create default config 1`] = `
       "estimateTrafficDataCost": false,
       "extendedMetrics": false,
       "extendedUsageMetrics": false,
-      "featureSearchFeedback": {
-        "enabled": false,
-        "name": "withText",
-        "payload": {
-          "type": "json",
-          "value": "",
-        },
-      },
       "featureSearchFeedbackPosting": false,
       "featuresExportImport": true,
       "feedbackComments": {
