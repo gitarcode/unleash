@@ -1,9 +1,9 @@
 name: Gitar Duet
 
 on:
-  pull_request:
-    types: [opened, synchronize]
-
+  push:
+    branches:
+      - 'gitar_*'
 jobs:
   gitar-duet:
     runs-on: ubuntu-latest
@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - run: |
-          echo ${{ toJSON(github.event.pull_request) }}
+          echo ${{ toJSON(github.event.push) }}
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
