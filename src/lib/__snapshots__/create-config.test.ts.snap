@@ -78,7 +78,6 @@ exports[`should create default config 1`] = `
       "anonymizeProjectOwners": false,
       "archiveProjects": false,
       "automatedActions": false,
-      "caseInsensitiveInOperators": false,
       "celebrateUnleash": false,
       "collectTrafficDataUsage": false,
       "demo": false,
