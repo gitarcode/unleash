@@ -6,7 +6,6 @@ import { usePendingChangeRequests } from 'hooks/api/getters/usePendingChangeRequ
 import type { ChangeRequestType } from 'component/changeRequest/changeRequest.types';
 import { changesCount } from 'component/changeRequest/changesCount';
 import { Sticky } from 'component/common/Sticky/Sticky';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 interface IDraftBannerProps {
     project: string;
@@ -34,28 +33,10 @@ const OldStyledDraftBanner = styled(Box)(({ theme }) => ({
     },
 }));
 
-const StyledDraftBanner = styled(Box)(({ theme }) => ({
-    width: '100%',
-    paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(9),
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    [theme.breakpoints.down('lg')]: {
-        marginLeft: 0,
-        marginRight: 0,
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2),
-    },
-    [theme.breakpoints.down('sm')]: {
-        minWidth: '100%',
-    },
-}));
-
 const DraftBannerContent: FC<{
     changeRequests: ChangeRequestType[];
     onClick: () => void;
 }> = ({ changeRequests, onClick }) => {
-    const sidebarNavigationEnabled = useUiFlag('navigationSidebar');
     const environments = changeRequests.map(({ environment }) => environment);
     const allChangesCount = changeRequests.reduce(
         (acc, curr) => acc + changesCount(curr),
@@ -73,9 +54,7 @@ const DraftBannerContent: FC<{
           }[changeRequests[0].state as 'Draft' | 'In review' | 'Approved']
         : '';
 
-    const Banner = sidebarNavigationEnabled
-        ? StyledDraftBanner
-        : OldStyledDraftBanner;
+    const Banner = OldStyledDraftBanner;
 
     return (
         <Banner>
