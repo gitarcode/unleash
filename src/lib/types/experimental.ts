@@ -61,8 +61,7 @@ export type IFlagKey =
     | 'archiveProjects'
     | 'projectListImprovements'
     | 'useProjectReadModel'
-    | 'addonUsageMetrics'
-    | 'onboardingMetrics';
+    | 'addonUsageMetrics';
 
 export type IFlags = Partial<{ [key in IFlagKey]: boolean | Variant }>;
 
@@ -301,10 +300,6 @@ const flags: IFlags = {
     ),
     addonUsageMetrics: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_ADDON_USAGE_METRICS,
-        false,
-    ),
-    onboardingMetrics: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_ONBOARDING_METRICS,
         false,
     ),
 };
