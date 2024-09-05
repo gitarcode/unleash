@@ -88,7 +88,8 @@ export class InactiveUsersController extends Controller {
         res: Response<InactiveUsersSchema>,
     ): Promise<void> {
         this.logger.info('Hitting inactive users');
-        let inactiveUsers = await this.inactiveUsersService.getInactiveUsers();
+        const inactiveUsers =
+            await this.inactiveUsersService.getInactiveUsers();
         this.openApiService.respondWithValidation(
             200,
             res,

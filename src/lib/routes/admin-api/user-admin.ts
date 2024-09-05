@@ -454,7 +454,7 @@ export default class UserAdminController extends Controller {
         res: Response<UsersSearchSchema>,
     ): Promise<void> {
         const { q } = req.query;
-        let users =
+        const users =
             typeof q === 'string' && q.length > 1
                 ? await this.userService.search(q)
                 : [];
@@ -471,7 +471,7 @@ export default class UserAdminController extends Controller {
         res: Response<UsersGroupsBaseSchema>,
     ): Promise<void> {
         const allUsers = await this.accountService.getAll();
-        let users = allUsers.map((u) => {
+        const users = allUsers.map((u) => {
             return {
                 id: u.id,
                 name: u.name,
