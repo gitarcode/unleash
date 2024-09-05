@@ -368,12 +368,6 @@ export default class MetricsMonitor {
             labelNames: ['resource', 'limit'],
         });
 
-        const requestOriginCounter = createCounter({
-            name: 'request_origin_counter',
-            help: 'Number of authenticated requests, including origin information.',
-            labelNames: ['type', 'method', 'source'],
-        });
-
         const resourceLimit = createGauge({
             name: 'resource_limit',
             help: 'The maximum number of resources allowed.',
@@ -766,15 +760,7 @@ export default class MetricsMonitor {
             mapFeaturesForClientDuration.observe(duration);
         });
 
-        events.onMetricEvent(
-            eventBus,
-            events.REQUEST_ORIGIN,
-            ({ type, method, source }) => {
-                if (flagResolver.isEnabled('originMiddleware')) {
-                    requestOriginCounter.increment({ type, method, source });
-                }
-            },
-        );
+        events.onMetricEvent(eventBus, events.REQUEST_ORIGIN, (_) => {});
 
         eventStore.on(FEATURE_CREATED, ({ featureName, project }) => {
             featureFlagUpdateTotal.increment({
