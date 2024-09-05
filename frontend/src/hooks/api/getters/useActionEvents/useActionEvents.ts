@@ -6,7 +6,6 @@ import { formatApiPath } from 'utils/formatPath';
 import handleErrorResponses from '../httpErrorResponseHandler';
 import useUiConfig from '../useUiConfig/useUiConfig';
 import type { IActionSetEvent } from 'interfaces/action';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 type ActionEventsResponse = {
     actionSetEvents: IActionSetEvent[];
@@ -25,20 +24,13 @@ export const useActionEvents = (
     options: SWRInfiniteConfiguration = {},
 ) => {
     const { isEnterprise } = useUiConfig();
-    const automatedActionsEnabled = useUiFlag('automatedActions');
 
     const getKey: SWRInfiniteKeyLoader = (
         pageIndex: number,
         previousPageData: ActionEventsResponse,
     ) => {
         // Does not meet conditions
-        if (
-            !actionSetId ||
-            !projectId ||
-            !isEnterprise ||
-            !automatedActionsEnabled
-        )
-            return null;
+        if (!actionSetId || !projectId || !isEnterprise) return null;
 
         // Reached the end
         if (previousPageData && !previousPageData.actionSetEvents.length)
