@@ -59,7 +59,6 @@ export type IFlagKey =
     | 'originMiddleware'
     | 'newEventSearch'
     | 'archiveProjects'
-    | 'projectListImprovements'
     | 'useProjectReadModel'
     | 'addonUsageMetrics'
     | 'onboardingMetrics';
@@ -289,10 +288,6 @@ const flags: IFlags = {
     ),
     archiveProjects: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_ARCHIVE_PROJECTS,
-        false,
-    ),
-    projectListImprovements: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_PROJECT_LIST_IMPROVEMENTS,
         false,
     ),
     useProjectReadModel: parseEnvVarBoolean(
