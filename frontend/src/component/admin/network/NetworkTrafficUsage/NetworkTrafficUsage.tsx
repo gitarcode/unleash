@@ -1,4 +1,4 @@
-import { useMemo, type VFC, useState, useEffect } from 'react';
+import { type VFC, useState, useEffect } from 'react';
 import { usePageTitle } from 'hooks/usePageTitle';
 import { Alert } from '@mui/material';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
@@ -10,7 +10,6 @@ import {
     Title,
     Tooltip,
     Legend,
-    type Chart,
 } from 'chart.js';
 import { useInstanceTrafficMetrics } from 'hooks/api/getters/useInstanceTrafficMetrics/useInstanceTrafficMetrics';
 import annotationPlugin from 'chartjs-plugin-annotation';
