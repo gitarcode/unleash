@@ -1,9 +1,9 @@
 import type { Response } from 'express';
 import Controller from '../../../routes/controller';
-import {
-    type IFlagResolver,
-    type IUnleashConfig,
-    type IUnleashServices,
+import type {
+    IFlagResolver,
+    IUnleashConfig,
+    IUnleashServices,
 } from '../../../types';
 import type ClientInstanceService from './instance-service';
 import type { Logger } from '../../../logger';
