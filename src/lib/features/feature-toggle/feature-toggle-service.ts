@@ -2240,11 +2240,7 @@ class FeatureToggleService {
     private async verifyLegacyVariants(featureName: string) {
         const existingLegacyVariantsExist =
             await this.featureEnvironmentStore.variantExists(featureName);
-        const enableLegacyVariants = this.flagResolver.isEnabled(
-            'enableLegacyVariants',
-        );
-        const useLegacyVariants =
-            existingLegacyVariantsExist || enableLegacyVariants;
+        const useLegacyVariants = existingLegacyVariantsExist;
         if (!useLegacyVariants) {
             throw new InvalidOperationError(
                 `Environment variants deprecated for feature: ${featureName}. Use strategy variants instead.`,

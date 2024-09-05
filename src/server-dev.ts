@@ -48,7 +48,6 @@ process.nextTick(async () => {
                         disableShowContextFieldSelectionValues: false,
                         projectOverviewRefactorFeedback: true,
                         manyStrategiesPagination: true,
-                        enableLegacyVariants: false,
                         extendedMetrics: true,
                         originMiddleware: true,
                         newEventSearch: true,
