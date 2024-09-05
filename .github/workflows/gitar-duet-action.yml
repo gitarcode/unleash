@@ -41,8 +41,7 @@ jobs:
       - run: |
           # Undo deletes for snapshots
           git reset
-          git add -u --ignore-removal .
-          git checkout -- .
+          git diff --diff-filter=D --name-only HEAD | xargs git checkout HEAD^ --
 
       - name: Run Gitar Duet Action
         uses: gitarcode/gitar-duet-action@v1
