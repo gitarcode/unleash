@@ -22,9 +22,7 @@ beforeAll(async () => {
     const config = createTestConfig({
         server: { baseUriPath: '/test' },
         experimental: {
-            flags: {
-                useMemoizedActiveTokens: true,
-            },
+            flags: {},
         },
     });
     db = await dbInit('api_token_service_serial', getLogger);
