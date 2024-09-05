@@ -87,7 +87,6 @@ export type UiFlags = {
     enableLegacyVariants?: boolean;
     navigationSidebar?: boolean;
     flagCreator?: boolean;
-    newEventSearch?: boolean;
     archiveProjects?: boolean;
     projectListImprovements?: boolean;
 };
