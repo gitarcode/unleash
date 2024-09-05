@@ -38,6 +38,11 @@ jobs:
 
       - run: yarn test:updateSnapshot || true # Update test snapshots
 
+      - run: |
+          # Undo deletes for snapshots
+          git add -u
+          git checkout -- .
+
       - name: Run Gitar Duet Action
         uses: gitarcode/gitar-duet-action@v1
         with:
