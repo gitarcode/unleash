@@ -217,23 +217,16 @@ export const Project = () => {
                             </StyledProjectTitle>
                         </StyledDiv>
                         <StyledDiv>
-                            <ConditionallyRender
-                                condition={Boolean(
-                                    uiConfig?.flags?.featuresExportImport,
-                                )}
-                                show={
-                                    <PermissionIconButton
-                                        permission={UPDATE_FEATURE}
-                                        projectId={projectId}
-                                        onClick={() => setModalOpen(true)}
-                                        tooltipProps={{ title: 'Import' }}
-                                        data-testid={IMPORT_BUTTON}
-                                        data-loading-project
-                                    >
-                                        <ImportSvg />
-                                    </PermissionIconButton>
-                                }
-                            />
+                            <PermissionIconButton
+                                permission={UPDATE_FEATURE}
+                                projectId={projectId}
+                                onClick={() => setModalOpen(true)}
+                                tooltipProps={{ title: 'Import' }}
+                                data-testid={IMPORT_BUTTON}
+                                data-loading-project
+                            >
+                                <ImportSvg />
+                            </PermissionIconButton>
                         </StyledDiv>
                     </StyledTopRow>
                 </StyledInnerContainer>
