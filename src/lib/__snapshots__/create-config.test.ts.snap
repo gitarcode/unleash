@@ -135,7 +135,6 @@ exports[`should create default config 1`] = `
       "navigationSidebar": true,
       "newEventSearch": false,
       "onboardingMetrics": false,
-      "originMiddleware": false,
       "outdatedSdksBanner": false,
       "personalAccessTokensKillSwitch": false,
       "projectListImprovements": false,
