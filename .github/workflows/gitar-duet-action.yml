@@ -40,7 +40,8 @@ jobs:
 
       - run: |
           # Undo deletes for snapshots
-          git add -u
+          git reset
+          git add -u --ignore-removal .
           git checkout -- .
 
       - name: Run Gitar Duet Action
