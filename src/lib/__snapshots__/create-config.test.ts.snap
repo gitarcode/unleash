@@ -137,7 +137,6 @@ exports[`should create default config 1`] = `
       "onboardingMetrics": false,
       "originMiddleware": false,
       "outdatedSdksBanner": false,
-      "personalAccessTokensKillSwitch": false,
       "projectListImprovements": false,
       "projectOverviewRefactorFeedback": false,
       "queryMissingTokens": false,
