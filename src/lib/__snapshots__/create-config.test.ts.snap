@@ -82,7 +82,6 @@ exports[`should create default config 1`] = `
       "celebrateUnleash": false,
       "collectTrafficDataUsage": false,
       "demo": false,
-      "disableBulkToggle": false,
       "disableMetrics": false,
       "disableNotifications": false,
       "disablePublishUnannouncedEvents": false,
