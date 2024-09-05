@@ -5,7 +5,6 @@ import {
     type IProjectOwnersProps,
     ProjectOwners as LegacyProjectOwners,
 } from '../LegacyProjectOwners/LegacyProjectOwners';
-import { ProjectOwners } from './ProjectOwners/ProjectOwners';
 
 interface IProjectCardFooterProps {
     id?: string;
