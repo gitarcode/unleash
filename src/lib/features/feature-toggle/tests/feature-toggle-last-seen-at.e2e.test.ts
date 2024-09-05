@@ -23,7 +23,6 @@ beforeAll(async () => {
     const config = {
         experimental: {
             flags: {
-                strictSchemaValidation: true,
             },
         },
     };
