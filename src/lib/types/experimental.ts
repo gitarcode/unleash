@@ -56,7 +56,6 @@ export type IFlagKey =
     | 'anonymizeProjectOwners'
     | 'extendedMetrics'
     | 'removeUnsafeInlineStyleSrc'
-    | 'originMiddleware'
     | 'newEventSearch'
     | 'archiveProjects'
     | 'projectListImprovements'
@@ -277,10 +276,6 @@ const flags: IFlags = {
     ),
     removeUnsafeInlineStyleSrc: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_REMOVE_UNSAFE_INLINE_STYLE_SRC,
-        false,
-    ),
-    originMiddleware: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_ORIGIN_MIDDLEWARE,
         false,
     ),
     newEventSearch: parseEnvVarBoolean(
