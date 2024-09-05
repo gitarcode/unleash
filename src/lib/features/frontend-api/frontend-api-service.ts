@@ -154,7 +154,6 @@ export class FrontendApiService {
             appName: 'frontend-api',
             url: 'unused',
             storageProvider: new InMemStorageProvider(),
-            disableMetrics: true,
             repository,
             disableAutoStart: true,
             skipInstanceCountWarning: true,
