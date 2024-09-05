@@ -72,7 +72,6 @@ exports[`should create default config 1`] = `
   "feedbackUriPath": undefined,
   "flagResolver": FlagResolver {
     "experiments": {
-      "addonUsageMetrics": false,
       "adminTokenKillSwitch": false,
       "anonymiseEventLog": false,
       "anonymizeProjectOwners": false,
