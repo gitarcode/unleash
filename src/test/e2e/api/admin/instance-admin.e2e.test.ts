@@ -19,8 +19,7 @@ beforeAll(async () => {
         stores,
         {
             experimental: {
-                flags: {
-                },
+                flags: {},
             },
         },
         db.rawDatabase,
