@@ -27,7 +27,6 @@ export function createTestConfig(config?: IUnleashOptions): IUnleashConfig {
         experimental: {
             flags: {
                 embedProxy: true,
-                embedProxyFrontend: true,
             },
         },
         publicFolder: path.join(__dirname, '../examples'),
