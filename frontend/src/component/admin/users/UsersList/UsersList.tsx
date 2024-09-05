@@ -36,7 +36,6 @@ import { RoleCell } from 'component/common/Table/cells/RoleCell/RoleCell';
 import { useSearch } from 'hooks/useSearch';
 import Download from '@mui/icons-material/Download';
 import { StyledUsersLinkDiv } from '../Users.styles';
-import { useUiFlag } from 'hooks/useUiFlag';
 import useUiConfig from '../../../../hooks/api/getters/useUiConfig/useUiConfig';
 import { useScimSettings } from 'hooks/api/getters/useScimSettings/useScimSettings';
 
@@ -56,7 +55,6 @@ const UsersList = () => {
     }>({
         open: false,
     });
-    const userAccessUIEnabled = useUiFlag('userAccessUIEnabled');
     const {
         settings: { enabled: scimEnabled },
     } = useScimSettings();
@@ -204,22 +202,14 @@ const UsersList = () => {
                         onEdit={() => {
                             navigate(`/admin/users/${user.id}/edit`);
                         }}
-                        onViewAccess={
-                            userAccessUIEnabled
-                                ? () => {
-                                      navigate(
-                                          `/admin/users/${user.id}/access`,
-                                      );
-                                  }
-                                : undefined
-                        }
+                        onViewAccess={undefined}
                         onChangePassword={openPwDialog(user)}
                         onResetPassword={openResetPwDialog(user)}
                         onDelete={openDelDialog(user)}
                         isScimUser={scimEnabled && Boolean(user.scimId)}
                     />
                 ),
-                width: userAccessUIEnabled ? 240 : 200,
+                width: 200,
                 disableSortBy: true,
             },
             // Always hidden -- for search
@@ -235,7 +225,7 @@ const UsersList = () => {
                 searchable: true,
             },
         ],
-        [roles, navigate, isBillingUsers, userAccessUIEnabled],
+        [roles, navigate, isBillingUsers, false],
     );
 
     const initialState = useMemo(() => {
