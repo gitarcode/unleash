@@ -20,20 +20,6 @@ export default class ConfigurationRevisionService extends EventEmitter {
 
     private flagResolver: IFlagResolver;
 
-    private constructor(
-        { eventStore }: Pick<IUnleashStores, 'eventStore'>,
-        {
-            getLogger,
-            flagResolver,
-        }: Pick<IUnleashConfig, 'getLogger' | 'flagResolver'>,
-    ) {
-        super();
-        this.logger = getLogger('configuration-revision-service.ts');
-        this.eventStore = eventStore;
-        this.flagResolver = flagResolver;
-        this.revisionId = 0;
-    }
-
     static getInstance(
         { eventStore }: Pick<IUnleashStores, 'eventStore'>,
         {
@@ -60,23 +46,7 @@ export default class ConfigurationRevisionService extends EventEmitter {
     }
 
     async updateMaxRevisionId(): Promise<number> {
-        if (this.flagResolver.isEnabled('disableUpdateMaxRevisionId')) {
-            return 0;
-        }
-
-        const revisionId = await this.eventStore.getMaxRevisionId(
-            this.revisionId,
-        );
-        if (this.revisionId !== revisionId) {
-            this.logger.debug(
-                'Updating feature configuration with new revision Id',
-                revisionId,
-            );
-            this.emit(UPDATE_REVISION, revisionId);
-            this.revisionId = revisionId;
-        }
-
-        return this.revisionId;
+        return 0;
     }
 
     destroy(): void {
