@@ -238,7 +238,7 @@ class UserStore implements IUserStore {
             seen_at: currentDate,
         });
 
-        let firstLoginOrder = 0;
+        const firstLoginOrder = 0;
 
         await updateQuery;
         return firstLoginOrder;
