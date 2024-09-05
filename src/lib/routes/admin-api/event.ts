@@ -143,10 +143,7 @@ export default class EventController extends Controller {
     }
 
     maybeAnonymiseEvents(events: IEvent[]): IEvent[] {
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            return anonymiseKeys(events, ANON_KEYS);
-        }
-        return events;
+        return anonymiseKeys(events, ANON_KEYS);
     }
 
     async getEvents(
