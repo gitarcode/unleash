@@ -14,7 +14,7 @@ function demoAuthentication(
     { authentication }: Pick<IUnleashConfig, 'authentication' | 'flagResolver'>,
 ): void {
     app.post(`${basePath}/auth/demo/login`, async (req: IAuthRequest, res) => {
-        let { email } = req.body;
+        const { email } = req.body;
         let user: IUser;
 
         try {
