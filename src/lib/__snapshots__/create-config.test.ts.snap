@@ -123,14 +123,6 @@ exports[`should create default config 1`] = `
       "killScheduledChangeRequestCache": false,
       "maintenanceMode": false,
       "manyStrategiesPagination": false,
-      "messageBanner": {
-        "enabled": false,
-        "name": "message-banner",
-        "payload": {
-          "type": "json",
-          "value": "",
-        },
-      },
       "migrationLock": true,
       "navigationSidebar": true,
       "newEventSearch": false,
