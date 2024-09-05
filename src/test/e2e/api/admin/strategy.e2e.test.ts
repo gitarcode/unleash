@@ -12,8 +12,7 @@ beforeAll(async () => {
     db = await dbInit('strategy_api_serial', getLogger);
     app = await setupAppWithCustomConfig(db.stores, {
         experimental: {
-            flags: {
-            },
+            flags: {},
         },
     });
 });
