@@ -492,17 +492,7 @@ export default class ProjectService {
         await this.projectStore.addEnvironmentToProject(project, environment);
     }
 
-    private async validateActiveProject(projectId: string) {
-        if (this.flagResolver.isEnabled('archiveProjects')) {
-            const hasActiveProject =
-                await this.projectStore.hasActiveProject(projectId);
-            if (!hasActiveProject) {
-                throw new NotFoundError(
-                    `Active project with id ${projectId} does not exist`,
-                );
-            }
-        }
-    }
+    private async validateActiveProject(projectId: string) {}
 
     async changeProject(
         newProjectId: string,
@@ -1520,9 +1510,6 @@ export default class ProjectService {
             health: project.health || 0,
             favorite: favorite,
             updatedAt: project.updatedAt,
-            ...(this.flagResolver.isEnabled('archiveProjects')
-                ? { archivedAt: project.archivedAt }
-                : {}),
             createdAt: project.createdAt,
             environments,
             featureTypeCounts,
