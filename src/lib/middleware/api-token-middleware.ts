@@ -35,7 +35,6 @@ const apiAccessMiddleware = (
     {
         getLogger,
         authentication,
-        flagResolver,
     }: Pick<IUnleashConfig, 'getLogger' | 'authentication' | 'flagResolver'>,
     { apiTokenService }: Pick<IUnleashServices, 'apiTokenService'>,
 ): any => {
@@ -64,9 +63,7 @@ const apiAccessMiddleware = (
                         (apiUser.type === CLIENT &&
                             !isClientApi(req) &&
                             !isEdgeMetricsApi(req)) ||
-                        (apiUser.type === FRONTEND && !isProxyApi(req)) ||
-                        (apiUser.type === FRONTEND &&
-                            !flagResolver.isEnabled('embedProxy'))
+                        (apiUser.type === FRONTEND && !isProxyApi(req))
                     ) {
                         res.status(403).send({
                             message: TOKEN_TYPE_ERROR_MESSAGE,
