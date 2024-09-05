@@ -6,7 +6,6 @@ on:
 
 jobs:
   gitar-duet:
-    if: github.actor == 'gitar-bot'
     runs-on: ubuntu-latest
     name: Gitar Duet
     permissions:
