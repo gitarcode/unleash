@@ -26,7 +26,6 @@ export type IFlagKey =
     | 'filterInvalidClientMetrics'
     | 'disableMetrics'
     | 'stripHeadersOnAPI'
-    | 'signals'
     | 'automatedActions'
     | 'celebrateUnleash'
     | 'featureSearchFeedback'
@@ -134,10 +133,6 @@ const flags: IFlags = {
     ),
     disableMetrics: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_DISABLE_METRICS,
-        false,
-    ),
-    signals: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_SIGNALS,
         false,
     ),
     automatedActions: parseEnvVarBoolean(
