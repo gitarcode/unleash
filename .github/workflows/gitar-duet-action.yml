@@ -34,7 +34,9 @@ jobs:
         env:
           YARN_ENABLE_SCRIPTS: false
 
-      - run: yarn lint:fix # Fix linting issues
+      - run: |
+          yarn run biome check --fix --unsafe # Run unsafe auto-fixes
+          yarn lint:fix # Fix linting issues
 
       - run: yarn test:updateSnapshot || true # Update test snapshots
 
