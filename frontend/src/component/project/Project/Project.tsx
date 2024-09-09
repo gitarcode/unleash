@@ -212,7 +212,7 @@ export const Project = () => {
                                 </StyledName>
                             </StyledProjectTitle>
                         </StyledDiv>
-                        <StyledDiv></StyledDiv>
+                        <StyledDiv />
                     </StyledTopRow>
                 </StyledInnerContainer>
 
