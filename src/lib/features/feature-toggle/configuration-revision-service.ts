@@ -60,10 +60,6 @@ export default class ConfigurationRevisionService extends EventEmitter {
     }
 
     async updateMaxRevisionId(): Promise<number> {
-        if (this.flagResolver.isEnabled('disableUpdateMaxRevisionId')) {
-            return 0;
-        }
-
         const revisionId = await this.eventStore.getMaxRevisionId(
             this.revisionId,
         );
