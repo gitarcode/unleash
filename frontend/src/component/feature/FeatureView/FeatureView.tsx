@@ -166,7 +166,7 @@ export const FeatureView = () => {
             path: `${basePath}/variants`,
             name: 'Variants',
         },
-        ,
+        undefined,
         { title: 'Settings', path: `${basePath}/settings`, name: 'Settings' },
         {
             title: 'Event log',
