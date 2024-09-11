@@ -5,7 +5,6 @@ import useProjectApi from 'hooks/api/actions/useProjectApi/useProjectApi';
 import useProjects from 'hooks/api/getters/useProjects/useProjects';
 import useToast from 'hooks/useToast';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
-import { useUiFlag } from 'hooks/useUiFlag';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 import { styled, Typography } from '@mui/material';
 import { ProjectId } from 'component/project/ProjectId/ProjectId';
@@ -34,7 +33,6 @@ export const DeleteProjectDialogue = ({
     const { refetch: refetchProjectArchive } = useProjects({ archived: true });
     const { setToastData, setToastApiError } = useToast();
     const { isEnterprise } = useUiConfig();
-    const automatedActionsEnabled = useUiFlag('automatedActions');
 
     const onClick = async (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -68,7 +66,7 @@ export const DeleteProjectDialogue = ({
                     <li>all feature flags archived in it</li>
                     <li>all API keys scoped only to this project</li>
                     <ConditionallyRender
-                        condition={isEnterprise() && automatedActionsEnabled}
+                        condition={isEnterprise()}
                         show={<li>all actions configured for it</li>}
                     />
                 </ul>
