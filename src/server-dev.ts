@@ -45,7 +45,6 @@ process.nextTick(async () => {
                         featureSearchFeedbackPosting: true,
                         userAccessUIEnabled: true,
                         outdatedSdksBanner: true,
-                        disableShowContextFieldSelectionValues: false,
                         projectOverviewRefactorFeedback: true,
                         manyStrategiesPagination: true,
                         enableLegacyVariants: false,
