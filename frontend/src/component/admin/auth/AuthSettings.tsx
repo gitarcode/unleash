@@ -15,7 +15,7 @@ import { TabPanel } from 'component/common/TabNav/TabPanel/TabPanel';
 
 export const AuthSettings = () => {
     const { authenticationType } = useUiConfig().uiConfig;
-    const { uiConfig, isEnterprise } = useUiConfig();
+    const { isEnterprise } = useUiConfig();
 
     const tabs = [
         {
@@ -34,9 +34,7 @@ export const AuthSettings = () => {
             label: 'Google',
             component: <GoogleAuth />,
         },
-    ].filter(
-        (item) => uiConfig.flags?.googleAuthEnabled || item.label !== 'Google',
-    );
+    ].filter((item) => true);
 
     if (isEnterprise()) {
         tabs.push({
