@@ -88,7 +88,6 @@ export type UiFlags = {
     flagCreator?: boolean;
     newEventSearch?: boolean;
     archiveProjects?: boolean;
-    projectListImprovements?: boolean;
     onboardingUI?: boolean;
 };
 
