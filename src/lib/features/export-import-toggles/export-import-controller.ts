@@ -21,8 +21,7 @@ import {
     importTogglesValidateSchema,
 } from '../../openapi';
 import type { IAuthRequest } from '../../routes/unleash-types';
-import { extractUsername } from '../../util';
-import { BadDataError, InvalidOperationError } from '../../error';
+import { BadDataError } from '../../error';
 import ApiUser from '../../types/api-user';
 
 class ExportImportController extends Controller {
@@ -118,7 +117,6 @@ class ExportImportController extends Controller {
     ): Promise<void> {
         this.verifyExportImportEnabled();
         const query = req.body;
-        const userName = extractUsername(req);
 
         const data = await this.exportService.export(query, req.audit);
 
@@ -172,12 +170,6 @@ class ExportImportController extends Controller {
         res.status(200).end();
     }
 
-    private verifyExportImportEnabled() {
-        if (!this.config.flagResolver.isEnabled('featuresExportImport')) {
-            throw new InvalidOperationError(
-                'Feature export/import is not enabled',
-            );
-        }
-    }
+    private verifyExportImportEnabled() {}
 }
 export default ExportImportController;
