@@ -2,11 +2,8 @@ import useSWRInfinite, {
     type SWRInfiniteConfiguration,
     type SWRInfiniteKeyLoader,
 } from 'swr/infinite';
-import { formatApiPath } from 'utils/formatPath';
 import handleErrorResponses from '../httpErrorResponseHandler';
-import useUiConfig from '../useUiConfig/useUiConfig';
 import type { IActionSetEvent } from 'interfaces/action';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 type ActionEventsResponse = {
     actionSetEvents: IActionSetEvent[];
@@ -24,31 +21,12 @@ export const useActionEvents = (
     limit = 50,
     options: SWRInfiniteConfiguration = {},
 ) => {
-    const { isEnterprise } = useUiConfig();
-    const automatedActionsEnabled = useUiFlag('automatedActions');
-
     const getKey: SWRInfiniteKeyLoader = (
         pageIndex: number,
         previousPageData: ActionEventsResponse,
     ) => {
         // Does not meet conditions
-        if (
-            !actionSetId ||
-            !projectId ||
-            !isEnterprise ||
-            !automatedActionsEnabled
-        )
-            return null;
-
-        // Reached the end
-        if (previousPageData && !previousPageData.actionSetEvents.length)
-            return null;
-
-        return formatApiPath(
-            `api/admin/projects/${projectId}/actions/${actionSetId}/events?limit=${limit}&offset=${
-                pageIndex * limit
-            }`,
-        );
+        return null;
     };
 
     const { data, error, size, setSize, mutate } =
