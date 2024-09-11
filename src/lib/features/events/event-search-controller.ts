@@ -19,10 +19,7 @@ import { normalizeQueryParams } from '../../features/feature-search/search-utils
 import Controller from '../../routes/controller';
 import type { IAuthRequest } from '../../server-impl';
 import type { IEvent } from '../../types';
-import { anonymiseKeys, extractUserIdFromUser } from '../../util';
-
-const ANON_KEYS = ['email', 'username', 'createdBy'];
-const version = 1 as const;
+import { extractUserIdFromUser } from '../../util';
 export default class EventSearchController extends Controller {
     private eventService: EventService;
 
@@ -97,9 +94,6 @@ export default class EventSearchController extends Controller {
     }
 
     maybeAnonymiseEvents(events: IEvent[]): IEvent[] {
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            return anonymiseKeys(events, ANON_KEYS);
-        }
         return events;
     }
 }
