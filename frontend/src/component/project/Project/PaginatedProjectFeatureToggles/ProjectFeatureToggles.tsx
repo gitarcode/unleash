@@ -40,7 +40,6 @@ import {
 } from './useProjectFeatureSearch';
 import { AvatarCell } from './AvatarCell';
 import { ProjectOnboarding } from './ProjectOnboarding/ProjectOnboarding';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { styled } from '@mui/material';
 import useProjectOverview from 'hooks/api/getters/useProjectOverview/useProjectOverview';
 import { ConnectSdkDialog } from '../../../onboarding/ConnectSdkDialog';
@@ -64,7 +63,6 @@ const Container = styled('div')(({ theme }) => ({
 export const ProjectFeatureToggles = ({
     environments,
 }: IPaginatedProjectFeatureTogglesProps) => {
-    const onboardingUIEnabled = useUiFlag('onboardingUI');
     const projectId = useRequiredPathParam('projectId');
     const { project } = useProjectOverview(projectId);
     const [connectSdkOpen, setConnectSdkOpen] = useState(false);
@@ -114,8 +112,7 @@ export const ProjectFeatureToggles = ({
 
     const isPlaceholder = Boolean(initialLoad || (loading && total));
 
-    const onboardingStarted =
-        onboardingUIEnabled && project.onboardingStatus.status !== 'onboarded';
+    const onboardingStarted = project.onboardingStatus.status !== 'onboarded';
     const hasMultipleFeaturesOrNotOnboarding =
         (total !== undefined && total > 1) || !onboardingStarted;
 
