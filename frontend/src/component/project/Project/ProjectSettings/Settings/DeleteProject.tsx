@@ -4,7 +4,6 @@ import PermissionButton from 'component/common/PermissionButton/PermissionButton
 import { DeleteProjectDialogue } from '../../DeleteProject/DeleteProjectDialogue';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { useActions } from 'hooks/api/getters/useActions/useActions';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
@@ -35,7 +34,6 @@ export const DeleteProject = ({
     featureCount,
 }: IDeleteProjectProps) => {
     const { isEnterprise } = useUiConfig();
-    const automatedActionsEnabled = useUiFlag('automatedActions');
     const { actions } = useActions(projectId);
     const [showDelDialog, setShowDelDialog] = useState(false);
     const actionsCount = actions.filter(({ enabled }) => enabled).length;
@@ -45,7 +43,7 @@ export const DeleteProject = ({
             <p>
                 Before you can delete a project, you must first archive all the
                 feature flags associated with it
-                {isEnterprise() && automatedActionsEnabled
+                {isEnterprise()
                     ? ' and disable all actions that are in it'
                     : ''}
                 .
@@ -63,11 +61,7 @@ export const DeleteProject = ({
                 }
             />
             <ConditionallyRender
-                condition={
-                    isEnterprise() &&
-                    automatedActionsEnabled &&
-                    actionsCount > 0
-                }
+                condition={isEnterprise() && actionsCount > 0}
                 show={
                     <p>
                         Currently there {actionsCount <= 1 ? 'is' : 'are'}{' '}
@@ -85,7 +79,7 @@ export const DeleteProject = ({
                     <li>all archived feature flags in this project</li>
                     <li>API keys configured to access only this project</li>
                     <ConditionallyRender
-                        condition={isEnterprise() && automatedActionsEnabled}
+                        condition={isEnterprise()}
                         show={<li>all actions configured for this project</li>}
                     />
                 </ul>
