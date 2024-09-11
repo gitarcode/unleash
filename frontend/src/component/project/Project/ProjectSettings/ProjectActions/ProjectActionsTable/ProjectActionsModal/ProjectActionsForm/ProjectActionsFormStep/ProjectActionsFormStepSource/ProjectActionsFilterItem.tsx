@@ -7,14 +7,12 @@ import {
 } from '@mui/material';
 import type { ActionsFilterState } from '../../useProjectActionsForm';
 import Delete from '@mui/icons-material/Delete';
-import Input from 'component/common/Input/Input';
 import { ProjectActionsFormItem } from '../ProjectActionsFormItem';
 import { ConstraintOperatorSelect } from 'component/common/ConstraintAccordion/ConstraintOperatorSelect';
 import {
     type Operator,
     allOperators,
     dateOperators,
-    inOperators,
     stringOperators,
 } from 'constants/operators';
 import { useEffect, useState } from 'react';
@@ -24,7 +22,6 @@ import { CaseSensitiveButton } from 'component/common/NewConstraintAccordion/Con
 import { InvertedOperatorButton } from 'component/common/NewConstraintAccordion/ConstraintAccordionEdit/StyledToggleButton/InvertedOperatorButton/InvertedOperatorButton';
 import { ResolveInput } from 'component/common/NewConstraintAccordion/ConstraintAccordionEdit/ConstraintAccordionEditBody/ResolveInput/ResolveInput';
 import { useConstraintInput } from 'component/common/NewConstraintAccordion/ConstraintAccordionEdit/ConstraintAccordionEditBody/useConstraintInput/useConstraintInput';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 const StyledDeleteButton = styled(IconButton)({
     marginRight: '-6px',
@@ -54,7 +51,7 @@ const StyledOperatorOptions = styled('div')(({ theme }) => ({
     gap: theme.spacing(1),
 }));
 
-const StyledOperatorSelectWrapper = styled('div')(({ theme }) => ({
+const StyledOperatorSelectWrapper = styled('div')((_) => ({
     width: '100%',
     '&&& > div': {
         width: '100%',
@@ -75,10 +72,6 @@ const StyledOperatorButtonWrapper = styled('div')(({ theme }) => ({
 const StyledInputContainer = styled('div')({
     width: '100%',
     flex: 1,
-});
-
-const StyledInput = styled(Input)({
-    width: '100%',
 });
 
 const StyledResolveInputWrapper = styled('div')(({ theme }) => ({
@@ -136,8 +129,6 @@ export const ProjectActionsFilterItem = ({
     const [showCaseSensitiveButton, setShowCaseSensitiveButton] =
         useState(false);
 
-    const caseInsensitiveInOperators = useUiFlag('caseInsensitiveInOperators');
-
     const validOperators = allOperators.filter(
         (operator) => !oneOf(dateOperators, operator),
     );
@@ -167,21 +158,15 @@ export const ProjectActionsFilterItem = ({
     }, [value, error]);
 
     useEffect(() => {
-        if (
-            oneOf(stringOperators, operator) ||
-            (oneOf(inOperators, operator) && caseInsensitiveInOperators)
-        ) {
+        if (oneOf(stringOperators, operator)) {
             setShowCaseSensitiveButton(true);
         } else {
             setShowCaseSensitiveButton(false);
         }
-    }, [operator, caseInsensitiveInOperators]);
+    }, [operator, false]);
 
     const onOperatorChange = (operator: Operator) => {
-        if (
-            oneOf(stringOperators, operator) ||
-            (oneOf(inOperators, operator) && caseInsensitiveInOperators)
-        ) {
+        if (oneOf(stringOperators, operator)) {
             setShowCaseSensitiveButton(true);
         } else {
             setShowCaseSensitiveButton(false);

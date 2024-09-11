@@ -9,7 +9,6 @@ import {
     DATE_AFTER,
     IN,
     stringOperators,
-    inOperators,
 } from 'constants/operators';
 import { resolveText } from './helpers';
 import { oneOf } from 'utils/oneOf';
@@ -25,7 +24,6 @@ import { InvertedOperatorButton } from '../StyledToggleButton/InvertedOperatorBu
 import { CaseSensitiveButton } from '../StyledToggleButton/CaseSensitiveButton/CaseSensitiveButton';
 import { ConstraintAccordionHeaderActions } from '../../ConstraintAccordionHeaderActions/ConstraintAccordionHeaderActions';
 import { styled } from '@mui/material';
-import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 
 interface IConstraintAccordionViewHeader {
     localConstraint: IConstraint;
@@ -107,11 +105,6 @@ export const ConstraintAccordionEditHeader = ({
     const { contextName, operator } = localConstraint;
     const [showCaseSensitiveButton, setShowCaseSensitiveButton] =
         useState(false);
-    const { uiConfig } = useUiConfig();
-
-    const caseInsensitiveInOperators = Boolean(
-        uiConfig.flags.caseInsensitiveInOperators,
-    );
 
     /* We need a special case to handle the currenTime context field. Since
     this field will be the only one to allow DATE_BEFORE and DATE_AFTER operators
@@ -135,21 +128,12 @@ export const ConstraintAccordionEditHeader = ({
             setOperator(IN);
         }
 
-        if (
-            oneOf(stringOperators, operator) ||
-            (oneOf(inOperators, operator) && caseInsensitiveInOperators)
-        ) {
+        if (oneOf(stringOperators, operator)) {
             setShowCaseSensitiveButton(true);
         } else {
             setShowCaseSensitiveButton(false);
         }
-    }, [
-        contextName,
-        setOperator,
-        operator,
-        setLocalConstraint,
-        caseInsensitiveInOperators,
-    ]);
+    }, [contextName, setOperator, operator, setLocalConstraint, false]);
 
     if (!context) {
         return null;
@@ -160,10 +144,7 @@ export const ConstraintAccordionEditHeader = ({
     });
 
     const onOperatorChange = (operator: Operator) => {
-        if (
-            oneOf(stringOperators, operator) ||
-            (oneOf(inOperators, operator) && caseInsensitiveInOperators)
-        ) {
+        if (oneOf(stringOperators, operator)) {
             setShowCaseSensitiveButton(true);
         } else {
             setShowCaseSensitiveButton(false);
