@@ -137,8 +137,6 @@ const OldHeader: VFC = () => {
     const configId = useId();
     const [adminRef, setAdminRef] = useState<HTMLButtonElement | null>(null);
     const [configRef, setConfigRef] = useState<HTMLButtonElement | null>(null);
-
-    const disableNotifications = useUiFlag('disableNotifications');
     const { uiConfig, isOss } = useUiConfig();
     const smallScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -266,7 +264,7 @@ const OldHeader: VFC = () => {
                             </StyledIconButton>
                         </Tooltip>
                         <ConditionallyRender
-                            condition={!isOss() && !disableNotifications}
+                            condition={!isOss()}
                             show={<Notifications />}
                         />
                         <Tooltip title='Documentation' arrow>
