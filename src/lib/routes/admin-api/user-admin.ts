@@ -454,13 +454,10 @@ export default class UserAdminController extends Controller {
         res: Response<UsersSearchSchema>,
     ): Promise<void> {
         const { q } = req.query;
-        let users =
+        const users =
             typeof q === 'string' && q.length > 1
                 ? await this.userService.search(q)
                 : [];
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            users = this.anonymiseUsers(users);
-        }
         this.openApiService.respondWithValidation(
             200,
             res,
@@ -474,7 +471,7 @@ export default class UserAdminController extends Controller {
         res: Response<UsersGroupsBaseSchema>,
     ): Promise<void> {
         const allUsers = await this.accountService.getAll();
-        let users = allUsers.map((u) => {
+        const users = allUsers.map((u) => {
             return {
                 id: u.id,
                 name: u.name,
@@ -483,9 +480,6 @@ export default class UserAdminController extends Controller {
                 accountType: u.accountType,
             } as IUser;
         });
-        if (this.flagResolver.isEnabled('anonymiseEventLog')) {
-            users = this.anonymiseUsers(users);
-        }
 
         const allGroups = await this.groupService.getAll();
         const groups = allGroups.map((g) => {
@@ -574,7 +568,7 @@ export default class UserAdminController extends Controller {
         >,
         res: Response<CreateUserResponseSchema>,
     ): Promise<void> {
-        const { user, params, body } = req;
+        const { params, body } = req;
         const { id } = params;
         const { name, email, rootRole } = body;
 
@@ -605,7 +599,7 @@ export default class UserAdminController extends Controller {
     }
 
     async deleteUser(req: IAuthRequest, res: Response): Promise<void> {
-        const { user, params } = req;
+        const { params } = req;
         const { id } = params;
 
         await this.throwIfScimUser({ id: Number(id) });

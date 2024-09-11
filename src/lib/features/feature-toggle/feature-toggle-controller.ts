@@ -53,7 +53,6 @@ import type {
     UnleashTransaction,
 } from '../../db/transaction';
 import { BadDataError } from '../../error';
-import { anonymise } from '../../util';
 import { throwOnInvalidSchema } from '../../openapi/validate';
 
 interface FeatureStrategyParams {
@@ -698,31 +697,6 @@ export default class ProjectFeaturesController extends Controller {
     }
 
     maybeAnonymise(feature: FeatureToggleView): FeatureToggleView {
-        if (
-            this.flagResolver.isEnabled('anonymiseEventLog') &&
-            feature.createdBy
-        ) {
-            return {
-                ...feature,
-                ...(feature.collaborators
-                    ? {
-                          collaborators: {
-                              ...feature.collaborators,
-                              users: feature.collaborators.users.map(
-                                  (user) => ({
-                                      ...user,
-                                      name: anonymise(user.name),
-                                  }),
-                              ),
-                          },
-                      }
-                    : {}),
-                createdBy: {
-                    ...feature.createdBy,
-                    name: anonymise(feature.createdBy?.name),
-                },
-            };
-        }
         return feature;
     }
 
