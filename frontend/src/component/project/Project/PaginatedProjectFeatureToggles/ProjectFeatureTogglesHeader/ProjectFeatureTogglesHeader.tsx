@@ -98,7 +98,6 @@ export const ProjectFeatureTogglesHeader: FC<
     const [showTitle, setShowTitle] = useState(true);
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const featuresExportImportFlag = useUiFlag('featuresExportImport');
     const [showExportDialog, setShowExportDialog] = useState(false);
     const { trackEvent } = usePlausibleTracker();
     const projectOverviewRefactorFeedback = useUiFlag(
@@ -162,48 +161,36 @@ export const ProjectFeatureTogglesHeader: FC<
                         />
                         {actions}
                         <PageHeader.Divider sx={{ marginLeft: 0 }} />
-                        <ConditionallyRender
-                            condition={featuresExportImportFlag}
-                            show={
-                                <>
-                                    <Tooltip
-                                        title='Export all project flags'
-                                        arrow
-                                    >
-                                        <IconButton
-                                            data-loading
-                                            onClick={() =>
-                                                setShowExportDialog(true)
-                                            }
-                                            sx={(theme) => ({
-                                                marginRight: theme.spacing(2),
-                                            })}
-                                        >
-                                            <IosShare />
-                                        </IconButton>
-                                    </Tooltip>
+                        <>
+                            <Tooltip title='Export all project flags' arrow>
+                                <IconButton
+                                    data-loading
+                                    onClick={() => setShowExportDialog(true)}
+                                    sx={(theme) => ({
+                                        marginRight: theme.spacing(2),
+                                    })}
+                                >
+                                    <IosShare />
+                                </IconButton>
+                            </Tooltip>
 
-                                    <ConditionallyRender
-                                        condition={!isLoading}
-                                        show={
-                                            <ExportDialog
-                                                showExportDialog={
-                                                    showExportDialog
-                                                }
-                                                project={projectId}
-                                                data={[]}
-                                                onClose={() =>
-                                                    setShowExportDialog(false)
-                                                }
-                                                environments={
-                                                    environmentsToExport || []
-                                                }
-                                            />
+                            <ConditionallyRender
+                                condition={!isLoading}
+                                show={
+                                    <ExportDialog
+                                        showExportDialog={showExportDialog}
+                                        project={projectId}
+                                        data={[]}
+                                        onClose={() =>
+                                            setShowExportDialog(false)
+                                        }
+                                        environments={
+                                            environmentsToExport || []
                                         }
                                     />
-                                </>
-                            }
-                        />
+                                }
+                            />
+                        </>
                         <ConditionallyRender
                             condition={
                                 projectOverviewRefactorFeedback &&
