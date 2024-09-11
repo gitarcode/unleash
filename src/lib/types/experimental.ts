@@ -20,7 +20,6 @@ export type IFlagKey =
     | 'migrationLock'
     | 'demo'
     | 'googleAuthEnabled'
-    | 'disableBulkToggle'
     | 'disableNotifications'
     | 'advancedPlayground'
     | 'filterInvalidClientMetrics'
@@ -119,10 +118,6 @@ const flags: IFlags = {
     demo: parseEnvVarBoolean(process.env.UNLEASH_DEMO, false),
     googleAuthEnabled: parseEnvVarBoolean(
         process.env.GOOGLE_AUTH_ENABLED,
-        false,
-    ),
-    disableBulkToggle: parseEnvVarBoolean(
-        process.env.DISABLE_BULK_TOGGLE,
         false,
     ),
     disableNotifications: parseEnvVarBoolean(
