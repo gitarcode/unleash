@@ -46,8 +46,6 @@ import { FavoriteIconButton } from 'component/common/FavoriteIconButton/Favorite
 import { ChildrenTooltip } from './FeatureOverview/FeatureOverviewMetaData/ChildrenTooltip';
 import copy from 'copy-to-clipboard';
 import useToast from 'hooks/useToast';
-import { useUiFlag } from 'hooks/useUiFlag';
-import type { IFeatureToggle } from 'interfaces/featureToggle';
 import { Collaborators } from './Collaborators';
 
 const StyledHeader = styled('div')(({ theme }) => ({
@@ -128,14 +126,6 @@ export const StyledLink = styled(Link)(() => ({
     },
 }));
 
-const useLegacyVariants = (environments: IFeatureToggle['environments']) => {
-    const enableLegacyVariants = useUiFlag('enableLegacyVariants');
-    const existingLegacyVariantsExist = environments.some(
-        (environment) => environment.variants?.length,
-    );
-    return enableLegacyVariants || existingLegacyVariantsExist;
-};
-
 export const FeatureView = () => {
     const projectId = useRequiredPathParam('projectId');
     const featureId = useRequiredPathParam('featureId');
@@ -160,8 +150,6 @@ export const FeatureView = () => {
 
     const basePath = `/projects/${projectId}/features/${featureId}`;
 
-    const showLegacyVariants = useLegacyVariants(feature.environments);
-
     const tabData = [
         {
             title: 'Overview',
@@ -173,15 +161,12 @@ export const FeatureView = () => {
             path: `${basePath}/metrics`,
             name: 'Metrics',
         },
-        ...(showLegacyVariants
-            ? [
-                  {
-                      title: 'Variants',
-                      path: `${basePath}/variants`,
-                      name: 'Variants',
-                  },
-              ]
-            : []),
+        {
+            title: 'Variants',
+            path: `${basePath}/variants`,
+            name: 'Variants',
+        },
+        undefined,
         { title: 'Settings', path: `${basePath}/settings`, name: 'Settings' },
         {
             title: 'Event log',
