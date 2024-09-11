@@ -48,7 +48,7 @@ export const UsersChart: VFC<IUsersChartProps> = ({
                     backgroundColor: theme.palette.warning.border,
                     order: 1,
                 },
-                ,
+                undefined,
             ],
         }),
         [theme, userTrends],
