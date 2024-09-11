@@ -56,7 +56,6 @@ export type UiFlags = {
     featuresExportImport?: boolean;
     caseInsensitiveInOperators?: boolean;
     notifications?: boolean;
-    personalAccessTokensKillSwitch?: boolean;
     demo?: boolean;
     googleAuthEnabled?: boolean;
     disableBulkToggle?: boolean;
