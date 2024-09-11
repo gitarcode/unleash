@@ -54,7 +54,6 @@ process.nextTick(async () => {
                         newEventSearch: true,
                         projectListImprovements: true,
                         useProjectReadModel: true,
-                        addonUsageMetrics: true,
                         onboardingMetrics: true,
                         onboardingUI: true,
                     },
