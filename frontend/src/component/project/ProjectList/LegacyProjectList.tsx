@@ -11,8 +11,7 @@ import { CREATE_PROJECT } from 'component/providers/AccessProvider/permissions';
 import Add from '@mui/icons-material/Add';
 import ApiError from 'component/common/ApiError/ApiError';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
-import { Link, styled, useMediaQuery } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { styled, useMediaQuery } from '@mui/material';
 import theme from 'themes/theme';
 import { Search } from 'component/common/Search/Search';
 import { PremiumFeature } from 'component/common/PremiumFeature/PremiumFeature';
@@ -25,7 +24,6 @@ import { useProfile } from 'hooks/api/getters/useProfile/useProfile';
 import { groupProjects } from './group-projects';
 import { ProjectGroup } from './ProjectGroup';
 import { CreateProjectDialog } from '../Project/CreateProject/NewCreateProjectForm/CreateProjectDialog';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 const StyledApiError = styled(ApiError)(({ theme }) => ({
     maxWidth: '500px',
@@ -126,7 +124,6 @@ export const ProjectList = () => {
     const [searchValue, setSearchValue] = useState(
         searchParams.get('search') || '',
     );
-    const archiveProjectsEnabled = useUiFlag('archiveProjects');
 
     const myProjects = new Set(useProfile().profile?.projects || []);
 
@@ -196,20 +193,6 @@ export const ProjectList = () => {
                                             initialValue={searchValue}
                                             onChange={setSearchValue}
                                         />
-                                        <PageHeader.Divider />
-                                    </>
-                                }
-                            />
-                            <ConditionallyRender
-                                condition={Boolean(archiveProjectsEnabled)}
-                                show={
-                                    <>
-                                        <Link
-                                            component={RouterLink}
-                                            to='/projects-archive'
-                                        >
-                                            Archived projects
-                                        </Link>
                                         <PageHeader.Divider />
                                     </>
                                 }
