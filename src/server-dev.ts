@@ -56,7 +56,6 @@ process.nextTick(async () => {
                         useProjectReadModel: true,
                         addonUsageMetrics: true,
                         onboardingMetrics: true,
-                        onboardingUI: true,
                     },
                 },
                 authentication: {
