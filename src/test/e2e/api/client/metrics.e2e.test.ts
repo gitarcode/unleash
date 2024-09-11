@@ -14,9 +14,7 @@ beforeAll(async () => {
     db = await dbInit('metrics_api_client', getLogger);
     app = await setupAppWithCustomConfig(db.stores, {
         experimental: {
-            flags: {
-                responseTimeMetricsFix: true,
-            },
+            flags: {},
         },
     });
 });

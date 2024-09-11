@@ -46,7 +46,6 @@ export type IFlagKey =
     | 'disableUpdateMaxRevisionId'
     | 'disablePublishUnannouncedEvents'
     | 'outdatedSdksBanner'
-    | 'responseTimeMetricsFix'
     | 'disableShowContextFieldSelectionValues'
     | 'projectOverviewRefactorFeedback'
     | 'manyStrategiesPagination'
@@ -237,10 +236,6 @@ const flags: IFlags = {
     ),
     queryMissingTokens: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_QUERY_MISSING_TOKENS,
-        false,
-    ),
-    responseTimeMetricsFix: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_RESPONSE_TIME_METRICS_FIX,
         false,
     ),
     disableShowContextFieldSelectionValues: parseEnvVarBoolean(
