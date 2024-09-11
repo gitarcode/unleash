@@ -12,7 +12,6 @@ export type IFlagKey =
     | 'embedProxyFrontend'
     | 'responseTimeWithAppNameKillSwitch'
     | 'maintenanceMode'
-    | 'messageBanner'
     | 'featuresExportImport'
     | 'caseInsensitiveInOperators'
     | 'strictSchemaValidation'
@@ -87,18 +86,6 @@ const flags: IFlags = {
         process.env.UNLEASH_EXPERIMENTAL_MAINTENANCE_MODE,
         false,
     ),
-    messageBanner: {
-        name: 'message-banner',
-        enabled: parseEnvVarBoolean(
-            process.env.UNLEASH_EXPERIMENTAL_MESSAGE_BANNER,
-            false,
-        ),
-        payload: {
-            type: PayloadType.JSON,
-            value:
-                process.env.UNLEASH_EXPERIMENTAL_MESSAGE_BANNER_PAYLOAD ?? '',
-        },
-    },
     featuresExportImport: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_FEATURES_EXPORT_IMPORT,
         true,
