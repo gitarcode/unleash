@@ -20,7 +20,6 @@ import type { IToast } from 'interfaces/toast';
 import { useTheme } from '@mui/material/styles';
 import type { FeedbackData, FeedbackMode } from './FeedbackContext';
 import { usePlausibleTracker } from 'hooks/usePlausibleTracker';
-import { useUiFlag } from 'hooks/useUiFlag';
 import useUserType from './useUserType';
 
 export const ParentContainer = styled('div')(({ theme }) => ({
@@ -209,7 +208,6 @@ export const FeedbackComponent = ({
     const { setHasSubmittedFeedback } = useUserSubmittedFeedback(
         feedbackData.category,
     );
-    const feedbackComments = useUiFlag('feedbackComments');
 
     function isProvideFeedbackSchema(data: any): data is ProvideFeedbackSchema {
         data.difficultyScore = data.difficultyScore
@@ -337,102 +335,52 @@ export const FeedbackComponent = ({
                                             </StyledScoreHelp>
                                         </ScoreHelpContainer>
                                     </StyledScoreContainer>
-
-                                    {feedbackComments !== false &&
-                                    feedbackComments.enabled &&
-                                    feedbackComments.name ===
-                                        'withoutComments' ? (
-                                        <>
-                                            <Box>
-                                                <TextField
-                                                    placeholder='Your answer here'
-                                                    style={{ width: '100%' }}
-                                                    name='positive'
-                                                    hidden
-                                                    value={
-                                                        feedbackComments.name
-                                                    }
-                                                    multiline
-                                                    rows={3}
-                                                    variant='outlined'
-                                                    size='small'
-                                                    InputLabelProps={{
-                                                        style: {
-                                                            fontSize:
-                                                                theme.fontSizes
-                                                                    .smallBody,
-                                                        },
-                                                    }}
-                                                />
-                                            </Box>
-                                            <Box>
-                                                <TextField
-                                                    placeholder='Your answer here'
-                                                    style={{ width: '100%' }}
-                                                    multiline
-                                                    name='areasForImprovement'
-                                                    rows={3}
-                                                    InputLabelProps={{
-                                                        style: {
-                                                            fontSize:
-                                                                theme.fontSizes
-                                                                    .smallBody,
-                                                        },
-                                                    }}
-                                                    variant='outlined'
-                                                    size='small'
-                                                    hidden
-                                                />
-                                            </Box>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Box>
-                                                <FormSubTitle>
-                                                    {feedbackData.positiveLabel}
-                                                </FormSubTitle>
-                                                <TextField
-                                                    placeholder='Your answer here'
-                                                    style={{ width: '100%' }}
-                                                    name='positive'
-                                                    multiline
-                                                    rows={3}
-                                                    variant='outlined'
-                                                    size='small'
-                                                    InputLabelProps={{
-                                                        style: {
-                                                            fontSize:
-                                                                theme.fontSizes
-                                                                    .smallBody,
-                                                        },
-                                                    }}
-                                                />
-                                            </Box>
-                                            <Box>
-                                                <FormSubTitle>
-                                                    {
-                                                        feedbackData.areasForImprovementsLabel
-                                                    }
-                                                </FormSubTitle>
-                                                <TextField
-                                                    placeholder='Your answer here'
-                                                    style={{ width: '100%' }}
-                                                    multiline
-                                                    name='areasForImprovement'
-                                                    rows={3}
-                                                    InputLabelProps={{
-                                                        style: {
-                                                            fontSize:
-                                                                theme.fontSizes
-                                                                    .smallBody,
-                                                        },
-                                                    }}
-                                                    variant='outlined'
-                                                    size='small'
-                                                />
-                                            </Box>
-                                        </>
-                                    )}
+                                    <>
+                                        <Box>
+                                            <FormSubTitle>
+                                                {feedbackData.positiveLabel}
+                                            </FormSubTitle>
+                                            <TextField
+                                                placeholder='Your answer here'
+                                                style={{ width: '100%' }}
+                                                name='positive'
+                                                multiline
+                                                rows={3}
+                                                variant='outlined'
+                                                size='small'
+                                                InputLabelProps={{
+                                                    style: {
+                                                        fontSize:
+                                                            theme.fontSizes
+                                                                .smallBody,
+                                                    },
+                                                }}
+                                            />
+                                        </Box>
+                                        <Box>
+                                            <FormSubTitle>
+                                                {
+                                                    feedbackData.areasForImprovementsLabel
+                                                }
+                                            </FormSubTitle>
+                                            <TextField
+                                                placeholder='Your answer here'
+                                                style={{ width: '100%' }}
+                                                multiline
+                                                name='areasForImprovement'
+                                                rows={3}
+                                                InputLabelProps={{
+                                                    style: {
+                                                        fontSize:
+                                                            theme.fontSizes
+                                                                .smallBody,
+                                                    },
+                                                }}
+                                                variant='outlined'
+                                                size='small'
+                                            />
+                                        </Box>
+                                    </>
 
                                     <StyledButtonContainer>
                                         <StyledButton
