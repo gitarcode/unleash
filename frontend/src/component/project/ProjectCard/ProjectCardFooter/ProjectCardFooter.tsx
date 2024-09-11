@@ -5,9 +5,6 @@ import {
     type IProjectOwnersProps,
     ProjectOwners as LegacyProjectOwners,
 } from '../LegacyProjectOwners/LegacyProjectOwners';
-import { ProjectOwners } from './ProjectOwners/ProjectOwners';
-import { useUiFlag } from 'hooks/useUiFlag';
-import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
 
 interface IProjectCardFooterProps {
     id?: string;
@@ -31,20 +28,13 @@ const StyledFooter = styled(Box)<{ disabled: boolean }>(
 );
 
 export const ProjectCardFooter: FC<IProjectCardFooterProps> = ({
-    id,
     children,
     owners,
     disabled = false,
 }) => {
-    const projectListImprovementsEnabled = useUiFlag('projectListImprovements');
-
     return (
         <StyledFooter disabled={disabled}>
-            <ConditionallyRender
-                condition={Boolean(projectListImprovementsEnabled)}
-                show={<ProjectOwners owners={owners} />}
-                elseShow={<LegacyProjectOwners owners={owners} />}
-            />
+            <LegacyProjectOwners owners={owners} />
             {children}
         </StyledFooter>
     );
