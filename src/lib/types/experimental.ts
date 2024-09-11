@@ -17,7 +17,6 @@ export type IFlagKey =
     | 'caseInsensitiveInOperators'
     | 'strictSchemaValidation'
     | 'personalAccessTokensKillSwitch'
-    | 'migrationLock'
     | 'demo'
     | 'googleAuthEnabled'
     | 'disableBulkToggle'
@@ -115,7 +114,6 @@ const flags: IFlags = {
         process.env.UNLEASH_PAT_KILL_SWITCH,
         false,
     ),
-    migrationLock: parseEnvVarBoolean(process.env.MIGRATION_LOCK, true),
     demo: parseEnvVarBoolean(process.env.UNLEASH_DEMO, false),
     googleAuthEnabled: parseEnvVarBoolean(
         process.env.GOOGLE_AUTH_ENABLED,
