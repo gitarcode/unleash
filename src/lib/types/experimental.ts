@@ -47,7 +47,6 @@ export type IFlagKey =
     | 'disablePublishUnannouncedEvents'
     | 'outdatedSdksBanner'
     | 'responseTimeMetricsFix'
-    | 'disableShowContextFieldSelectionValues'
     | 'projectOverviewRefactorFeedback'
     | 'manyStrategiesPagination'
     | 'enableLegacyVariants'
@@ -241,11 +240,6 @@ const flags: IFlags = {
     ),
     responseTimeMetricsFix: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_RESPONSE_TIME_METRICS_FIX,
-        false,
-    ),
-    disableShowContextFieldSelectionValues: parseEnvVarBoolean(
-        process.env
-            .UNLEASH_EXPERIMENTAL_DISABLE_SHOW_CONTEXT_FIELD_SELECTION_VALUES,
         false,
     ),
     projectOverviewRefactorFeedback: parseEnvVarBoolean(
