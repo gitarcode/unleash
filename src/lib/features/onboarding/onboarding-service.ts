@@ -56,36 +56,10 @@ export class OnboardingService {
 
     listen() {
         this.eventBus.on(USER_LOGIN, async (event: { loginOrder: number }) => {
-            if (!this.flagResolver.isEnabled('onboardingMetrics')) return;
-
-            if (event.loginOrder === 0) {
-                await this.insert({ type: 'first-user-login' });
-            }
-            if (event.loginOrder === 1) {
-                await this.insert({
-                    type: 'second-user-login',
-                });
-            }
+            return;
         });
         this.eventBus.on(STAGE_ENTERED, async (stage: NewStage) => {
-            if (!this.flagResolver.isEnabled('onboardingMetrics')) return;
-
-            if (stage.stage === 'initial') {
-                await this.insert({
-                    type: 'flag-created',
-                    flag: stage.feature,
-                });
-            } else if (stage.stage === 'pre-live') {
-                await this.insert({
-                    type: 'pre-live',
-                    flag: stage.feature,
-                });
-            } else if (stage.stage === 'live') {
-                await this.insert({
-                    type: 'live',
-                    flag: stage.feature,
-                });
-            }
+            return;
         });
     }
 
