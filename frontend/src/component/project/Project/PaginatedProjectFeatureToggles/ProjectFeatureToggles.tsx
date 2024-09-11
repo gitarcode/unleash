@@ -39,8 +39,6 @@ import {
     useProjectFeatureSearchActions,
 } from './useProjectFeatureSearch';
 import { AvatarCell } from './AvatarCell';
-import { ProjectOnboarding } from './ProjectOnboarding/ProjectOnboarding';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { styled } from '@mui/material';
 import useProjectOverview from 'hooks/api/getters/useProjectOverview/useProjectOverview';
 import { ConnectSdkDialog } from '../../../onboarding/ConnectSdkDialog';
@@ -64,7 +62,6 @@ const Container = styled('div')(({ theme }) => ({
 export const ProjectFeatureToggles = ({
     environments,
 }: IPaginatedProjectFeatureTogglesProps) => {
-    const onboardingUIEnabled = useUiFlag('onboardingUI');
     const projectId = useRequiredPathParam('projectId');
     const { project } = useProjectOverview(projectId);
     const [connectSdkOpen, setConnectSdkOpen] = useState(false);
@@ -113,11 +110,6 @@ export const ProjectFeatureToggles = ({
     } = useRowActions(refetch, projectId);
 
     const isPlaceholder = Boolean(initialLoad || (loading && total));
-
-    const onboardingStarted =
-        onboardingUIEnabled && project.onboardingStatus.status !== 'onboarded';
-    const hasMultipleFeaturesOrNotOnboarding =
-        (total !== undefined && total > 1) || !onboardingStarted;
 
     const columns = useMemo(
         () => [
@@ -403,124 +395,99 @@ export const ProjectFeatureToggles = ({
 
     return (
         <Container>
-            <ConditionallyRender
-                condition={onboardingStarted}
-                show={
-                    <ProjectOnboarding
-                        projectId={projectId}
-                        setConnectSdkOpen={setConnectSdkOpen}
-                    />
-                }
-            />
-            <ConditionallyRender
-                condition={hasMultipleFeaturesOrNotOnboarding}
-                show={
-                    <PageContent
-                        disableLoading
-                        disablePadding
-                        header={
-                            <ProjectFeatureTogglesHeader
-                                isLoading={initialLoad}
-                                totalItems={total}
-                                searchQuery={tableState.query || ''}
-                                onChangeSearchQuery={(query) => {
-                                    setTableState({ query });
-                                }}
-                                dataToExport={data}
-                                environmentsToExport={environments}
-                                actions={
-                                    <ColumnsMenu
-                                        columns={[
-                                            {
-                                                header: 'Name',
-                                                id: 'name',
-                                                isVisible:
-                                                    columnVisibility.name,
-                                                isStatic: true,
-                                            },
-                                            {
-                                                header: 'Created',
-                                                id: 'createdAt',
-                                                isVisible:
-                                                    columnVisibility.createdAt,
-                                            },
-                                            {
-                                                header: 'By',
-                                                id: 'createdBy',
-                                                isVisible:
-                                                    columnVisibility.createdBy,
-                                            },
-                                            {
-                                                header: 'Last seen',
-                                                id: 'lastSeenAt',
-                                                isVisible:
-                                                    columnVisibility.lastSeenAt,
-                                            },
-                                            {
-                                                header: 'Lifecycle',
-                                                id: 'lifecycle',
-                                                isVisible:
-                                                    columnVisibility.lifecycle,
-                                            },
-                                            {
-                                                id: 'divider',
-                                            },
-                                            ...environments.map(
-                                                (environment) => ({
-                                                    header: environment,
-                                                    id: formatEnvironmentColumnId(
-                                                        environment,
-                                                    ),
-                                                    isVisible:
-                                                        columnVisibility[
-                                                            formatEnvironmentColumnId(
-                                                                environment,
-                                                            )
-                                                        ],
-                                                }),
-                                            ),
-                                        ]}
-                                        onToggle={onToggleColumnVisibility}
-                                    />
-                                }
+            <PageContent
+                disableLoading
+                disablePadding
+                header={
+                    <ProjectFeatureTogglesHeader
+                        isLoading={initialLoad}
+                        totalItems={total}
+                        searchQuery={tableState.query || ''}
+                        onChangeSearchQuery={(query) => {
+                            setTableState({ query });
+                        }}
+                        dataToExport={data}
+                        environmentsToExport={environments}
+                        actions={
+                            <ColumnsMenu
+                                columns={[
+                                    {
+                                        header: 'Name',
+                                        id: 'name',
+                                        isVisible: columnVisibility.name,
+                                        isStatic: true,
+                                    },
+                                    {
+                                        header: 'Created',
+                                        id: 'createdAt',
+                                        isVisible: columnVisibility.createdAt,
+                                    },
+                                    {
+                                        header: 'By',
+                                        id: 'createdBy',
+                                        isVisible: columnVisibility.createdBy,
+                                    },
+                                    {
+                                        header: 'Last seen',
+                                        id: 'lastSeenAt',
+                                        isVisible: columnVisibility.lastSeenAt,
+                                    },
+                                    {
+                                        header: 'Lifecycle',
+                                        id: 'lifecycle',
+                                        isVisible: columnVisibility.lifecycle,
+                                    },
+                                    {
+                                        id: 'divider',
+                                    },
+                                    ...environments.map((environment) => ({
+                                        header: environment,
+                                        id: formatEnvironmentColumnId(
+                                            environment,
+                                        ),
+                                        isVisible:
+                                            columnVisibility[
+                                                formatEnvironmentColumnId(
+                                                    environment,
+                                                )
+                                            ],
+                                    })),
+                                ]}
+                                onToggle={onToggleColumnVisibility}
                             />
                         }
-                        bodyClass='noop'
-                        style={{ cursor: 'inherit' }}
-                    >
-                        <div
-                            ref={bodyLoadingRef}
-                            aria-busy={isPlaceholder}
-                            aria-live='polite'
-                        >
-                            <ProjectOverviewFilters
-                                project={projectId}
-                                onChange={setTableState}
-                                state={filterState}
-                            />
-                            <SearchHighlightProvider
-                                value={tableState.query || ''}
-                            >
-                                <PaginatedTable
-                                    tableInstance={table}
-                                    totalItems={total}
-                                />
-                            </SearchHighlightProvider>
-                            <ConditionallyRender
-                                condition={!data.length && !isPlaceholder}
-                                show={
-                                    <TableEmptyState
-                                        query={tableState.query || ''}
-                                    />
-                                }
-                            />
-                            {rowActionsDialogs}
-
-                            {featureToggleModals}
-                        </div>
-                    </PageContent>
+                    />
                 }
-            />
+                bodyClass='noop'
+                style={{ cursor: 'inherit' }}
+            >
+                <div
+                    ref={bodyLoadingRef}
+                    aria-busy={isPlaceholder}
+                    aria-live='polite'
+                >
+                    <ProjectOverviewFilters
+                        project={projectId}
+                        onChange={setTableState}
+                        state={filterState}
+                    />
+                    <SearchHighlightProvider value={tableState.query || ''}>
+                        <PaginatedTable
+                            tableInstance={table}
+                            totalItems={total}
+                        />
+                    </SearchHighlightProvider>
+                    <ConditionallyRender
+                        condition={!data.length && !isPlaceholder}
+                        show={
+                            <TableEmptyState query={tableState.query || ''} />
+                        }
+                    />
+                    {rowActionsDialogs}
+
+                    {featureToggleModals}
+                </div>
+            </PageContent>
             {'feature' in project.onboardingStatus ? (
                 <ConnectSdkDialog
                     open={connectSdkOpen}
