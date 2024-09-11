@@ -698,10 +698,7 @@ export default class ProjectFeaturesController extends Controller {
     }
 
     maybeAnonymise(feature: FeatureToggleView): FeatureToggleView {
-        if (
-            this.flagResolver.isEnabled('anonymiseEventLog') &&
-            feature.createdBy
-        ) {
+        if (feature.createdBy) {
             return {
                 ...feature,
                 ...(feature.collaborators
