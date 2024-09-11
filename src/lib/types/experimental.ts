@@ -49,7 +49,6 @@ export type IFlagKey =
     | 'responseTimeMetricsFix'
     | 'disableShowContextFieldSelectionValues'
     | 'projectOverviewRefactorFeedback'
-    | 'manyStrategiesPagination'
     | 'enableLegacyVariants'
     | 'navigationSidebar'
     | 'anonymizeProjectOwners'
@@ -250,10 +249,6 @@ const flags: IFlags = {
     ),
     projectOverviewRefactorFeedback: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_PROJECT_OVERVIEW_REFACTOR_FEEDBACK,
-        false,
-    ),
-    manyStrategiesPagination: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_MANY_STRATEGIES_PAGINATION,
         false,
     ),
     enableLegacyVariants: parseEnvVarBoolean(
