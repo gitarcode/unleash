@@ -61,7 +61,6 @@ export type IFlagKey =
     | 'projectListImprovements'
     | 'useProjectReadModel'
     | 'addonUsageMetrics'
-    | 'onboardingMetrics'
     | 'onboardingUI'
     | 'projectRoleAssignment';
 
@@ -298,10 +297,6 @@ const flags: IFlags = {
     ),
     addonUsageMetrics: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_ADDON_USAGE_METRICS,
-        false,
-    ),
-    onboardingMetrics: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_ONBOARDING_METRICS,
         false,
     ),
     onboardingUI: parseEnvVarBoolean(
