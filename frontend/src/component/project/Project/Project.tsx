@@ -190,7 +190,7 @@ export const Project = () => {
         </Box>
     );
 
-    if (Boolean(project.archivedAt)) {
+    if (project.archivedAt) {
         return <ProjectArchived name={project.name} />;
     }
 
