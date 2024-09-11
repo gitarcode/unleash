@@ -10,11 +10,8 @@ import {
     emptyResponse,
     getStandardResponses,
     type FrontendApiClientSchema,
-    frontendApiFeaturesSchema,
     type FrontendApiFeaturesSchema,
 } from '../../openapi';
-import type { Context } from 'unleash-client';
-import { enrichContextWithIp } from './index';
 import { corsOriginMiddleware } from '../../middleware';
 import NotImplementedError from '../../error/not-implemented-error';
 import NotFoundError from '../../error/notfound-error';
@@ -180,60 +177,20 @@ export default class FrontendAPIController extends Controller {
         req: ApiUserRequest,
         res: Response<FrontendApiFeaturesSchema>,
     ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
-        const toggles =
-            await this.services.frontendApiService.getFrontendApiFeatures(
-                req.user,
-                FrontendAPIController.createContext(req),
-            );
-
-        res.set('Cache-control', 'no-cache');
-
-        this.services.openApiService.respondWithValidation(
-            200,
-            res,
-            frontendApiFeaturesSchema.$id,
-            { toggles },
-        );
+        throw new NotFoundError();
     }
 
     private async registerFrontendApiMetrics(
         req: ApiUserRequest<unknown, unknown, ClientMetricsSchema>,
         res: Response,
     ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
-
-        if (this.config.flagResolver.isEnabled('disableMetrics')) {
-            res.sendStatus(204);
-            return;
-        }
-
-        await this.services.frontendApiService.registerFrontendApiMetrics(
-            req.user,
-            req.body,
-            req.ip,
-        );
-        res.sendStatus(200);
+        throw new NotFoundError();
     }
 
     private async registerFrontendApiClient(
         req: ApiUserRequest<unknown, unknown, FrontendApiClientSchema>,
         res: Response<string>,
     ) {
-        if (!this.config.flagResolver.isEnabled('embedProxy')) {
-            throw new NotFoundError();
-        }
-        // Client registration is not yet supported by @unleash/proxy,
-        // but proxy clients may still expect a 200 from this endpoint.
-        res.sendStatus(200);
-    }
-
-    private static createContext(req: ApiUserRequest): Context {
-        const { query } = req;
-        return enrichContextWithIp(query, req.ip);
+        throw new NotFoundError();
     }
 }
