@@ -84,7 +84,6 @@ export type UiFlags = {
     featureLifecycle?: boolean;
     manyStrategiesPagination?: boolean;
     enableLegacyVariants?: boolean;
-    navigationSidebar?: boolean;
     flagCreator?: boolean;
     newEventSearch?: boolean;
     archiveProjects?: boolean;
