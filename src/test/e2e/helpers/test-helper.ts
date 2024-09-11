@@ -323,7 +323,6 @@ async function createApp(
             experimental: {
                 ...(customOptions?.experimental ?? {}),
                 flags: {
-                    strictSchemaValidation: true,
                     ...(customOptions?.experimental?.flags ?? {}),
                 },
             },
@@ -377,7 +376,6 @@ export async function setupAppWithoutSupertest(
             experimental: {
                 ...(customOptions?.experimental ?? {}),
                 flags: {
-                    strictSchemaValidation: true,
                     ...(customOptions?.experimental?.flags ?? {}),
                 },
             },
