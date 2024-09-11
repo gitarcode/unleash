@@ -54,7 +54,6 @@ export type IFlagKey =
     | 'navigationSidebar'
     | 'anonymizeProjectOwners'
     | 'extendedMetrics'
-    | 'removeUnsafeInlineStyleSrc'
     | 'originMiddleware'
     | 'newEventSearch'
     | 'archiveProjects'
@@ -270,10 +269,6 @@ const flags: IFlags = {
     ),
     extendedMetrics: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_EXTENDED_METRICS,
-        false,
-    ),
-    removeUnsafeInlineStyleSrc: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_REMOVE_UNSAFE_INLINE_STYLE_SRC,
         false,
     ),
     originMiddleware: parseEnvVarBoolean(

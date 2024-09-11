@@ -5,13 +5,8 @@ import { hoursToSeconds } from 'date-fns';
 
 const secureHeaders: (config: IUnleashConfig) => RequestHandler = (config) => {
     if (config.secureHeaders) {
-        const includeUnsafeInline = !config.flagResolver.isEnabled(
-            'removeUnsafeInlineStyleSrc',
-        );
         const styleSrc = ["'self'"];
-        if (includeUnsafeInline) {
-            styleSrc.push("'unsafe-inline'");
-        }
+        styleSrc.push("'unsafe-inline'");
         styleSrc.push(
             'cdn.getunleash.io',
             'fonts.googleapis.com',
