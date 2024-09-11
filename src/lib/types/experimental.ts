@@ -33,7 +33,6 @@ export type IFlagKey =
     | 'featureSearchFeedbackPosting'
     | 'edgeBulkMetrics'
     | 'extendedUsageMetrics'
-    | 'adminTokenKillSwitch'
     | 'feedbackComments'
     | 'showInactiveUsers'
     | 'killScheduledChangeRequestCache'
@@ -176,10 +175,6 @@ const flags: IFlags = {
     ),
     extendedUsageMetrics: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_EXTENDED_USAGE_METRICS,
-        false,
-    ),
-    adminTokenKillSwitch: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_ADMIN_TOKEN_KILL_SWITCH,
         false,
     ),
     outdatedSdksBanner: parseEnvVarBoolean(
