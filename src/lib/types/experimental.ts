@@ -235,10 +235,6 @@ const flags: IFlags = {
         process.env.UNLEASH_EXPERIMENTAL_DISABLE_SCHEDULED_CACHES,
         false,
     ),
-    queryMissingTokens: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_QUERY_MISSING_TOKENS,
-        false,
-    ),
     responseTimeMetricsFix: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_RESPONSE_TIME_METRICS_FIX,
         false,
