@@ -7,7 +7,6 @@ import { StyledCardsGrid } from '../IntegrationList.styles';
 import { RequestIntegrationCard } from '../RequestIntegrationCard/RequestIntegrationCard';
 import { OFFICIAL_SDKS } from './SDKs';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
-import { useUiFlag } from 'hooks/useUiFlag';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 
 interface IAvailableIntegrationsProps {
