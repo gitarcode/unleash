@@ -73,7 +73,6 @@ export type UiFlags = {
     enableLicense?: boolean;
     adminTokenKillSwitch?: boolean;
     feedbackComments?: Variant;
-    showInactiveUsers?: boolean;
     featureSearchFeedbackPosting?: boolean;
     userAccessUIEnabled?: boolean;
     outdatedSdksBanner?: boolean;
