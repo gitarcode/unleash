@@ -1,6 +1,4 @@
 import type { ReactNode } from 'react';
-import { useUiFlag } from 'hooks/useUiFlag';
-import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 import { useLocalStorageState } from 'hooks/useLocalStorageState';
 import {
     Badge,
@@ -86,7 +84,6 @@ interface INewInUnleashProps {
 
 export const NewInUnleash = ({
     mode = 'full',
-    onItemClick,
     onMiniModeClick,
 }: INewInUnleashProps) => {
     const { trackEvent } = usePlausibleTracker();
@@ -94,8 +91,6 @@ export const NewInUnleash = ({
         'new-in-unleash-seen:v1',
         new Set(),
     );
-    const { isEnterprise } = useUiConfig();
-    const signalsEnabled = useUiFlag('signals');
 
     const items: NewItem[] = [
         {
@@ -105,7 +100,7 @@ export const NewInUnleash = ({
             preview: <SignalsPreview />,
             link: '/integrations/signals',
             docsLink: 'https://docs.getunleash.io/reference/signals',
-            show: isEnterprise() && signalsEnabled,
+            show: false,
             longDescription: (
                 <>
                     <p>
