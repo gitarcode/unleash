@@ -101,9 +101,7 @@ export const ProjectFeatureTogglesHeader: FC<
     const featuresExportImportFlag = useUiFlag('featuresExportImport');
     const [showExportDialog, setShowExportDialog] = useState(false);
     const { trackEvent } = usePlausibleTracker();
-    const projectOverviewRefactorFeedback = useUiFlag(
-        'projectOverviewRefactorFeedback',
-    );
+    const projectOverviewRefactorFeedback = true;
     const { openFeedback } = useFeedback('newProjectOverview', 'automatic');
     const handleSearch = (query: string) => {
         onChangeSearchQuery?.(query);
