@@ -5,7 +5,6 @@ import { IntegrationCard } from '../IntegrationCard/IntegrationCard';
 import type { VFC } from 'react';
 import { Typography, styled } from '@mui/material';
 import { useSignalEndpoints } from 'hooks/api/getters/useSignalEndpoints/useSignalEndpoints';
-import { useUiFlag } from 'hooks/useUiFlag';
 import { ConditionallyRender } from 'component/common/ConditionallyRender/ConditionallyRender';
 import useUiConfig from 'hooks/api/getters/useUiConfig/useUiConfig';
 
@@ -28,7 +27,7 @@ export const ConfiguredIntegrations: VFC<ConfiguredIntegrationsProps> = ({
     providers,
 }) => {
     const { signalEndpoints } = useSignalEndpoints();
-    const signalsEnabled = useUiFlag('signals');
+    const signalsEnabled = true;
     const { isEnterprise } = useUiConfig();
 
     const ref = useLoading(loading || false);
