@@ -101,9 +101,6 @@ export const ProjectFeatureTogglesHeader: FC<
     const featuresExportImportFlag = useUiFlag('featuresExportImport');
     const [showExportDialog, setShowExportDialog] = useState(false);
     const { trackEvent } = usePlausibleTracker();
-    const projectOverviewRefactorFeedback = useUiFlag(
-        'projectOverviewRefactorFeedback',
-    );
     const { openFeedback } = useFeedback('newProjectOverview', 'automatic');
     const handleSearch = (query: string) => {
         onChangeSearchQuery?.(query);
@@ -205,10 +202,7 @@ export const ProjectFeatureTogglesHeader: FC<
                             }
                         />
                         <ConditionallyRender
-                            condition={
-                                projectOverviewRefactorFeedback &&
-                                !isSmallScreen
-                            }
+                            condition={!isSmallScreen}
                             show={
                                 <Button
                                     startIcon={<ReviewsOutlined />}
