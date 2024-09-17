@@ -27,9 +27,7 @@ test('Should init api token', async () => {
             initApiTokens: [token],
         },
         experimental: {
-            flags: {
-                useMemoizedActiveTokens: true,
-            },
+            flags: {},
         },
     });
     const { apiTokenStore } = createFakeApiTokenService(config);
