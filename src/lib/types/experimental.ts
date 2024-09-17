@@ -59,6 +59,7 @@ export type IFlagKey =
     | 'newEventSearch'
     | 'archiveProjects'
     | 'projectListImprovements'
+    | 'useProjectReadModel'
     | 'addonUsageMetrics'
     | 'onboardingMetrics'
     | 'onboardingUI'
