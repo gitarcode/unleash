@@ -85,6 +85,7 @@ interface INewInUnleashProps {
 
 export const NewInUnleash = ({
     mode = 'full',
+    onItemClick,
     onMiniModeClick,
 }: INewInUnleashProps) => {
     const { trackEvent } = usePlausibleTracker();
