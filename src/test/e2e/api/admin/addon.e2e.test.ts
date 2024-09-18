@@ -14,9 +14,7 @@ beforeAll(async () => {
     db = await dbInit('addon_api_serial', getLogger);
     app = await setupAppWithCustomConfig(db.stores, {
         experimental: {
-            flags: {
-                strictSchemaValidation: true,
-            },
+            flags: {},
         },
     });
 });
