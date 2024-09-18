@@ -6,7 +6,6 @@ import { formatApiPath } from 'utils/formatPath';
 import handleErrorResponses from '../httpErrorResponseHandler';
 import useUiConfig from '../useUiConfig/useUiConfig';
 import type { ISignalEndpointSignal } from 'interfaces/signal';
-import { useUiFlag } from 'hooks/useUiFlag';
 
 const ENDPOINT = 'api/admin/signal-endpoints';
 
@@ -26,14 +25,13 @@ export const useSignalEndpointSignals = (
     options: SWRInfiniteConfiguration = {},
 ) => {
     const { isEnterprise } = useUiConfig();
-    const signalsEnabled = useUiFlag('signals');
 
     const getKey: SWRInfiniteKeyLoader = (
         pageIndex: number,
         previousPageData: SignalsResponse,
     ) => {
         // Does not meet conditions
-        if (!signalEndpointId || !isEnterprise || !signalsEnabled) return null;
+        if (!signalEndpointId || !isEnterprise) return null;
 
         // Reached the end
         if (previousPageData && !previousPageData.signalEndpointSignals.length)
