@@ -22,9 +22,7 @@ const setupLastSeenAtTest = async (featureName: string) => {
 beforeAll(async () => {
     const config = {
         experimental: {
-            flags: {
-                strictSchemaValidation: true,
-            },
+            flags: {},
         },
     };
 
