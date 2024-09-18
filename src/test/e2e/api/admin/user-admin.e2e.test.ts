@@ -35,9 +35,7 @@ beforeAll(async () => {
     stores = db.stores;
     app = await setupAppWithCustomConfig(stores, {
         experimental: {
-            flags: {
-                strictSchemaValidation: true,
-            },
+            flags: {},
         },
     });
 
