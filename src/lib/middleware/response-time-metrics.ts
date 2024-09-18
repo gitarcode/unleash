@@ -6,6 +6,7 @@ import type { InstanceStatsService } from '../services';
 import type { RequestHandler } from 'express';
 
 const _responseTime = responseTime.default;
+const appNameReportingThreshold = 1000;
 
 export const storeRequestedRoute: RequestHandler = (req, res, next) => {
     if (req.route) {
