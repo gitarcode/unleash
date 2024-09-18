@@ -86,6 +86,41 @@ const secureHeaders: (config: IUnleashConfig) => RequestHandler = (config) => {
             originAgentCluster: false,
             xDnsPrefetchControl: false,
         });
+        const apiHelmet = helmet({
+            hsts: {
+                maxAge: hoursToSeconds(24 * 365 * 2), // 2 non-leap years
+                includeSubDomains: true,
+                preload: true,
+            },
+            contentSecurityPolicy: {
+                directives: {
+                    defaultSrc:
+                        helmet.contentSecurityPolicy
+                            .dangerouslyDisableDefaultSrc,
+                    fontSrc: null,
+                    styleSrc: null,
+                    scriptSrc: null,
+                    imgSrc: null,
+                    connectSrc: null,
+                    mediaSrc: null,
+                    objectSrc: null,
+                    frameSrc: null,
+                    upgradeInsecureRequests: null,
+                    scriptSrcAttr: null,
+                    baseUri: null,
+                    formAction: null,
+                    frameAncestors: ["'none'"],
+                },
+            },
+
+            crossOriginEmbedderPolicy: false,
+            crossOriginResourcePolicy: false,
+            crossOriginOpenerPolicy: false,
+            originAgentCluster: false,
+            xXssProtection: false,
+            xDnsPrefetchControl: false,
+            xFrameOptions: { action: 'deny' },
+        });
 
         return (req, res, next) => {
             if (req.method === 'OPTIONS') {
