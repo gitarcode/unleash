@@ -12,9 +12,7 @@ beforeAll(async () => {
     db = await dbInit('tag_api_serial', getLogger);
     app = await setupAppWithCustomConfig(db.stores, {
         experimental: {
-            flags: {
-                strictSchemaValidation: true,
-            },
+            flags: {},
         },
     });
 });

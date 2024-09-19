@@ -98,7 +98,6 @@ beforeAll(async () => {
         {
             experimental: {
                 flags: {
-                    strictSchemaValidation: true,
                     featureCollaborators: true,
                 },
             },
@@ -3506,7 +3505,6 @@ test('Updating feature strategy sort-order should return strategies in correct o
         {
             experimental: {
                 flags: {
-                    strictSchemaValidation: true,
                     strategyVariant: true,
                 },
             },
@@ -3573,7 +3571,6 @@ test('Updating feature strategy sort-order should trigger a an event', async () 
         {
             experimental: {
                 flags: {
-                    strictSchemaValidation: false,
                     strategyVariant: true,
                 },
             },
